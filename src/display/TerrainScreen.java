@@ -92,59 +92,25 @@ public class TerrainScreen extends Screen {
     public void fillHex(int i, int j, Graphics2D g2, ASCIITexture texture) {
         int x = i * (sideLength+triangleLength);
         int y = j * hexHeight + (i%2) * hexHeight/2;
-        Polygon poly = hex(x,y);
+        Polygon hex = hex(x,y);
         
         g2.setColor(texture.color);
-        Random random = new Random(i + 7 * j);
-        char c = texture.chars[random.nextInt(texture.chars.length)];
+        Random random = new Random(9 * i + 7 * j);
         
         FontMetrics m = g2.getFontMetrics(texture.font);
-        int num = 0;
+        g2.setFont(texture.font);
+        int border = 4;
         
-        int yi = m.getHeight();
+        String chars = "" + texture.chars[random.nextInt(texture.chars.length)];
+        int centerX = x + hexRadius, yi = m.getHeight() + border;
         
-        while(num < 8)
-        {
-            String chars = "" + c;
-            Rectangle rect = new Rectangle((poly.getBounds().width / 2) - (m.stringWidth(chars) / 2) + x  - 1, 
-                                            y + yi, m.stringWidth(chars) + + 2, m.getHeight());
-            while(!poly.contains(rect))
-            {
-                yi += m.getHeight();
-                rect.y = y + yi;
-                if(yi >= poly.getBounds().height) break;
+        while(yi <= hex.getBounds().height) {
+            while(hex.contains(new Rectangle(centerX, y + yi, m.stringWidth(chars) + (border*2) - 1, m.getHeight() + border))) {
+                chars += texture.chars[random.nextInt(texture.chars.length)];
             }
-            int counter = 1;
-            while(true)
-            {
-                /*if(words.length < num + counter + 1)
-                {
-                    num += counter - 1;
-                    break;
-                }*/
-                rect.width += m.stringWidth(chars);
-                rect.x -= m.stringWidth(chars) / 2;
-                if(poly.contains(rect))
-                {
-                    chars += texture.chars[random.nextInt(texture.chars.length)];
-                }
-                else
-                {
-                    num += counter - 1;
-                    break;
-                }
-                counter++;
-            }
-            if(yi < poly.getBounds().height)
-            {
-                g2.drawString(chars, (poly.getBounds().width / 2) - (m.stringWidth(chars) / 2) + x, y + yi);
-            }
-            else
-            {
-                break;
-            }
+            g2.drawString(chars, centerX, y + yi + m.getHeight());
+            chars = "";
             yi += m.getHeight();
-            num += 1;
         }
         
     }
