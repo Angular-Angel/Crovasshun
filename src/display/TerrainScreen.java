@@ -86,7 +86,7 @@ public class TerrainScreen extends Screen {
         triangleLength = (int) (hexRadius / 1.73205);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)
     }
     
-    public Polygon hex (int x0, int y0) {
+    private Polygon hex (int x0, int y0) {
 
         int y = y0 + pixelsPerBorder;
         int x = x0 + pixelsPerBorder; 
@@ -103,10 +103,22 @@ public class TerrainScreen extends Screen {
         return new Polygon(cx,cy,6);
     }
     
+    private Polygon hex(Point point) {
+        return hex(point.x, point.y);
+    }
+    
+    public Point getHexPositions(int i, int j) {
+        return new Point(i * (sideLength+triangleLength), j * hexHeight + (i%2) * hexHeight/2);
+    }
+    
+    public Polygon getHex(int i, int j) {
+        Point pos = getHexPositions(i, j);
+        return hex(pos);
+    }
+    
+    
     public void drawHex(int i, int j, Graphics2D g2) {
-        int x = i * (sideLength+triangleLength);
-        int y = j * hexHeight + (i%2) * hexHeight/2;
-        Polygon hex = hex(x,y);
+        Polygon hex = getHex(i, j);
         g2.setColor(Color.BLACK);
         g2.fillPolygon(hex);
         g2.setColor(Color.WHITE);
@@ -114,44 +126,9 @@ public class TerrainScreen extends Screen {
     }
     
     public void fillHex(int i, int j, Graphics2D g2, ASCIITexture texture) {
-        int x = i * (sideLength+triangleLength);
-        int y = j * hexHeight + (i%2) * hexHeight/2;
-        Polygon hex = hex(x,y);
-        g2.setColor(texture.background);
-        g2.fillPolygon(hex);
-        g2.setColor(Color.WHITE);
-        g2.drawPolygon(hex);
-        
-        Random random = new Random(i + 7 * j);
-        
-        FontMetrics m = g2.getFontMetrics(texture.font);
-        g2.setFont(texture.font);
-        int border = 4;
-        
-        String chars = "" + texture.chars[random.nextInt(texture.chars.length)];
-        int centerX = x + hexRadius, yi = m.getHeight() + border;
-        
-        while(yi <= hex.getBounds().height) {
-            while(hex.contains(new Rectangle(centerX, y + yi, m.stringWidth(chars) + (border*2) - 1, m.getHeight() + border))) {
-                chars += texture.chars[random.nextInt(texture.chars.length)];
-            }
-            if (texture.colors.length > 1) {
-                int xi = 0;
-                while (chars.length() > 0) {
-                    g2.setColor(texture.colors[random.nextInt(texture.colors.length)]);
-                    g2.drawString(chars.substring(0, 1), centerX + xi, y + yi + m.getHeight());
-                    xi += m.stringWidth(chars.substring(0, 1));
-                    chars = chars.substring(1, chars.length());
-                }
-            } else {
-                g2.setColor(texture.colors[0]);
-                g2.drawString(chars, centerX, y + yi + m.getHeight());
-            }
-            
-            chars = "";
-            yi += m.getHeight();
-        }
-        
+        Point pos = getHexPositions(i, j);
+        Polygon hex = hex(pos);
+        texture.fillPolygon(hex, g2);
     }
     
     public Point pxtoHex(int mx, int my) {

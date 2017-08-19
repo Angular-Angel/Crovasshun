@@ -7,7 +7,12 @@ package display;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.util.Random;
 
 /**
@@ -47,6 +52,47 @@ public class ASCIITexture {
         this.background = background;
         this.chars = chars;
         this.font = font;
+    }
+    
+    public void fillPolygon(Polygon poly, Graphics2D g2) {
+        
+        g2.setColor(background);
+        g2.fillPolygon(poly);
+        g2.setColor(Color.WHITE);
+        g2.drawPolygon(poly);
+        
+        Rectangle bounds = poly.getBounds();
+        
+        Random random = new Random(bounds.x + 7 * bounds.y);
+        
+        FontMetrics m = g2.getFontMetrics(font);
+        g2.setFont(font);
+        int border = 4;
+        
+        String string = "" + this.chars[random.nextInt(this.chars.length)];
+        int centerX = bounds.x + bounds.width/2, yi = 0;
+        
+        while(yi <= bounds.height) {
+            while(poly.contains(new Rectangle(centerX - (m.stringWidth(string)/2 + (border)), bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
+                string += this.chars[random.nextInt(this.chars.length)];
+            }
+            if (this.colors.length > 1) {
+                int xi = -(m.stringWidth(string)/2 + (border));
+                while (string.length() > 0) {
+                    g2.setColor(this.colors[random.nextInt(this.colors.length)]);
+                    g2.drawString(string.substring(0, 1), centerX + xi, bounds.y + yi + m.getHeight());
+                    xi += m.stringWidth(string.substring(0, 1));
+                    string = string.substring(1, string.length());
+                }
+            } else {
+                g2.setColor(this.colors[0]);
+                g2.drawString(string, centerX - (m.stringWidth(string)/2 + (border)), bounds.y + yi + m.getHeight());
+            }
+            
+            string = "";
+            yi += m.getHeight();
+        }
+        
     }
     
 }
