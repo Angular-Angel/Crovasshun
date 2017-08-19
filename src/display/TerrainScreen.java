@@ -39,13 +39,37 @@ public class TerrainScreen extends Screen {
         super();
         pixelsPerBorder = borderSize;
         
-        char[] chars = new char[5];
-        chars[0] = ',';
-        chars[1] = '\'';
-        chars[2] = '"';
-        chars[3] = '.';
-        chars[4] = '`';
-        area = new LocalArea(30, 15, new Terrain("Grass", new ASCIITexture(Color.green, chars, new Font("Monospaced", Font.PLAIN, 12))));
+        Color[] rubbleColors = new Color[3];
+        rubbleColors[0] = Color.LIGHT_GRAY;
+        rubbleColors[1] = Color.GRAY;
+        rubbleColors[2] = Color.WHITE;
+        char[] rubbleChars = new char[9];
+        rubbleChars[0] = ',';
+        rubbleChars[1] = '#';
+        rubbleChars[2] = '"';
+        rubbleChars[3] = '.';
+        rubbleChars[4] = '`';
+        rubbleChars[5] = '/';
+        rubbleChars[6] = ';';
+        rubbleChars[7] = ':';
+        rubbleChars[8] = '\\';
+        Terrain rubble = new Terrain("Rubble", new ASCIITexture(rubbleColors, new Color(50, 50, 50), rubbleChars));
+        Color[] grassColors = new Color[3];
+        grassColors[0] = Color.GREEN;
+        grassColors[1] = new Color(0, 130, 0);
+        grassColors[2] = new Color(30, 180, 0);
+        char[] grassChars = new char[5];
+        grassChars[0] = ',';
+        grassChars[1] = '\'';
+        grassChars[2] = '"';
+        grassChars[3] = '.';
+        grassChars[4] = '`';
+        Terrain grass = new Terrain("Grass", new ASCIITexture(grassColors, new Color(0, 70, 0), grassChars));
+        area = new LocalArea(30, 15, grass);
+        area.setTerrain(5, 5, rubble);
+        area.setTerrain(5, 6, rubble);
+        area.setTerrain(5, 7, rubble);
+        area.setTerrain(6, 5, rubble);
     }
     
     public void setSide(int side) {
@@ -82,20 +106,23 @@ public class TerrainScreen extends Screen {
     public void drawHex(int i, int j, Graphics2D g2) {
         int x = i * (sideLength+triangleLength);
         int y = j * hexHeight + (i%2) * hexHeight/2;
-        Polygon poly = hex(x,y);
+        Polygon hex = hex(x,y);
         g2.setColor(Color.BLACK);
-        g2.fillPolygon(poly);
+        g2.fillPolygon(hex);
         g2.setColor(Color.WHITE);
-        g2.drawPolygon(poly);
+        g2.drawPolygon(hex);
     }
     
     public void fillHex(int i, int j, Graphics2D g2, ASCIITexture texture) {
         int x = i * (sideLength+triangleLength);
         int y = j * hexHeight + (i%2) * hexHeight/2;
         Polygon hex = hex(x,y);
+        g2.setColor(texture.background);
+        g2.fillPolygon(hex);
+        g2.setColor(Color.WHITE);
+        g2.drawPolygon(hex);
         
-        g2.setColor(texture.color);
-        Random random = new Random(9 * i + 7 * j);
+        Random random = new Random(i + 7 * j);
         
         FontMetrics m = g2.getFontMetrics(texture.font);
         g2.setFont(texture.font);
@@ -108,7 +135,19 @@ public class TerrainScreen extends Screen {
             while(hex.contains(new Rectangle(centerX, y + yi, m.stringWidth(chars) + (border*2) - 1, m.getHeight() + border))) {
                 chars += texture.chars[random.nextInt(texture.chars.length)];
             }
-            g2.drawString(chars, centerX, y + yi + m.getHeight());
+            if (texture.colors.length > 1) {
+                int xi = 0;
+                while (chars.length() > 0) {
+                    g2.setColor(texture.colors[random.nextInt(texture.colors.length)]);
+                    g2.drawString(chars.substring(0, 1), centerX + xi, y + yi + m.getHeight());
+                    xi += m.stringWidth(chars.substring(0, 1));
+                    chars = chars.substring(1, chars.length());
+                }
+            } else {
+                g2.setColor(texture.colors[0]);
+                g2.drawString(chars, centerX, y + yi + m.getHeight());
+            }
+            
             chars = "";
             yi += m.getHeight();
         }
@@ -173,7 +212,7 @@ public class TerrainScreen extends Screen {
         //draw grid
         for (int i=0;i<area.getWidth();i++) {
             for (int j=0;j<area.getHeight();j++) {
-                drawHex(i,j,g2);
+                //drawHex(i,j,g2);
                 fillHex(i, j, g2, area.getTerrain(i, j).appearance);
             }
         }

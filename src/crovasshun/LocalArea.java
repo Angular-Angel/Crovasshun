@@ -50,7 +50,13 @@ public class LocalArea {
     }
     
     public Terrain getTerrain(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
         return terrain[x][y];
+    }
+    
+    public void setTerrain(int x, int y, Terrain terrain) {
+        if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
+        this.terrain[x][y] = terrain;
     }
     
 }
