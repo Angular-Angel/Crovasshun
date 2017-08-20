@@ -19,7 +19,7 @@ public class CombatPane extends JLayeredPane {
         super();
         
         TerrainScreen terrainScreen = new TerrainScreen();
-        terrainScreen.setHeight(60);
+        terrainScreen.setHeight(80);
         add(terrainScreen, new Integer(0));
         
         TextLogScreen textLog = new TextLogScreen();

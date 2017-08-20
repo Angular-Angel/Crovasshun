@@ -67,17 +67,17 @@ public class ASCIITexture {
         
         FontMetrics m = g2.getFontMetrics(font);
         g2.setFont(font);
-        int border = 4;
+        int border = 2;
         
         String string = "" + this.chars[random.nextInt(this.chars.length)];
         int centerX = bounds.x + bounds.width/2, yi = 0;
         
         while(yi <= bounds.height) {
-            while(poly.contains(new Rectangle(centerX - (m.stringWidth(string)/2 + (border)), bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
+            while(poly.contains(new Rectangle(centerX - (m.stringWidth(string)/2 + border), bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
                 string += this.chars[random.nextInt(this.chars.length)];
             }
             if (this.colors.length > 1) {
-                int xi = -(m.stringWidth(string)/2 + (border));
+                int xi = -(m.stringWidth(string)/2) ;
                 while (string.length() > 0) {
                     g2.setColor(this.colors[random.nextInt(this.colors.length)]);
                     g2.drawString(string.substring(0, 1), centerX + xi, bounds.y + yi + m.getHeight());
@@ -86,7 +86,7 @@ public class ASCIITexture {
                 }
             } else {
                 g2.setColor(this.colors[0]);
-                g2.drawString(string, centerX - (m.stringWidth(string)/2 + (border)), bounds.y + yi + m.getHeight());
+                g2.drawString(string, centerX - (m.stringWidth(string)/2), bounds.y + yi + m.getHeight());
             }
             
             string = "";
