@@ -40,7 +40,7 @@ public class TerrainScreen extends Screen {
         super();
         pixelsPerBorder = borderSize;
         
-        area = LocalMapGenerator.getField(20, 8);
+        area = LocalMapGenerator.getObelisk(20, 8);
     }
     
     public void setSide(int side) {

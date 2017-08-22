@@ -16,9 +16,18 @@ import java.util.Random;
  */
 public class LocalMapGenerator {
     
-    public static final HashMap<String, Terrain> terrainMap =  new HashMap<>();
+    private static final HashMap<String, Terrain> terrainMap =  new HashMap<>();
     private static boolean initialized = false;
     private static Random random = new Random();
+    
+    public static Terrain getTerrain(String terrain) {
+        if (!initialized) initialize();
+        return terrainMap.get(terrain);
+    }
+    
+    public static void addTerrain(Terrain terrain) {
+        terrainMap.put(terrain.name, terrain);
+    }
     
     public static void initialize() {
         Color[] dirtColors = new Color[3];
@@ -32,7 +41,7 @@ public class LocalMapGenerator {
         dirtChars[3] = '\'';
         dirtChars[4] = ',';
         dirtChars[5] = '.';
-        terrainMap.put("Dirt", new Terrain("Dirt", new ASCIITexture(dirtColors, new Color(139,69,19), dirtChars)));
+        addTerrain(new Terrain("Dirt", new ASCIITexture(dirtColors, new Color(139,69,19), dirtChars)));
         
         Color[] grassColors = new Color[3];
         grassColors[0] = Color.GREEN;
@@ -44,23 +53,73 @@ public class LocalMapGenerator {
         grassChars[2] = '"';
         grassChars[3] = '.';
         grassChars[4] = '`';
-        terrainMap.put("Grass", new Terrain("Grass", new ASCIITexture(grassColors, new Color(0, 70, 0), grassChars)));
+        addTerrain(new Terrain("Grass", new ASCIITexture(grassColors, new Color(0, 70, 0), grassChars)));
+        
+        Color[] stoneColors = new Color[3];
+        stoneColors[0] = Color.LIGHT_GRAY;
+        stoneColors[1] = Color.GRAY;
+        stoneColors[2] = Color.WHITE;
+        char[] stoneChars = new char[6];
+        stoneChars[0] = '#';
+        stoneChars[1] = '+';
+        stoneChars[2] = '-';
+        stoneChars[3] = '=';
+        stoneChars[4] = '/';
+        stoneChars[5] = '\\';
+        addTerrain(new Terrain("Stone", new ASCIITexture(stoneColors, Color.DARK_GRAY, stoneChars)));
+        
+        addTerrain(new Terrain("Polished Stone", new ASCIITexture(Color.LIGHT_GRAY, Color.DARK_GRAY, '+', false)));
+        
+        char[] obeliskChars = new char[4];
+        obeliskChars[0] = '-';
+        obeliskChars[1] = '|';
+        obeliskChars[2] = '-';
+        obeliskChars[3] = '|';
+        addTerrain(new Terrain("Obelisk", new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false)));
         
         initialized = true;
     }
     
-    public static LocalArea getField(int width, int height) {
-        if (!initialized) initialize();
+    public static LocalArea getMixedTerrain(int width, int height, Terrain primary, Terrain secondary, float percentage) {
+        if (primary == null || secondary == null) throw new IllegalArgumentException("Null terrain!");
         
-        LocalArea ret = new LocalArea(width, height, terrainMap.get("Grass"));
+        LocalArea ret = new LocalArea(width, height, primary);
         
-        for (int i = 0; i < width*height*0.35; i++) {
-           ret.setTerrain(random.nextInt(width), random.nextInt(height), terrainMap.get("Dirt"));
+        for (int i = 0; i < width*height*percentage; i++) {
+           ret.setTerrain(random.nextInt(width), random.nextInt(height), secondary);
         }
         
         return ret;
     }
     
+    public static LocalArea getField(int width, int height) {
+        return getMixedTerrain(width, height, getTerrain("Grass"), getTerrain("Dirt"), 0.25f);
+    }
     
+    public static LocalArea getPassage(int width, int height) {
+        LocalArea ret = new LocalArea(width, height, getTerrain("Stone"));
+        
+        for (int i = 0; i < width; i++) {
+            ret.setTerrain(i, height/2, getTerrain("Polished Stone"));
+        }
+        
+        return ret;
+    }
+    
+    public static LocalArea getObelisk(int width, int height) {
+        LocalArea ret = new LocalArea(width, height, getTerrain("Grass"));
+        
+        int i = width/2, j = height/2;
+        
+        ret.setTerrain(i - 1, j, getTerrain("Obelisk"));
+        ret.setTerrain(i - 1, j - 1, getTerrain("Obelisk"));
+        ret.setTerrain(i, j - 1, getTerrain("Obelisk"));
+        ret.setTerrain(i, j, getTerrain("Obelisk"));
+        ret.setTerrain(i, j + 1, getTerrain("Obelisk"));
+        ret.setTerrain(i + 1, j, getTerrain("Obelisk"));
+        ret.setTerrain(i + 1, j - 1, getTerrain("Obelisk"));
+        
+        return ret;
+    }
     
 }
