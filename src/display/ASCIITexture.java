@@ -77,19 +77,19 @@ public class ASCIITexture {
         this.random = random;
     }
     
-    public void fillPolygon(Polygon poly, Graphics2D g2) {
+    public void fillPolygon(Polygon poly, Graphics2D g) {
         
-        g2.setColor(background);
-        g2.fillPolygon(poly);
-        g2.setColor(Color.WHITE);
-        g2.drawPolygon(poly);
+        g.setColor(background);
+        g.fillPolygon(poly);
+        g.setColor(Color.WHITE);
+        g.drawPolygon(poly);
         
         Rectangle bounds = poly.getBounds();
         
         Random randomGen = new Random(bounds.x + 7 * bounds.y);
         
-        FontMetrics m = g2.getFontMetrics(font);
-        g2.setFont(font);
+        FontMetrics m = g.getFontMetrics(font);
+        g.setFont(font);
         int border = 2, i = 0;
         
         String string = "";
@@ -106,16 +106,16 @@ public class ASCIITexture {
                 int xi = -(m.stringWidth(string)/2);
                 i = 0;
                 while (string.length() > 0) {
-                    if (random) g2.setColor(this.colors[randomGen.nextInt(this.colors.length)]);
-                    else g2.setColor(this.colors[i % this.colors.length]);
-                    g2.drawString(string.substring(0, 1), centerX + xi, bounds.y + yi + m.getHeight());
+                    if (random) g.setColor(this.colors[randomGen.nextInt(this.colors.length)]);
+                    else g.setColor(this.colors[i % this.colors.length]);
+                    g.drawString(string.substring(0, 1), centerX + xi, bounds.y + yi + m.getHeight());
                     xi += m.stringWidth(string.substring(0, 1));
                     string = string.substring(1, string.length());
                     i++;
                 }
             } else {
-                g2.setColor(this.colors[0]);
-                g2.drawString(string, centerX - (m.stringWidth(string)/2), bounds.y + yi + m.getHeight());
+                g.setColor(this.colors[0]);
+                g.drawString(string, centerX - (m.stringWidth(string)/2), bounds.y + yi + m.getHeight());
             }
             
             string = "";
