@@ -16,4 +16,13 @@ public class Body {
     public Point position;
     public ASCIISprite sprite;
     
+    public Body(ASCIISprite sprite) {
+        this(sprite, new Point(0, 0));
+    }
+    
+    public Body(ASCIISprite sprite, Point position) {
+        this.sprite = sprite;
+        this.position = position;
+    }
+    
 }

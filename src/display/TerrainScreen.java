@@ -5,6 +5,7 @@
  */
 package display;
 
+import crovasshun.Body;
 import crovasshun.LocalArea;
 import crovasshun.LocalMapGenerator;
 import crovasshun.Terrain;
@@ -41,6 +42,8 @@ public class TerrainScreen extends Screen {
         pixelsPerBorder = borderSize;
         
         area = LocalMapGenerator.getObelisk(20, 8);
+        
+        area.bodies.add(new Body(new ASCIISprite(Color.WHITE, '@'), new Point(3, 3)));
     }
     
     public void setSide(int side) {
@@ -57,10 +60,7 @@ public class TerrainScreen extends Screen {
         triangleLength = (int) (hexRadius / 1.73205);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)
     }
     
-    private Polygon hex (int x0, int y0) {
-
-        int y = y0 + pixelsPerBorder;
-        int x = x0 + pixelsPerBorder; 
+    private Polygon hex (int x, int y) {
         if (sideLength == 0  || hexHeight == 0) {
             System.out.println("ERROR: size of hex has not been set");
             return new Polygon();
@@ -78,28 +78,37 @@ public class TerrainScreen extends Screen {
         return hex(point.x, point.y);
     }
     
-    public Point getHexPositions(int i, int j) {
-        return new Point(i * (sideLength+triangleLength), j * hexHeight + (i%2) * hexHeight/2);
+    public Point getHexPosition(int i, int j) {
+        return new Point(i * (sideLength+triangleLength) + pixelsPerBorder, j * hexHeight + (i%2) * hexHeight/2 + pixelsPerBorder);
+    }
+    
+    public Point getHexCenterPosition(int i, int j) {
+        Point ret = getHexPosition(i, j);
+        
+        ret.x += triangleLength + sideLength/2;
+        ret.y += hexRadius;
+        
+        return ret;
     }
     
     public Polygon getHex(int i, int j) {
-        Point pos = getHexPositions(i, j);
+        Point pos = getHexPosition(i, j);
         return hex(pos);
     }
     
     
-    public void drawHex(int i, int j, Graphics2D g2) {
+    public void drawHex(int i, int j, Graphics2D g) {
         Polygon hex = getHex(i, j);
-        g2.setColor(Color.BLACK);
-        g2.fillPolygon(hex);
-        g2.setColor(Color.WHITE);
-        g2.drawPolygon(hex);
+        g.setColor(Color.BLACK);
+        g.fillPolygon(hex);
+        g.setColor(Color.WHITE);
+        g.drawPolygon(hex);
     }
     
-    public void fillHex(int i, int j, Graphics2D g2, ASCIITexture texture) {
-        Point pos = getHexPositions(i, j);
+    public void fillHex(int i, int j, Graphics2D g, ASCIITexture texture) {
+        Point pos = getHexPosition(i, j);
         Polygon hex = hex(pos);
-        texture.fillPolygon(hex, g2);
+        texture.fillPolygon(hex, g);
     }
     
     public Point pxtoHex(int mx, int my) {
@@ -163,6 +172,10 @@ public class TerrainScreen extends Screen {
                 //drawHex(i,j,g2);
                 fillHex(i, j, g2, area.getTerrain(i, j).appearance);
             }
+        }
+        
+        for (Body b : area.bodies) {
+            b.sprite.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
         }
     }
     

@@ -5,6 +5,8 @@
  */
 package crovasshun;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author angle
@@ -15,11 +17,13 @@ public class LocalArea {
     private int height;
     
     private Terrain[][] terrain;
+    public ArrayList<Body> bodies;
     
     public LocalArea(int width, int height) {
         this.height = height;
         this.width = width;
         terrain = new Terrain[width][height];
+        bodies = new ArrayList<>();
     }
     
     public LocalArea(int width, int height, Terrain t) {
