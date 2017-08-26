@@ -39,11 +39,12 @@ public class TerrainScreen extends Screen {
     
     public TerrainScreen(int borderSize) {
         super();
+        setFont(new Font("Monospaced", Font.PLAIN, 12));
         pixelsPerBorder = borderSize;
         
         area = LocalMapGenerator.getObelisk(20, 8);
         
-        area.bodies.add(new Body(new ASCIISprite(Color.WHITE, '@'), new Point(3, 3)));
+        area.bodies.add(new Body(new ASCIIChar(Color.WHITE, '@'), new Point(3, 3)));
     }
     
     public void setSide(int side) {

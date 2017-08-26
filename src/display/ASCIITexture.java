@@ -24,7 +24,6 @@ public class ASCIITexture {
     public final char[] chars;
     public final Color[] colors;
     public final Color background;
-    public final Font font;
     public final boolean random;
     
     public ASCIITexture(Color color, char[] chars) {
@@ -32,7 +31,7 @@ public class ASCIITexture {
     }
     
     public ASCIITexture(Color[] colors, char[] chars) {
-        this(colors, Color.BLACK, chars, new Font("Monospaced", Font.PLAIN, 12), true);
+        this(colors, Color.BLACK, chars, true);
     }
     
     public ASCIITexture(Color color, Color background, char[] chars) {
@@ -45,7 +44,6 @@ public class ASCIITexture {
         this.colors = colors;
         this.background = background;
         this.chars = chars;
-        this.font = new Font("Monospaced", Font.PLAIN, 12);
         this.random = random;
     }
     
@@ -57,23 +55,17 @@ public class ASCIITexture {
         char[] chars = new char[1];
         chars[0] = character;
         this.chars = chars;
-        this.font = new Font("Monospaced", Font.PLAIN, 12);
         this.random = random;
     }
     
     public ASCIITexture(Color[] colors, Color background, char[] chars) {
-        this(colors, background, chars, new Font("Monospaced", Font.PLAIN, 12), true);
+        this(colors, background, chars, true);
     }
     
-    public ASCIITexture(Color[] colors, Color background, char[] chars, boolean random) {
-        this(colors, background, chars, new Font("Monospaced", Font.PLAIN, 12), random);
-    }
-    
-    public ASCIITexture(Color[] colors, Color background, char[] chars, Font font, boolean random) {
+    public ASCIITexture(Color[] colors, Color background, char[] chars,  boolean random) {
         this.colors = colors;
         this.background = background;
         this.chars = chars;
-        this.font = font;
         this.random = random;
     }
     
@@ -88,8 +80,7 @@ public class ASCIITexture {
         
         Random randomGen = new Random(bounds.x + 7 * bounds.y);
         
-        FontMetrics m = g.getFontMetrics(font);
-        g.setFont(font);
+        FontMetrics m = g.getFontMetrics();
         int border = 2, i = 0;
         
         String string = "";
