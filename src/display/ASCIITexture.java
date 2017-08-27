@@ -6,11 +6,8 @@
 package display;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.Random;
