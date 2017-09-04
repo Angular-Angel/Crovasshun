@@ -27,7 +27,7 @@ public class ASCIIChar {
     public void draw(Point position, Graphics2D g) {
         g.setColor(color);
         FontMetrics m = g.getFontMetrics();
-        g.drawString("" + character, position.x - m.stringWidth("" + character)/2, position.y + m.getHeight()/2 - m.getDescent());
+        g.drawString("" + character, position.x, position.y);
     }
     
 }

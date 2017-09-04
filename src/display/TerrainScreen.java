@@ -44,7 +44,8 @@ public class TerrainScreen extends Screen {
         
         area = LocalMapGenerator.getObelisk(20, 8);
         
-        area.bodies.add(new Body(new ASCIIChar(Color.WHITE, '@'), new Point(3, 3)));
+        area.bodies.add(new Body(new ASCIISprite(new Color(255, 182, 193),  "' .\n" +
+                                                                            "-0-"), new Point(3, 3)));
     }
     
     public void setSide(int side) {

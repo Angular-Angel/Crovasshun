@@ -5,7 +5,7 @@
  */
 package crovasshun;
 
-import display.ASCIIChar;
+import display.ASCIISprite;
 import java.awt.Point;
 
 /**
@@ -14,13 +14,13 @@ import java.awt.Point;
  */
 public class Body {
     public Point position;
-    public ASCIIChar sprite;
+    public ASCIISprite sprite;
     
-    public Body(ASCIIChar sprite) {
+    public Body(ASCIISprite sprite) {
         this(sprite, new Point(0, 0));
     }
     
-    public Body(ASCIIChar sprite, Point position) {
+    public Body(ASCIISprite sprite, Point position) {
         this.sprite = sprite;
         this.position = position;
     }
