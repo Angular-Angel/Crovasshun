@@ -119,6 +119,10 @@ public class LocalMapGenerator {
         ret.setTerrain(i + 1, j, getTerrain("Obelisk"));
         ret.setTerrain(i + 1, j - 1, getTerrain("Obelisk"));
         
+        ret.setTerrain(6, 6, null);
+        ret.setTerrain(5, 6, null);
+        ret.setTerrain(5, 5, null);
+        
         return ret;
     }
     

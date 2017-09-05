@@ -50,12 +50,14 @@ public class ASCIISprite {
     }
     
     public void draw(Point position, Graphics2D g) {
-        g.setFont(new Font("Monospaced", Font.BOLD, 12));
+        //g.setFont(new Font("Monospaced", Font.BOLD, 12));
         FontMetrics m = g.getFontMetrics();
         position.y -= m.getHeight() * getHeight()/2;
-        System.out.println(m.stringWidth(" ") * getWidth());
         position.x -= m.stringWidth(" ") * getWidth()/2;
         int baseX = position.x + 4;
+        g.rotate(1, position.x + (getWidth()+1) * m.stringWidth(" ")/2, position.y + (getHeight() * m.getHeight() + m.getHeight()/2)/2);
+        g.setColor(Color.BLACK);
+        g.fillOval(position.x, position.y, (getWidth()+1) * m.stringWidth(" "), getHeight() * m.getHeight() + m.getHeight()/2);
         for (ArrayList<ASCIIChar> list : chars) {
                 position.y += m.getHeight();
                 position.x = baseX;

@@ -5,6 +5,7 @@
  */
 package crovasshun;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -56,6 +57,10 @@ public class LocalArea {
     public Terrain getTerrain(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
         return terrain[x][y];
+    }
+    
+    public Terrain getTerrain(Point point) {
+        return getTerrain(point.x, point.y);
     }
     
     public void setTerrain(int x, int y, Terrain terrain) {

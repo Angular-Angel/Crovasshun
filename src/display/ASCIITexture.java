@@ -10,6 +10,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.util.Random;
 
 /**
@@ -66,14 +67,14 @@ public class ASCIITexture {
         this.random = random;
     }
     
-    public void fillPolygon(Polygon poly, Graphics2D g) {
+    public void fillShape(Shape shape, Graphics2D g) {
         
         g.setColor(background);
-        g.fillPolygon(poly);
+        g.fill(shape);
         g.setColor(Color.WHITE);
-        g.drawPolygon(poly);
+        g.draw(shape);
         
-        Rectangle bounds = poly.getBounds();
+        Rectangle bounds = shape.getBounds();
         
         Random randomGen = new Random(bounds.x + 7 * bounds.y);
         
@@ -85,7 +86,7 @@ public class ASCIITexture {
         
         while(yi <= bounds.height) {
             i = 0;
-            while(poly.contains(new Rectangle(centerX - (m.stringWidth(string)/2 + border), bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
+            while(shape.contains(new Rectangle(centerX - (m.stringWidth(string)/2 + border), bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
                 if (random) string += this.chars[randomGen.nextInt(this.chars.length)];
                 else string += this.chars[i % this.chars.length];
                 i++;
