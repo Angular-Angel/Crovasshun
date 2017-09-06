@@ -25,8 +25,9 @@ public class TerrainScreen extends Screen {
     
     public TerrainScreen(Terrain terrain) {
         this.terrain = terrain;
-        FontMetrics m = getFontMetrics(new Font("Monospaced", Font.PLAIN, 12));
-        int width = Math.max(m.stringWidth(" ")*10 + 15, m.stringWidth(terrain.name) + 15);
+        setFont(new Font("Monospaced", Font.PLAIN, 12));
+        FontMetrics m = getFontMetrics(getFont());
+        int width = Math.max(m.stringWidth(" ")*10 + 10, m.stringWidth(terrain.name) + 10);
         setPreferredSize(new Dimension(width, (m.getHeight() + 1)*6 + 10));
     }
     
@@ -36,7 +37,7 @@ public class TerrainScreen extends Screen {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g2);
         FontMetrics m = g.getFontMetrics();
-        terrain.appearance.fillShape(new Rectangle(8, m.getHeight() + 5, m.stringWidth(" ")*10, (m.getHeight() + 1)*5), g2);
+        terrain.appearance.fillShape(new Rectangle(5, m.getHeight() + 5, m.stringWidth(" ")*10, (m.getHeight() + 1)*5), g2);
         g2.drawString(terrain.name, 10, m.getHeight());
     }
     
