@@ -8,6 +8,7 @@ package display;
 import crovasshun.Terrain;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +25,9 @@ public class TerrainScreen extends Screen {
     
     public TerrainScreen(Terrain terrain) {
         this.terrain = terrain;
+        FontMetrics m = getFontMetrics(new Font("Monospaced", Font.PLAIN, 12));
+        int width = Math.max(m.stringWidth(" ")*10 + 15, m.stringWidth(terrain.name) + 15);
+        setPreferredSize(new Dimension(width, (m.getHeight() + 1)*6 + 10));
     }
     
     @Override

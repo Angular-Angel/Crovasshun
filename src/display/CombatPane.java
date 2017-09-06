@@ -39,7 +39,10 @@ public class CombatPane extends JLayeredPane {
             public void componentResized(ComponentEvent e) {
                 localAreaScreen.setSize(getWidth(), getHeight());
                 textLog.setBounds(10, getHeight()*3/4 +10, getWidth()-20, getHeight()/4 -20 );
-                tileScreen.setBounds(getWidth()*5/6 -20, 10, getWidth()/6 -10, getHeight()/8);
+                //tileScreen.setBounds(getWidth()*5/6 -20, 10, getWidth()/6 -10, getHeight()/8);
+                tileScreen.setLocation(getWidth()*5/6 -20, 10);
+                tileScreen.setSize(tileScreen.getPreferredSize());
+                tileScreen.revalidate();
             }
         });
     }
@@ -49,6 +52,8 @@ public class CombatPane extends JLayeredPane {
         TerrainScreen terrainScreen = new TerrainScreen(terrain);
         terrainScreen.setBounds(getWidth()*5/6 -20, 10, getWidth()/6 -10, getHeight()/8);
         tileScreen.add(terrainScreen);
+        tileScreen.setSize(tileScreen.getPreferredSize());
+        tileScreen.revalidate();
         remove(tileScreen);
         add(tileScreen, new Integer(1));
     }
