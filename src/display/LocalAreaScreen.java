@@ -6,6 +6,7 @@
 package display;
 
 import crovasshun.Body;
+import crovasshun.GameHex;
 import crovasshun.LocalArea;
 import crovasshun.LocalMapGenerator;
 import crovasshun.Terrain;
@@ -30,7 +31,7 @@ public class LocalAreaScreen extends Screen {
     private int triangleLength;	// short side of 30o triangle outside of each hex
     private int hexRadius;	// radius of inscribed circle (centre to middle of each side). r= h/2
     private int hexHeight;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
-    private Point selectedTerrain;
+    private Point selectedTile;
     private CombatPane combatPane;
     
     private LocalArea area;
@@ -53,17 +54,17 @@ public class LocalAreaScreen extends Screen {
             public void mouseClicked(MouseEvent e) {
                 Point tile = localAreaScreen.pxtoHex(e.getX(), e.getY());
                 try {
-                    Terrain terrain = area.getTerrain(tile);
-                    if (terrain != null) {
-                        selectedTerrain = tile;
-                        combatPane.showTerrainReadout(terrain);
+                    GameHex hex = area.getHex(tile);
+                    if (hex.terrain != null) {
+                        selectedTile = tile;
+                        combatPane.showTileReadout(hex);
                     } else {
-                        selectedTerrain = null;
+                        selectedTile = null;
                         combatPane.hideTerrainReadout();
                     }
                     
                 } catch (IllegalArgumentException ex) {
-                    selectedTerrain = null;
+                    selectedTile = null;
                     combatPane.hideTerrainReadout();
                 }
                 localAreaScreen.repaint();
@@ -74,7 +75,7 @@ public class LocalAreaScreen extends Screen {
         
         area = LocalMapGenerator.getObelisk(20, 8);
         
-        area.bodies.add(new Body(new ASCIISprite(new Color(255, 182, 193),  "_ |\n" +
+        area.bodies.add(new Body("Player", new ASCIISprite(new Color(255, 182, 193),  "_ |\n" +
                                                                             "-0-"), new Point(3, 3)));
     }
     
@@ -209,13 +210,13 @@ public class LocalAreaScreen extends Screen {
             }
         }
         
-        if (selectedTerrain != null) {
+        if (selectedTile != null) {
             g2.setStroke(new BasicStroke(3));
-            drawHex(selectedTerrain, g2);
+            drawHex(selectedTile, g2);
         }
         
         for (Body b : area.bodies) {
-            b.sprite.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
+            b.mapSprite.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
         }
     }
     

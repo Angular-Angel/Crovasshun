@@ -13,15 +13,17 @@ import java.awt.Point;
  * @author angle
  */
 public class Body {
+    public final String name;
     public Point position;
-    public ASCIISprite sprite;
+    public ASCIISprite mapSprite;
     
-    public Body(ASCIISprite sprite) {
-        this(sprite, new Point(0, 0));
+    public Body(String name, ASCIISprite sprite) {
+        this(name, sprite, new Point(0, 0));
     }
     
-    public Body(ASCIISprite sprite, Point position) {
-        this.sprite = sprite;
+    public Body(String name, ASCIISprite sprite, Point position) {
+        this.name = name;
+        this.mapSprite = sprite;
         this.position = position;
     }
     
