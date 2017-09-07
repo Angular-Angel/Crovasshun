@@ -44,8 +44,7 @@ public class BodyScreen extends Screen {
         g2.drawString(body.name, 10, m.getHeight());
         Point position = new Point();
         ASCIISprite displaySprite = body.getDisplaySprite();
-        position.x = displaySprite.getWidth() * m.stringWidth(" ") / 2;
-        position.y = 2 + m.getHeight() + displaySprite.getHeight() * m.getHeight() / 2;
+        position.y = 2 + m.getHeight();
         
         displaySprite.draw(position, g2);
         

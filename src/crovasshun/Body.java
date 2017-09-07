@@ -6,6 +6,9 @@
 package crovasshun;
 
 import display.ASCIISprite;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
@@ -36,4 +39,11 @@ public class Body {
         return displaySprite;
     }
     
+    public void draw(Point position, Graphics2D g) {
+        g.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        FontMetrics m = g.getFontMetrics();
+        position.y -= m.getHeight() * mapSprite.getHeight()/2;
+        position.x -= m.stringWidth(" ") * mapSprite.getWidth()/2;
+        mapSprite.draw(position, g);
+    }
 }

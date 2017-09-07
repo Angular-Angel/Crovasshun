@@ -221,7 +221,7 @@ public class LocalAreaScreen extends Screen {
         }
         
         for (Body b : area.bodies) {
-            b.getMapSprite().draw(getHexCenterPosition(b.position.x, b.position.y), g2);
+            b.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
         }
     }
     
