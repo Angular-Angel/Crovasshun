@@ -21,8 +21,10 @@ public class ASCIISprite {
     
     private ArrayList<ArrayList<ASCIIChar>> chars;
     private int width;
+    private Color background;
     
-    public ASCIISprite(Color color, String string) {
+    public ASCIISprite(Color background, Color color, String string) {
+        this.background = background;
         chars = new ArrayList<>();
         chars.add(new ArrayList<>());
         width = 0;
@@ -56,7 +58,7 @@ public class ASCIISprite {
         position.x -= m.stringWidth(" ") * getWidth()/2;
         int baseX = position.x + 4;
         //g.rotate(1, position.x + (getWidth()+1) * m.stringWidth(" ")/2, position.y + (getHeight() * m.getHeight() + m.getHeight()/2)/2);
-        g.setColor(Color.BLACK);
+        g.setColor(background);
         g.fillOval(position.x, position.y, (getWidth()+1) * m.stringWidth(" "), getHeight() * m.getHeight() + m.getHeight()/2);
         for (ArrayList<ASCIIChar> list : chars) {
                 position.y += m.getHeight();

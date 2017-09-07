@@ -75,9 +75,9 @@ public class LocalAreaScreen extends Screen {
         
         area = LocalMapGenerator.getObelisk(20, 8);
         
-        area.bodies.add(new Body("Player", new ASCIISprite(new Color(255, 182, 193), "_ |\n" +
+        area.bodies.add(new Body("Player", new ASCIISprite(new Color(30, 30, 30, 255), new Color(255, 182, 193), "_ |\n" +
                                                                                      "-0-"), 
-                new ASCIISprite(new Color(255, 182, 193), "   0\n" +
+                new ASCIISprite(new Color(0, 0, 0, 0), new Color(255, 182, 193), "   0\n" +
                                                           "1_/|\\_O\n" +
                                                           "   |\n" +
                                                           "  / \\\n" +
