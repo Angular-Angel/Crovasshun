@@ -75,8 +75,13 @@ public class LocalAreaScreen extends Screen {
         
         area = LocalMapGenerator.getObelisk(20, 8);
         
-        area.bodies.add(new Body("Player", new ASCIISprite(new Color(255, 182, 193),  "_ |\n" +
-                                                                            "-0-"), new Point(3, 3)));
+        area.bodies.add(new Body("Player", new ASCIISprite(new Color(255, 182, 193), "_ |\n" +
+                                                                                     "-0-"), 
+                new ASCIISprite(new Color(255, 182, 193), "   0\n" +
+                                                          "1_/|\\_O\n" +
+                                                          "   |\n" +
+                                                          "  / \\\n" +
+                                                          "  | |"),new Point(3, 3)));
     }
     
     public void setSide(int side) {
@@ -216,7 +221,7 @@ public class LocalAreaScreen extends Screen {
         }
         
         for (Body b : area.bodies) {
-            b.mapSprite.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
+            b.getMapSprite().draw(getHexCenterPosition(b.position.x, b.position.y), g2);
         }
     }
     

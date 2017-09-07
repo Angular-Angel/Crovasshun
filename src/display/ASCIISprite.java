@@ -55,7 +55,7 @@ public class ASCIISprite {
         position.y -= m.getHeight() * getHeight()/2;
         position.x -= m.stringWidth(" ") * getWidth()/2;
         int baseX = position.x + 4;
-        g.rotate(1, position.x + (getWidth()+1) * m.stringWidth(" ")/2, position.y + (getHeight() * m.getHeight() + m.getHeight()/2)/2);
+        //g.rotate(1, position.x + (getWidth()+1) * m.stringWidth(" ")/2, position.y + (getHeight() * m.getHeight() + m.getHeight()/2)/2);
         g.setColor(Color.BLACK);
         g.fillOval(position.x, position.y, (getWidth()+1) * m.stringWidth(" "), getHeight() * m.getHeight() + m.getHeight()/2);
         for (ArrayList<ASCIIChar> list : chars) {

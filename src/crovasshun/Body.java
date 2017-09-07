@@ -15,16 +15,25 @@ import java.awt.Point;
 public class Body {
     public final String name;
     public Point position;
-    public ASCIISprite mapSprite;
+    private ASCIISprite mapSprite, displaySprite;
     
-    public Body(String name, ASCIISprite sprite) {
-        this(name, sprite, new Point(0, 0));
+    public Body(String name, ASCIISprite mapsprite, ASCIISprite displaySprite) {
+        this(name, mapsprite, displaySprite, new Point(0, 0));
     }
     
-    public Body(String name, ASCIISprite sprite, Point position) {
+    public Body(String name, ASCIISprite mapsprite, ASCIISprite displaySprite, Point position) {
         this.name = name;
-        this.mapSprite = sprite;
+        this.mapSprite = mapsprite;
+        this.displaySprite = displaySprite;
         this.position = position;
+    }
+    
+    public ASCIISprite getMapSprite() {
+        return mapSprite;
+    }
+    
+    public ASCIISprite getDisplaySprite() {
+        return displaySprite;
     }
     
 }
