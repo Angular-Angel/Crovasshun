@@ -7,6 +7,7 @@ package display;
 
 import crovasshun.Body;
 import crovasshun.GameHex;
+import crovasshun.LargeObject;
 import crovasshun.LocalArea;
 import crovasshun.LocalMapGenerator;
 import crovasshun.Terrain;
@@ -120,7 +121,20 @@ public class LocalAreaScreen extends Screen {
         return new Point(i * (sideLength+triangleLength) + pixelsPerBorder, j * hexHeight + (i%2) * hexHeight/2 + pixelsPerBorder);
     }
     
+    public Point getHexPosition(float i, float j) {
+        return new Point((int) (i * (sideLength+triangleLength) + pixelsPerBorder), (int) (j * hexHeight + (i%2) * hexHeight/2 + pixelsPerBorder));
+    }
+    
     public Point getHexCenterPosition(int i, int j) {
+        Point ret = getHexPosition(i, j);
+        
+        ret.x += triangleLength + sideLength/2;
+        ret.y += hexRadius;
+        
+        return ret;
+    }
+    
+    public Point getHexCenterPosition(float i, float j) {
         Point ret = getHexPosition(i, j);
         
         ret.x += triangleLength + sideLength/2;
@@ -222,6 +236,10 @@ public class LocalAreaScreen extends Screen {
         
         for (Body b : area.bodies) {
             b.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
+        }
+        
+        for (LargeObject l : area.objects) {
+            l.draw(getHexCenterPosition(l.position.x, l.position.y), g2);
         }
     }
     

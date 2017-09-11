@@ -6,6 +6,8 @@
 package crovasshun;
 
 import display.ASCIITexture;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
@@ -19,10 +21,17 @@ public class LargeObject {
     public ASCIITexture texture;
     public Point2D.Float position;
     
-    public LargeObject(String name, Shape shape, ASCIITexture texture) {
+    public LargeObject(String name, Shape shape, ASCIITexture texture, Point2D.Float position) {
         this.name = name;
         this.shape = shape;
         this.texture = texture;
+        this.position = position;
+    }
+    
+    public void draw(Point position, Graphics2D g) {
+        g.translate(position.x, position.y);
+        g.draw(shape);
+        texture.fillShape(shape, g);
     }
     
 }

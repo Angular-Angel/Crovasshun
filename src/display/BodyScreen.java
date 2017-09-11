@@ -28,7 +28,6 @@ public class BodyScreen extends Screen {
         FontMetrics m = getFontMetrics(getFont());
         Dimension dimension = new Dimension();
         ASCIISprite displaySprite = body.getDisplaySprite();
-        System.out.println(displaySprite.getWidth());
         dimension.width = Math.max(m.stringWidth(body.name) + 10, 10 + displaySprite.getWidth() * m.stringWidth(" "));
         dimension.height = m.getHeight() + 10 + displaySprite.getHeight() * m.getHeight();
         setPreferredSize(dimension);

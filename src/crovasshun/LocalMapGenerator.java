@@ -7,6 +7,8 @@ package crovasshun;
 
 import display.ASCIITexture;
 import java.awt.Color;
+import java.awt.Polygon;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -70,13 +72,6 @@ public class LocalMapGenerator {
         
         addTerrain(new Terrain("Polished Stone", new ASCIITexture(Color.LIGHT_GRAY, Color.DARK_GRAY, '+', false)));
         
-        char[] obeliskChars = new char[4];
-        obeliskChars[0] = '-';
-        obeliskChars[1] = '|';
-        obeliskChars[2] = '-';
-        obeliskChars[3] = '|';
-        addTerrain(new Terrain("Obelisk", new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false)));
-        
         initialized = true;
     }
     
@@ -109,19 +104,30 @@ public class LocalMapGenerator {
     public static LocalArea getObelisk(int width, int height) {
         LocalArea ret = new LocalArea(width, height, getTerrain("Grass"));
         
-        int i = width/2, j = height/2;
-        
-        ret.setTerrain(i - 1, j, getTerrain("Obelisk"));
-        ret.setTerrain(i - 1, j - 1, getTerrain("Obelisk"));
-        ret.setTerrain(i, j - 1, getTerrain("Obelisk"));
-        ret.setTerrain(i, j, getTerrain("Obelisk"));
-        ret.setTerrain(i, j + 1, getTerrain("Obelisk"));
-        ret.setTerrain(i + 1, j, getTerrain("Obelisk"));
-        ret.setTerrain(i + 1, j - 1, getTerrain("Obelisk"));
+        float i = width/2 - 2, j = height/2 - 2;
         
         ret.setTerrain(6, 6, null);
         ret.setTerrain(5, 6, null);
         ret.setTerrain(5, 5, null);
+        
+        int hexHeight = 240;                             // h = basic dimension: height (distance between two adj centresr aka size)
+        int hexRadius = hexHeight/2;			// r = radius of inscribed circle
+        int sideLength = (int) (hexHeight / 1.73205);	// s = (h/2)/cos(30)= (h/2) / (sqrt(3)/2) = h / sqrt(3)
+        int triangleLength = (int) (hexRadius / 1.73205);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)
+
+        int[] cx, cy;
+
+        cx = new int[] {triangleLength, sideLength+triangleLength, sideLength+(2*triangleLength), sideLength+triangleLength, triangleLength, 0};	//this is for the whole hexagon to be below and to the right of this point
+
+        cy = new int[] {0,0,hexRadius,(2*hexRadius),(2*hexRadius),hexRadius};
+        Polygon polygon = new Polygon(cx,cy,6);
+        
+        char[] obeliskChars = new char[2];
+        obeliskChars[0] = '-';
+        obeliskChars[1] = '|';
+        ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
+        
+        ret.objects.add(new LargeObject("Obelisk", polygon, asciiTexture, new Point2D.Float(i, j)));
         
         return ret;
     }

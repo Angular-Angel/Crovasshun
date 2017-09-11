@@ -19,12 +19,14 @@ public class LocalArea {
     
     private Terrain[][] terrain;
     public ArrayList<Body> bodies;
+    public ArrayList<LargeObject> objects;
     
     public LocalArea(int width, int height) {
         this.height = height;
         this.width = width;
         terrain = new Terrain[width][height];
         bodies = new ArrayList<>();
+        objects = new ArrayList<>();
     }
     
     public LocalArea(int width, int height, Terrain t) {
