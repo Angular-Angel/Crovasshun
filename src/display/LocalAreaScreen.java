@@ -10,7 +10,7 @@ import crovasshun.GameHex;
 import crovasshun.LargeObject;
 import crovasshun.LocalArea;
 import crovasshun.LocalMapGenerator;
-import crovasshun.Terrain;
+import crovasshun.TerrainType;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -55,14 +55,14 @@ public class LocalAreaScreen extends Screen {
             public void mouseClicked(MouseEvent e) {
                 Point tile = localAreaScreen.pxtoHex(e.getX(), e.getY());
                 try {
-                    GameHex hex = area.getHex(tile);
+                    /*GameHex hex = area.getHex(tile);
                     if (hex.terrain != null) {
                         selectedTile = tile;
                         combatPane.showTileReadout(hex);
                     } else {
                         selectedTile = null;
                         combatPane.hideTerrainReadout();
-                    }
+                    }*/
                     
                 } catch (IllegalArgumentException ex) {
                     selectedTile = null;
@@ -223,9 +223,7 @@ public class LocalAreaScreen extends Screen {
         //draw grid
         for (int i=0;i<area.getWidth();i++) {
             for (int j=0;j<area.getHeight();j++) {
-                Terrain terrain = area.getTerrain(i, j);
-                if (terrain != null)
-                    fillHex(i, j, g2, terrain.appearance);
+                
             }
         }
         

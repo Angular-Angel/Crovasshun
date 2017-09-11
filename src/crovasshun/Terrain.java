@@ -5,26 +5,27 @@
  */
 package crovasshun;
 
-import display.ASCIITexture;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Area;
 
 /**
  *
  * @author angle
  */
 public class Terrain {
+    public final Point position;
+    public final Area area;
+    public final TerrainType type;
     
-    public final String name;
-    public final int moveCost;
-    public final ASCIITexture appearance;
+    public Terrain(Point position, Area area, TerrainType type) {
+        this.position = position;
+        this.area = area;
+        this.type = type;
+    }
     
-    public Terrain(String name, ASCIITexture appearance) {
-        this(name, appearance, 1);
-    } 
-    
-    public Terrain(String name, ASCIITexture appearance, int moveCost) {
-        this.name = name;
-        this.appearance = appearance;
-        this.moveCost = moveCost;
+    public void draw(Graphics2D g) {
+        
     }
     
 }

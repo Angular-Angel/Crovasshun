@@ -7,7 +7,7 @@ package display;
 
 import crovasshun.Body;
 import crovasshun.GameHex;
-import crovasshun.Terrain;
+import crovasshun.TerrainType;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;

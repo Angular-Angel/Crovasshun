@@ -5,7 +5,7 @@
  */
 package display;
 
-import crovasshun.Terrain;
+import crovasshun.TerrainType;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,13 +21,13 @@ import java.awt.RenderingHints;
  */
 public class TerrainScreen extends Screen {
     
-    public final Terrain terrain;
+    public final TerrainType terrainType;
     
-    public TerrainScreen(Terrain terrain) {
-        this.terrain = terrain;
+    public TerrainScreen(TerrainType terrainType) {
+        this.terrainType = terrainType;
         setFont(new Font("Monospaced", Font.PLAIN, 12));
         FontMetrics m = getFontMetrics(getFont());
-        int width = Math.max(m.stringWidth(" ")*10 + 10, m.stringWidth(terrain.name) + 10);
+        int width = Math.max(m.stringWidth(" ")*10 + 10, m.stringWidth(terrainType.name) + 10);
         setPreferredSize(new Dimension(width, (m.getHeight() + 1)*6 + 10));
     }
     
@@ -37,8 +37,8 @@ public class TerrainScreen extends Screen {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g2);
         FontMetrics m = g.getFontMetrics();
-        terrain.appearance.fillShape(new Rectangle(5, m.getHeight() + 5, m.stringWidth(" ")*10, (m.getHeight() + 1)*5), g2);
-        g2.drawString(terrain.name, 10, m.getHeight());
+        terrainType.appearance.fillShape(new Rectangle(5, m.getHeight() + 5, m.stringWidth(" ")*10, (m.getHeight() + 1)*5), g2);
+        g2.drawString(terrainType.name, 10, m.getHeight());
     }
     
 }
