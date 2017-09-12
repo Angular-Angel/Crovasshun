@@ -83,7 +83,7 @@ public class LocalAreaScreen extends Screen {
                                                           "1_/|\\_O\n" +
                                                           "   |\n" +
                                                           "  / \\\n" +
-                                                          "  | |"),new Point(3, 3)));
+                                                          "  | |"),new Point(105, 150)));
     }
     
     public void setSide(int side) {
@@ -222,18 +222,18 @@ public class LocalAreaScreen extends Screen {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g2);
         
-        g.translate(10, 10);
+        g2.translate(10, 10);
         
         for (Terrain t : area.terrain) {
             t.draw(g2);
         }
         
         for (Body b : area.bodies) {
-            b.draw(getHexCenterPosition(b.position.x, b.position.y), g2);
+            b.draw(g2);
         }
         
         for (LargeObject l : area.objects) {
-            l.draw(l.position, g2);
+            l.draw(g2);
         }
     }
     

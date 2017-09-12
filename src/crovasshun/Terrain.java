@@ -7,6 +7,8 @@ package crovasshun;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
 /**
@@ -29,5 +31,12 @@ public class Terrain {
         g.draw(area);
         type.appearance.fillShape(area, g);
     }
+    
+    public void subtract(Footprint footprint) {
+        Area subArea = new Area(footprint.getFootprint());
+        Point footPos = footprint.getPosition();
+        subArea.transform(AffineTransform.getTranslateInstance(footPos.x, footPos.y));
+        area.subtract(subArea);
+    } 
     
 }

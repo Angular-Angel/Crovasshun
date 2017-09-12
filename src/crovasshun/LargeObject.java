@@ -14,11 +14,11 @@ import java.awt.Shape;
  *
  * @author angle
  */
-public class LargeObject {
-    public Shape shape;
+public class LargeObject implements Footprint {
+    private Shape shape;
     public final String name;
     public ASCIITexture texture;
-    public Point position;
+    private Point position;
     
     public LargeObject(String name, Shape shape, ASCIITexture texture, Point position) {
         this.name = name;
@@ -27,10 +27,20 @@ public class LargeObject {
         this.position = position;
     }
     
-    public void draw(Point position, Graphics2D g) {
+    public void draw(Graphics2D g) {
         g.translate(position.x, position.y);
         g.draw(shape);
         texture.fillShape(shape, g);
+    }
+
+    @Override
+    public Shape getFootprint() {
+        return shape;
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(position);
     }
     
 }

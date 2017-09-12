@@ -9,6 +9,7 @@ import display.ASCIITexture;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Random;
@@ -124,7 +125,11 @@ public class LocalMapGenerator {
         obeliskChars[1] = '|';
         ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
         
-        ret.objects.add(new LargeObject("Obelisk", polygon, asciiTexture, new Point(i, j)));
+        LargeObject largeObject = new LargeObject("Obelisk", polygon, asciiTexture, new Point(i, j));
+        
+        ret.terrain.get(0).subtract(largeObject);
+        
+        ret.objects.add(largeObject);
         
         return ret;
     }
