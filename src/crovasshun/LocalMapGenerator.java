@@ -7,6 +7,7 @@ package crovasshun;
 
 import display.ASCIITexture;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -104,7 +105,7 @@ public class LocalMapGenerator {
     public static LocalArea getObelisk(int width, int height) {
         LocalArea ret = new LocalArea(width, height, getTerrain("Grass"));
         
-        float i = width/2 - 2, j = height/2 - 2;
+        int i = width/2 - 2, j = height/2 - 2;
         
         int hexHeight = 240;                             // h = basic dimension: height (distance between two adj centresr aka size)
         int hexRadius = hexHeight/2;			// r = radius of inscribed circle
@@ -123,7 +124,7 @@ public class LocalMapGenerator {
         obeliskChars[1] = '|';
         ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
         
-        ret.objects.add(new LargeObject("Obelisk", polygon, asciiTexture, new Point2D.Float(i, j)));
+        ret.objects.add(new LargeObject("Obelisk", polygon, asciiTexture, new Point(i, j)));
         
         return ret;
     }

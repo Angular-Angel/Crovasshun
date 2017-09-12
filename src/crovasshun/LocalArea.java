@@ -6,6 +6,8 @@
 package crovasshun;
 
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +33,8 @@ public class LocalArea {
     
     public LocalArea(int width, int height, TerrainType t) {
         this(width, height);
+        
+        terrain.add(new Terrain(new Point(0,0), new Area(new Rectangle(width, height)), t));
     }
 
     /**

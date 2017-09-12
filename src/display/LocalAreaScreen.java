@@ -10,6 +10,7 @@ import crovasshun.GameHex;
 import crovasshun.LargeObject;
 import crovasshun.LocalArea;
 import crovasshun.LocalMapGenerator;
+import crovasshun.Terrain;
 import crovasshun.TerrainType;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -74,7 +75,7 @@ public class LocalAreaScreen extends Screen {
             
         });
         
-        area = LocalMapGenerator.getObelisk(20, 8);
+        area = LocalMapGenerator.getObelisk(1600, 800);
         
         area.bodies.add(new Body("Player", new ASCIISprite(new Color(30, 30, 30, 255), new Color(255, 182, 193), "_ |\n" +
                                                                                      "-0-"), 
@@ -220,16 +221,11 @@ public class LocalAreaScreen extends Screen {
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g2);
-        //draw grid
-        for (int i=0;i<area.getWidth();i++) {
-            for (int j=0;j<area.getHeight();j++) {
-                
-            }
-        }
         
-        if (selectedTile != null) {
-            g2.setStroke(new BasicStroke(3));
-            drawHex(selectedTile, g2);
+        g.translate(10, 10);
+        
+        for (Terrain t : area.terrain) {
+            t.draw(g2);
         }
         
         for (Body b : area.bodies) {
@@ -237,7 +233,7 @@ public class LocalAreaScreen extends Screen {
         }
         
         for (LargeObject l : area.objects) {
-            l.draw(getHexCenterPosition(l.position.x, l.position.y), g2);
+            l.draw(l.position, g2);
         }
     }
     

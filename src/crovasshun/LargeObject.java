@@ -9,7 +9,6 @@ import display.ASCIITexture;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 
 /**
  *
@@ -19,9 +18,9 @@ public class LargeObject {
     public Shape shape;
     public final String name;
     public ASCIITexture texture;
-    public Point2D.Float position;
+    public Point position;
     
-    public LargeObject(String name, Shape shape, ASCIITexture texture, Point2D.Float position) {
+    public LargeObject(String name, Shape shape, ASCIITexture texture, Point position) {
         this.name = name;
         this.shape = shape;
         this.texture = texture;

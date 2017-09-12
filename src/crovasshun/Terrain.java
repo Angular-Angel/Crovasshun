@@ -25,7 +25,9 @@ public class Terrain {
     }
     
     public void draw(Graphics2D g) {
-        
+        g.translate(-position.x, -position.y);
+        g.draw(area);
+        type.appearance.fillShape(area, g);
     }
     
 }
