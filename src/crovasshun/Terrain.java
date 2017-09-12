@@ -27,9 +27,9 @@ public class Terrain implements Footprint {
     }
     
     public void draw(Graphics2D g) {
-        g.translate(-position.x, -position.y);
-        g.draw(area);
+        g.translate(position.x, position.y);
         type.appearance.fillShape(area, g);
+        g.translate(-position.x, -position.y);
     }
     
     public void subtract(Footprint footprint) {
