@@ -26,7 +26,6 @@ public class CombatPane extends JLayeredPane {
         super();
         
         LocalAreaScreen localAreaScreen = new LocalAreaScreen(this);
-        localAreaScreen.setHeight(80);
         add(localAreaScreen, new Integer(0));
         
         TextLogScreen textLog = new TextLogScreen();

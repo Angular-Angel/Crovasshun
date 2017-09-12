@@ -15,7 +15,7 @@ import java.awt.geom.Area;
  *
  * @author angle
  */
-public class Terrain {
+public class Terrain implements Footprint {
     public final Point position;
     public final Area area;
     public final TerrainType type;
@@ -33,10 +33,22 @@ public class Terrain {
     }
     
     public void subtract(Footprint footprint) {
-        Area subArea = new Area(footprint.getFootprint());
+        Shape shape = footprint.getFootprint();
+        Area subArea = new Area(shape);
         Point footPos = footprint.getPosition();
+        //System.out.println(shape.);
         subArea.transform(AffineTransform.getTranslateInstance(footPos.x, footPos.y));
         area.subtract(subArea);
     } 
+
+    @Override
+    public Shape getFootprint() {
+        return new Area(area);
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(position);
+    }
     
 }

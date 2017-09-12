@@ -106,9 +106,9 @@ public class LocalMapGenerator {
     public static LocalArea getObelisk(int width, int height) {
         LocalArea ret = new LocalArea(width, height, getTerrain("Grass"));
         
-        int i = width/2 - 2, j = height/2 - 2;
+        int i = width - 200, j = height/2 - 2;
         
-        int hexHeight = 240;                             // h = basic dimension: height (distance between two adj centresr aka size)
+        int hexHeight = 100;                             // h = basic dimension: height (distance between two adj centresr aka size)
         int hexRadius = hexHeight/2;			// r = radius of inscribed circle
         int sideLength = (int) (hexHeight / 1.73205);	// s = (h/2)/cos(30)= (h/2) / (sqrt(3)/2) = h / sqrt(3)
         int triangleLength = (int) (hexRadius / 1.73205);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)

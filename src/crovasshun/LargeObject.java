@@ -29,7 +29,6 @@ public class LargeObject implements Footprint {
     
     public void draw(Graphics2D g) {
         g.translate(position.x, position.y);
-        g.draw(shape);
         texture.fillShape(shape, g);
     }
 
