@@ -8,7 +8,6 @@ package display;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.Random;
@@ -71,8 +70,6 @@ public class ASCIITexture {
         
         g.setColor(background);
         g.fill(shape);
-        g.setColor(Color.WHITE);
-        g.draw(shape);
         
         Rectangle bounds = shape.getBounds();
         

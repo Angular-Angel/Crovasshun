@@ -6,6 +6,7 @@
 package crovasshun;
 
 import display.ASCIITexture;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
@@ -30,6 +31,9 @@ public class LargeObject implements Footprint {
     public void draw(Graphics2D g) {
         g.translate(position.x, position.y);
         texture.fillShape(shape, g);
+        g.setColor(Color.WHITE);
+        g.draw(shape);
+        g.translate(-position.x, -position.y);
     }
 
     @Override
