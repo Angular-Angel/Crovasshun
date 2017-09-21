@@ -9,8 +9,6 @@ import display.ASCIITexture;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Random;
 
