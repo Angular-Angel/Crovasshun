@@ -39,11 +39,11 @@ public class Body {
         return displaySprite;
     }
     
-    public void draw(Point position, Graphics2D g) {
+    public void draw(Graphics2D g) {
         g.setFont(new Font("Monospaced", Font.PLAIN, 12));
         FontMetrics m = g.getFontMetrics();
-        position.y -= m.getHeight() * mapSprite.getHeight()/2;
-        position.x -= m.stringWidth(" ") * mapSprite.getWidth()/2;
+        g.translate(m.stringWidth(" ") * mapSprite.getWidth()/2, m.getHeight() * mapSprite.getHeight()/2);
         mapSprite.draw(position, g);
+        g.translate(-m.stringWidth(" ") * mapSprite.getWidth()/2, -m.getHeight() * mapSprite.getHeight()/2);
     }
 }
