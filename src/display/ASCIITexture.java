@@ -83,7 +83,7 @@ public class ASCIITexture {
         
         while(yi <= bounds.height) {
             int leftX = bounds.x;
-            while (!shape.contains(new Rectangle(leftX, bounds.y + yi, 10, m.getHeight() + border)) && leftX < bounds.width) {
+            while (!shape.contains(new Rectangle(leftX, bounds.y + yi, 10, m.getHeight() + border)) && leftX < bounds.width + bounds.x) {
                 leftX++;
             }
             i = 0;

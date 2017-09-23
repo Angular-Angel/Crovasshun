@@ -5,8 +5,10 @@
  */
 package crovasshun;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -16,20 +18,20 @@ import java.awt.geom.Area;
  * @author angle
  */
 public class Terrain implements Footprint {
-    public final Point position;
     public final Area area;
     public final TerrainType type;
     
-    public Terrain(Point position, Area area, TerrainType type) {
-        this.position = position;
+    public Terrain(Area area, TerrainType type) {
         this.area = area;
         this.type = type;
     }
     
     public void draw(Graphics2D g) {
-        g.translate(position.x, position.y);
+        g.translate(area.getBounds().x, area.getBounds().y);
         type.appearance.fillShape(area, g);
-        g.translate(-position.x, -position.y);
+        g.setColor(Color.WHITE);
+        //g.draw(area);
+        g.translate(-area.getBounds().x, -area.getBounds().y);
     }
     
     public void subtract(Footprint footprint) {
@@ -48,7 +50,16 @@ public class Terrain implements Footprint {
 
     @Override
     public Point getPosition() {
-        return new Point(position);
+        return new Point(area.getBounds().getLocation());
+    }
+
+    @Override
+    public Point getCenterPoint() {
+        Rectangle bounds = area.getBounds();
+        Point point = getPosition();
+        point.x += bounds.width/2;
+        point.y += bounds.height/2;
+        return point;
     }
     
 }

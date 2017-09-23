@@ -9,6 +9,7 @@ import display.ASCIITexture;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 
 /**
@@ -19,21 +20,19 @@ public class LargeObject implements Footprint {
     private Shape shape;
     public final String name;
     public ASCIITexture texture;
-    private Point position;
     
-    public LargeObject(String name, Shape shape, ASCIITexture texture, Point position) {
+    public LargeObject(String name, Shape shape, ASCIITexture texture) {
         this.name = name;
         this.shape = shape;
         this.texture = texture;
-        this.position = position;
     }
     
     public void draw(Graphics2D g) {
-        g.translate(position.x, position.y);
+        g.translate(shape.getBounds().x, shape.getBounds().y);
         texture.fillShape(shape, g);
         g.setColor(Color.WHITE);
         g.draw(shape);
-        g.translate(-position.x, -position.y);
+        g.translate(-shape.getBounds().x, -shape.getBounds().y);
     }
 
     @Override
@@ -43,7 +42,16 @@ public class LargeObject implements Footprint {
 
     @Override
     public Point getPosition() {
-        return new Point(position);
+        return new Point(shape.getBounds().getLocation());
+    }
+
+    @Override
+    public Point getCenterPoint() {
+        Rectangle bounds = shape.getBounds();
+        Point point = getPosition();
+        point.x += bounds.width/2;
+        point.y += bounds.height/2;
+        return point;
     }
     
 }

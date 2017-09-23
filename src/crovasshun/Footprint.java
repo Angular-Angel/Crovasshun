@@ -17,4 +17,6 @@ public interface Footprint {
     public Shape getFootprint();
     
     public Point getPosition();
+    
+    public Point getCenterPoint();
 }

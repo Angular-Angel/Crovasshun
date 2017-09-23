@@ -123,11 +123,9 @@ public class LocalMapGenerator {
         obeliskChars[1] = '|';
         ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
         
-        LargeObject largeObject = new LargeObject("Obelisk", polygon, asciiTexture, new Point(i, j));
+        TerrainObject terrainObject = new TerrainObject("Obelisk", polygon, asciiTexture, new Point(i, j));
         
-        ret.terrain.get(0).subtract(largeObject);
-        
-        ret.objects.add(largeObject);
+        ret.addTerrainObject(terrainObject);
         
         return ret;
     }
