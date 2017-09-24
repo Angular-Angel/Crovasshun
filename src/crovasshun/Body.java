@@ -46,4 +46,8 @@ public class Body {
         mapSprite.draw(position, g);
         g.translate(-m.stringWidth(" ") * mapSprite.getWidth()/2, -m.getHeight() * mapSprite.getHeight()/2);
     }
+    
+    public class BodyPart {
+        
+    }
 }
