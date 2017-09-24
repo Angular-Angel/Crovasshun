@@ -1,0 +1,12 @@
+implement game loop
+
+implement moving bodies
+
+implement obstacles.
+
+implement body stats
+
+implement equipment
+
+implement melee attacks
+
