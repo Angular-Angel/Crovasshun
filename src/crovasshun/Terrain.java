@@ -5,26 +5,57 @@
  */
 package crovasshun;
 
-import display.ASCIITexture;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 
 /**
  *
  * @author angle
  */
-public class Terrain {
+public class Terrain implements Footprint {
+    public final Area area;
+    public final TerrainType type;
     
-    public final String name;
-    public final int moveCost;
-    public final ASCIITexture appearance;
+    public Terrain(Area area, TerrainType type) {
+        this.area = area;
+        this.type = type;
+    }
     
-    public Terrain(String name, ASCIITexture appearance) {
-        this(name, appearance, 1);
+    public void draw(Graphics2D g) {
+        type.appearance.fillShape(area, g);
+        g.setColor(Color.WHITE);
+        //g.draw(area);
+    }
+    
+    public void subtract(Footprint footprint) {
+        Shape shape = footprint.getFootprint();
+        Area subArea = new Area(shape);
+        Point footPos = footprint.getPosition();
+        area.subtract(subArea);
     } 
-    
-    public Terrain(String name, ASCIITexture appearance, int moveCost) {
-        this.name = name;
-        this.appearance = appearance;
-        this.moveCost = moveCost;
+
+    @Override
+    public Shape getFootprint() {
+        return new Area(area);
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(area.getBounds().getLocation());
+    }
+
+    @Override
+    public Point getCenterPoint() {
+        Rectangle bounds = area.getBounds();
+        Point point = getPosition();
+        point.x += bounds.width/2;
+        point.y += bounds.height/2;
+        return point;
     }
     
 }

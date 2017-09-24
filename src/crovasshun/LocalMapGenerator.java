@@ -7,8 +7,8 @@ package crovasshun;
 
 import display.ASCIITexture;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -18,16 +18,16 @@ import java.util.Random;
  */
 public class LocalMapGenerator {
     
-    private static final HashMap<String, Terrain> terrainMap =  new HashMap<>();
+    private static final HashMap<String, TerrainType> terrainMap =  new HashMap<>();
     private static boolean initialized = false;
     private static Random random = new Random();
     
-    public static Terrain getTerrain(String terrain) {
+    public static TerrainType getTerrain(String terrain) {
         if (!initialized) initialize();
         return terrainMap.get(terrain);
     }
     
-    public static void addTerrain(Terrain terrain) {
+    public static void addTerrain(TerrainType terrain) {
         terrainMap.put(terrain.name, terrain);
     }
     
@@ -43,7 +43,7 @@ public class LocalMapGenerator {
         dirtChars[3] = '\'';
         dirtChars[4] = ',';
         dirtChars[5] = '.';
-        addTerrain(new Terrain("Dirt", new ASCIITexture(dirtColors, new Color(139,69,19), dirtChars)));
+        addTerrain(new TerrainType("Dirt", new ASCIITexture(dirtColors, new Color(139,69,19), dirtChars)));
         
         Color[] grassColors = new Color[3];
         grassColors[0] = Color.GREEN;
@@ -55,7 +55,7 @@ public class LocalMapGenerator {
         grassChars[2] = '"';
         grassChars[3] = '.';
         grassChars[4] = '`';
-        addTerrain(new Terrain("Grass", new ASCIITexture(grassColors, new Color(0, 70, 0), grassChars)));
+        addTerrain(new TerrainType("Grass", new ASCIITexture(grassColors, new Color(0, 70, 0), grassChars)));
         
         Color[] stoneColors = new Color[3];
         stoneColors[0] = Color.LIGHT_GRAY;
@@ -68,20 +68,20 @@ public class LocalMapGenerator {
         stoneChars[3] = '=';
         stoneChars[4] = '/';
         stoneChars[5] = '\\';
-        addTerrain(new Terrain("Stone", new ASCIITexture(stoneColors, Color.DARK_GRAY, stoneChars)));
+        addTerrain(new TerrainType("Stone", new ASCIITexture(stoneColors, Color.DARK_GRAY, stoneChars)));
         
-        addTerrain(new Terrain("Polished Stone", new ASCIITexture(Color.LIGHT_GRAY, Color.DARK_GRAY, '+', false)));
+        addTerrain(new TerrainType("Polished Stone", new ASCIITexture(Color.LIGHT_GRAY, Color.DARK_GRAY, '+', false)));
         
         initialized = true;
     }
     
-    public static LocalArea getMixedTerrain(int width, int height, Terrain primary, Terrain secondary, float percentage) {
+    public static LocalArea getMixedTerrain(int width, int height, TerrainType primary, TerrainType secondary, float percentage) {
         if (primary == null || secondary == null) throw new IllegalArgumentException("Null terrain!");
         
         LocalArea ret = new LocalArea(width, height, primary);
         
         for (int i = 0; i < width*height*percentage; i++) {
-           ret.setTerrain(random.nextInt(width), random.nextInt(height), secondary);
+           //ret.setTerrain(random.nextInt(width), random.nextInt(height), secondary);
         }
         
         return ret;
@@ -95,7 +95,7 @@ public class LocalMapGenerator {
         LocalArea ret = new LocalArea(width, height, getTerrain("Stone"));
         
         for (int i = 0; i < width; i++) {
-            ret.setTerrain(i, height/2, getTerrain("Polished Stone"));
+            //ret.setTerrainType(i, height/2, getTerrain("Polished Stone"));
         }
         
         return ret;
@@ -104,13 +104,9 @@ public class LocalMapGenerator {
     public static LocalArea getObelisk(int width, int height) {
         LocalArea ret = new LocalArea(width, height, getTerrain("Grass"));
         
-        float i = width/2 - 2, j = height/2 - 2;
+        int i = width - 800, j = height/2 - 20;
         
-        ret.setTerrain(6, 6, null);
-        ret.setTerrain(5, 6, null);
-        ret.setTerrain(5, 5, null);
-        
-        int hexHeight = 240;                             // h = basic dimension: height (distance between two adj centresr aka size)
+        int hexHeight = 100;                             // h = basic dimension: height (distance between two adj centresr aka size)
         int hexRadius = hexHeight/2;			// r = radius of inscribed circle
         int sideLength = (int) (hexHeight / 1.73205);	// s = (h/2)/cos(30)= (h/2) / (sqrt(3)/2) = h / sqrt(3)
         int triangleLength = (int) (hexRadius / 1.73205);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)
@@ -122,12 +118,16 @@ public class LocalMapGenerator {
         cy = new int[] {0,0,hexRadius,(2*hexRadius),(2*hexRadius),hexRadius};
         Polygon polygon = new Polygon(cx,cy,6);
         
+        polygon.translate(i, j);
+        
         char[] obeliskChars = new char[2];
         obeliskChars[0] = '-';
         obeliskChars[1] = '|';
         ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
         
-        ret.objects.add(new LargeObject("Obelisk", polygon, asciiTexture, new Point2D.Float(i, j)));
+        TerrainObject terrainObject = new TerrainObject("Obelisk", polygon, asciiTexture);
+        
+        ret.addTerrainObject(terrainObject);
         
         return ret;
     }

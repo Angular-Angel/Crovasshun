@@ -56,6 +56,7 @@ public class ASCIISprite {
     }
     
     public void drawRotated(Point position, Graphics2D g, int rotate) {
+        position = new Point(position);
         g.setFont(new Font("Monospaced", Font.PLAIN, 12));
         FontMetrics m = g.getFontMetrics();
         int baseX = position.x + 4;

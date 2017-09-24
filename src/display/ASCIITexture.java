@@ -8,7 +8,6 @@ package display;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.Random;
@@ -71,8 +70,6 @@ public class ASCIITexture {
         
         g.setColor(background);
         g.fill(shape);
-        g.setColor(Color.WHITE);
-        g.draw(shape);
         
         Rectangle bounds = shape.getBounds();
         
@@ -82,31 +79,34 @@ public class ASCIITexture {
         int border = 2, i = 0;
         
         String string = "";
-        int centerX = bounds.x + bounds.width/2, yi = 0;
+        int yi = 2;
         
         while(yi <= bounds.height) {
+            int leftX = bounds.x;
+            while (!shape.contains(new Rectangle(leftX, bounds.y + yi, 10, m.getHeight() + border)) && leftX < bounds.width + bounds.x) {
+                leftX++;
+            }
             i = 0;
-            while(shape.contains(new Rectangle(centerX - (m.stringWidth(string)/2 + border), bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
+            while(shape.contains(new Rectangle(leftX, bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
                 if (random) string += this.chars[randomGen.nextInt(this.chars.length)];
                 else string += this.chars[i % this.chars.length];
                 i++;
             }
             if (this.colors.length > 1) {
-                int xi = -(m.stringWidth(string)/2);
+                int xi = 0;
                 i = 0;
                 while (string.length() > 0) {
                     if (random) g.setColor(this.colors[randomGen.nextInt(this.colors.length)]);
                     else g.setColor(this.colors[i % this.colors.length]);
-                    g.drawString(string.substring(0, 1), centerX + xi, bounds.y + yi + m.getHeight());
+                    g.drawString(string.substring(0, 1), leftX + xi, bounds.y + yi + m.getHeight());
                     xi += m.stringWidth(string.substring(0, 1));
                     string = string.substring(1, string.length());
                     i++;
                 }
             } else {
                 g.setColor(this.colors[0]);
-                g.drawString(string, centerX - (m.stringWidth(string)/2), bounds.y + yi + m.getHeight());
+                g.drawString(string, leftX, bounds.y + yi + m.getHeight());
             }
-            
             string = "";
             yi += m.getHeight();
         }

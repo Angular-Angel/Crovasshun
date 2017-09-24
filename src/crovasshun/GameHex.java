@@ -13,12 +13,12 @@ import java.util.ArrayList;
  * @author angle
  */
 public class GameHex {
-    public final Terrain terrain;
+    public final TerrainType terrain;
     public final Point point;
     
     public ArrayList<Body> bodies;
     
-    public GameHex(Terrain terrain, Point point) {
+    public GameHex(TerrainType terrain, Point point) {
         this.point = point;
         this.terrain = terrain;
         bodies = new ArrayList<>();

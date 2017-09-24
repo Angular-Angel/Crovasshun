@@ -6,6 +6,9 @@
 package crovasshun;
 
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 
 /**
@@ -17,29 +20,22 @@ public class LocalArea {
     private int width;
     private int height;
     
-    private Terrain[][] terrain;
+    public ArrayList<Terrain> terrain;
     public ArrayList<Body> bodies;
     public ArrayList<LargeObject> objects;
     
     public LocalArea(int width, int height) {
         this.height = height;
         this.width = width;
-        terrain = new Terrain[width][height];
+        terrain = new ArrayList<>();
         bodies = new ArrayList<>();
         objects = new ArrayList<>();
     }
     
-    public LocalArea(int width, int height, Terrain t) {
+    public LocalArea(int width, int height, TerrainType t) {
         this(width, height);
-        setAll(t);
-    }
-    
-    public void setAll(Terrain t) {
-        for (int i = 0; i < terrain.length; i++) {
-            for (int j = 0; j < terrain[i].length; j++) {
-                terrain[i][j] = t;
-            }
-        }
+        
+        terrain.add(new Terrain(new Area(new Rectangle(width, height)), t));
     }
 
     /**
@@ -56,32 +52,28 @@ public class LocalArea {
         return height;
     }
     
-    public Terrain getTerrain(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
-        return terrain[x][y];
+    public void splitTerrain(Terrain t, Point point) {
+        Area newArea = new Area(t.area);
+        point.y -= t.area.getBounds().height;
+        t.area.subtract(new Area(new Rectangle(point.x, point.y, 
+                t.area.getBounds().width, t.area.getBounds().height*2)));
+        newArea.subtract(t.area);
+        Terrain newTerrain = new Terrain(newArea, t.type);
+        terrain.add(newTerrain);
     }
     
-    public Terrain getTerrain(Point point) {
-        return getTerrain(point.x, point.y);
-    }
-    
-    public GameHex getHex(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
-        GameHex hex = new GameHex(getTerrain(x, y), new Point(x, y));
-        for (Body b : bodies) {
-            if (b.position.equals(new Point(x, y)))
-                hex.bodies.add(b);
+    public void addTerrainObject(TerrainObject terrainObject) {
+        Rectangle bounds = terrainObject.getFootprint().getBounds();
+        Point point = bounds.getLocation();
+        point.x += bounds.width/2;
+        point.y += bounds.height/2;
+        for (int i = 0; i < terrain.size(); i++) {
+            Terrain t = terrain.get(i);
+            t.subtract(terrainObject);
+            if (!t.area.isSingular())
+                splitTerrain(t, point);
         }
-        return hex;
-    }
-    
-    public GameHex getHex(Point point) {
-        return getHex(point.x, point.y);
-    }
-    
-    public void setTerrain(int x, int y, Terrain terrain) {
-        if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
-        this.terrain[x][y] = terrain;
-    }
+        objects.add(terrainObject);
+    } 
     
 }

@@ -6,32 +6,50 @@
 package crovasshun;
 
 import display.ASCIITexture;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 
 /**
  *
  * @author angle
  */
-public class LargeObject {
-    public Shape shape;
+public class LargeObject implements Footprint {
+    private Shape shape;
     public final String name;
     public ASCIITexture texture;
-    public Point2D.Float position;
     
-    public LargeObject(String name, Shape shape, ASCIITexture texture, Point2D.Float position) {
+    public LargeObject(String name, Shape shape, ASCIITexture texture) {
         this.name = name;
         this.shape = shape;
         this.texture = texture;
-        this.position = position;
     }
     
-    public void draw(Point position, Graphics2D g) {
-        g.translate(position.x, position.y);
-        g.draw(shape);
+    public void draw(Graphics2D g) {
         texture.fillShape(shape, g);
+        g.setColor(Color.WHITE);
+        g.draw(shape);
+    }
+
+    @Override
+    public Shape getFootprint() {
+        return shape;
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(shape.getBounds().getLocation());
+    }
+
+    @Override
+    public Point getCenterPoint() {
+        Rectangle bounds = shape.getBounds();
+        Point point = getPosition();
+        point.x += bounds.width/2;
+        point.y += bounds.height/2;
+        return point;
     }
     
 }

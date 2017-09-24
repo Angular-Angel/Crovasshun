@@ -7,7 +7,7 @@ package display;
 
 import crovasshun.Body;
 import crovasshun.GameHex;
-import crovasshun.Terrain;
+import crovasshun.TerrainType;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -26,7 +26,6 @@ public class CombatPane extends JLayeredPane {
         super();
         
         LocalAreaScreen localAreaScreen = new LocalAreaScreen(this);
-        localAreaScreen.setHeight(80);
         add(localAreaScreen, new Integer(0));
         
         TextLogScreen textLog = new TextLogScreen();
@@ -34,7 +33,6 @@ public class CombatPane extends JLayeredPane {
         
         tileScreen = new Screen();
         tileScreen.setLayout(new FlowLayout());
-        //add(tileScreen, new Integer(1));
         
         //Add a listener to adjust the sizes of things when the window is resized.
         addComponentListener(new ComponentAdapter() {
@@ -42,7 +40,6 @@ public class CombatPane extends JLayeredPane {
             public void componentResized(ComponentEvent e) {
                 localAreaScreen.setSize(getWidth(), getHeight());
                 textLog.setBounds(10, getHeight()*3/4 +10, getWidth()-20, getHeight()/4 -20 );
-                //tileScreen.setBounds(getWidth()*5/6 -20, 10, getWidth()/6 -10, getHeight()/8);
                 tileScreen.setLocation(getWidth()*5/6 -20, 10);
             }
         });
