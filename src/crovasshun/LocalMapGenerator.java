@@ -104,7 +104,7 @@ public class LocalMapGenerator {
     public static LocalArea getObelisk(int width, int height) {
         LocalArea ret = new LocalArea(width, height, getTerrain("Grass"));
         
-        int i = width - 200, j = height/2 - 2;
+        int i = width - 800, j = height/2 - 20;
         
         int hexHeight = 100;                             // h = basic dimension: height (distance between two adj centresr aka size)
         int hexRadius = hexHeight/2;			// r = radius of inscribed circle
@@ -118,12 +118,14 @@ public class LocalMapGenerator {
         cy = new int[] {0,0,hexRadius,(2*hexRadius),(2*hexRadius),hexRadius};
         Polygon polygon = new Polygon(cx,cy,6);
         
+        polygon.translate(i, j);
+        
         char[] obeliskChars = new char[2];
         obeliskChars[0] = '-';
         obeliskChars[1] = '|';
         ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
         
-        TerrainObject terrainObject = new TerrainObject("Obelisk", polygon, asciiTexture, new Point(i, j));
+        TerrainObject terrainObject = new TerrainObject("Obelisk", polygon, asciiTexture);
         
         ret.addTerrainObject(terrainObject);
         

@@ -60,39 +60,24 @@ public class LocalArea {
         t.area.subtract(new Area(new Rectangle(point.x, point.y, 
                 t.area.getBounds().width, t.area.getBounds().height*2)));
         newArea.subtract(t.area);
-        //check the math behind this and make sure it's generally applicable.
-        newArea.transform(AffineTransform.getTranslateInstance(-point.x/2, 0));
-        Terrain newTerain = new Terrain(newArea, t.type);
-        System.out.println(newTerain.getPosition());
-        terrain.add(newTerain);
+        Terrain newTerrain = new Terrain(newArea, t.type);
+        System.out.println(newTerrain.getPosition());
+        terrain.add(newTerrain);
     }
     
     public void addTerrainObject(TerrainObject terrainObject) {
         Rectangle bounds = terrainObject.getFootprint().getBounds();
-        Point point = terrainObject.getPosition();
+        Point point = bounds.getLocation();
         point.x += bounds.width/2;
         point.y += bounds.height/2;
         for (int i = 0; i < terrain.size(); i++) {
             Terrain t = terrain.get(i);
             t.subtract(terrainObject);
+            System.out.println(t.getFootprint().getBounds());
             if (!t.area.isSingular())
                 splitTerrain(t, point);
         }
         objects.add(terrainObject);
     } 
-    
-    /*public GameHex getHex(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
-        GameHex hex = new GameHex(getTerrain(x, y), new Point(x, y));
-        for (Body b : bodies) {
-            if (b.position.equals(new Point(x, y)))
-                hex.bodies.add(b);
-        }
-        return hex;
-    }*/
-    
-    /*public GameHex getHex(Point point) {
-        return getHex(point.x, point.y);
-    }*/
     
 }

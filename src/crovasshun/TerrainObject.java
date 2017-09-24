@@ -15,8 +15,8 @@ import java.awt.Shape;
  */
 public class TerrainObject extends LargeObject {
     
-    public TerrainObject(String name, Shape shape, ASCIITexture texture, Point position) {
-        super(name, shape, texture, position);
+    public TerrainObject(String name, Shape shape, ASCIITexture texture) {
+        super(name, shape, texture);
     }
     
 }

@@ -27,19 +27,15 @@ public class Terrain implements Footprint {
     }
     
     public void draw(Graphics2D g) {
-        g.translate(area.getBounds().x, area.getBounds().y);
         type.appearance.fillShape(area, g);
         g.setColor(Color.WHITE);
         //g.draw(area);
-        g.translate(-area.getBounds().x, -area.getBounds().y);
     }
     
     public void subtract(Footprint footprint) {
         Shape shape = footprint.getFootprint();
         Area subArea = new Area(shape);
         Point footPos = footprint.getPosition();
-        //System.out.println(shape.);
-        subArea.transform(AffineTransform.getTranslateInstance(footPos.x, footPos.y));
         area.subtract(subArea);
     } 
 
