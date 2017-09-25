@@ -1,4 +1,8 @@
+implement info displays
+
 implement game loop
+
+implement command buttons
 
 implement moving bodies
 

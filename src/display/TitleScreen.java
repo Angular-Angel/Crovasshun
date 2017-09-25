@@ -6,9 +6,6 @@
 package display;
 
 import crovasshun.Game;
-import crovasshun.Game;
-import display.ASCIIButton;
-import display.Screen;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;

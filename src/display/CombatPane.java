@@ -6,12 +6,10 @@
 package display;
 
 import crovasshun.Body;
-import crovasshun.GameHex;
-import crovasshun.TerrainType;
+import crovasshun.GamePoint;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.BoxLayout;
 import javax.swing.JLayeredPane;
 
 /**
@@ -21,11 +19,12 @@ import javax.swing.JLayeredPane;
 public class CombatPane extends JLayeredPane {
     
     private Screen tileScreen;
+    private LocalAreaScreen localAreaScreen;
     
     public CombatPane() {
         super();
         
-        LocalAreaScreen localAreaScreen = new LocalAreaScreen(this);
+        localAreaScreen = new LocalAreaScreen(this);
         add(localAreaScreen, new Integer(0));
         
         TextLogScreen textLog = new TextLogScreen();
@@ -45,7 +44,7 @@ public class CombatPane extends JLayeredPane {
         });
     }
     
-    public void showTileReadout(GameHex hex) {
+    public void showTileReadout(GamePoint hex) {
         tileScreen.removeAll();
         
         TerrainScreen terrainScreen = new TerrainScreen(hex.terrain);

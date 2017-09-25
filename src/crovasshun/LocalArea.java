@@ -24,16 +24,16 @@ public class LocalArea {
     public ArrayList<Body> bodies;
     public ArrayList<LargeObject> objects;
     
-    public LocalArea(int width, int height) {
-        this.height = height;
-        this.width = width;
+    public LocalArea() {
+        width = 0;
+        height = 0;
         terrain = new ArrayList<>();
         bodies = new ArrayList<>();
         objects = new ArrayList<>();
     }
     
     public LocalArea(int width, int height, TerrainType t) {
-        this(width, height);
+        this();
         
         terrain.add(new Terrain(new Area(new Rectangle(width, height)), t));
     }
@@ -74,6 +74,11 @@ public class LocalArea {
                 splitTerrain(t, point);
         }
         objects.add(terrainObject);
-    } 
+    }
+    public void addTerrain(Terrain t) {
+        Rectangle bounds = t.getFootprint().getBounds();
+        if (bounds.x + bounds.width > width) width = bounds.x + bounds.width;
+        if (bounds.y + bounds.height > height) height = bounds.y + bounds.height;
+    }
     
 }

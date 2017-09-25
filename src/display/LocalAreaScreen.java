@@ -27,6 +27,7 @@ public class LocalAreaScreen extends Screen {
     private CombatPane combatPane;
     
     private LocalArea area;
+    private int panX, panY;
 
     public LocalAreaScreen(CombatPane combatPane) {
         this(15, combatPane);
@@ -37,15 +38,46 @@ public class LocalAreaScreen extends Screen {
         this.combatPane = combatPane;
         setFont(new Font("Monospaced", Font.PLAIN, 12));
         setBackground(Color.BLACK);
+        panX = 10;
+        panY = 10;
         
-        addMouseListener(new MouseAdapter() {
+        LocalAreaScreen localAreaScreen = this;
+        
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            
+            Point mousePoint = null;
+            
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
+                mousePoint = e.getPoint();
+            }
+            
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (mousePoint != null) {
+                    localAreaScreen.panX += e.getX() - mousePoint.x;
+                    localAreaScreen.panY += e.getY() - mousePoint.y;
+                    mousePoint = e.getPoint();
+                    localAreaScreen.repaint();
+                }
+            }
+            
+                
+            @Override
+            public void mouseMoved(MouseEvent e) {
                 
             }
-
             
-        });
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mousePoint = null;
+                    localAreaScreen.repaint();
+            }
+
+        };
+        
+        addMouseListener(mouseAdapter);
+        addMouseMotionListener(mouseAdapter);
         
         area = LocalMapGenerator.getObelisk(1600, 800);
         
@@ -55,7 +87,7 @@ public class LocalAreaScreen extends Screen {
                                                                                  "1_/|\\_O\n" +
                                                                                  "   |\n" +
                                                                                  "  / \\\n" +
-                                                                                 "  | |"),new Point(105, 150)));
+                                                                                 "  | |"),new Point(106, 150)));
     }
     
     @Override
@@ -64,7 +96,7 @@ public class LocalAreaScreen extends Screen {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g2);
         
-        g2.translate(10, 10);
+        g2.translate(panX, panY);
         
         for (Terrain t : area.terrain) {
             t.draw(g2);
