@@ -18,6 +18,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 
 /**
  *
@@ -43,7 +44,8 @@ public class LocalAreaScreen extends Screen {
         
         LocalAreaScreen localAreaScreen = this;
         
-        MouseAdapter mouseAdapter = new MouseAdapter() {
+        MouseAdapter mouseAdapter;
+        mouseAdapter = new MouseAdapter() {
             
             Point mousePoint = null;
             
@@ -65,13 +67,22 @@ public class LocalAreaScreen extends Screen {
                 
             @Override
             public void mouseMoved(MouseEvent e) {
-                
+                try { 
+                    Point point = e.getPoint();
+                    point.x -= panX;
+                    point.y -= panY;
+                    combatPane.showTileReadout(area.getDetails(point));
+                    
+                } catch (IllegalArgumentException ex) { 
+                    System.out.println(ex);
+                    combatPane.hideTileReadout(); 
+                }
             }
             
             @Override
             public void mouseReleased(MouseEvent e) {
                 mousePoint = null;
-                    localAreaScreen.repaint();
+                localAreaScreen.repaint();
             }
 
         };
@@ -87,7 +98,7 @@ public class LocalAreaScreen extends Screen {
                                                                                  "1_/|\\_O\n" +
                                                                                  "   |\n" +
                                                                                  "  / \\\n" +
-                                                                                 "  | |"),new Point(106, 150)));
+                                                                                 "  | |"), new Ellipse2D.Float(106, 150, 28, 36)));
     }
     
     @Override
@@ -102,13 +113,14 @@ public class LocalAreaScreen extends Screen {
             t.draw(g2);
         }
         
+        for (LargeObject l : area.objects) {
+            l.draw(g2);
+        }
+        
         for (Body b : area.bodies) {
             b.draw(g2);
         }
         
-        for (LargeObject l : area.objects) {
-            l.draw(g2);
-        }
     }
     
 }

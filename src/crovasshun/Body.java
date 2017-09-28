@@ -10,25 +10,23 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 /**
  *
  * @author angle
  */
-public class Body {
+public class Body implements Footprint {
     public final String name;
-    public Point position;
+    public final Shape shape;
     private ASCIISprite mapSprite, displaySprite;
     
-    public Body(String name, ASCIISprite mapsprite, ASCIISprite displaySprite) {
-        this(name, mapsprite, displaySprite, new Point(0, 0));
-    }
-    
-    public Body(String name, ASCIISprite mapsprite, ASCIISprite displaySprite, Point position) {
+    public Body(String name, ASCIISprite mapsprite, ASCIISprite displaySprite, Shape shape) {
         this.name = name;
         this.mapSprite = mapsprite;
         this.displaySprite = displaySprite;
-        this.position = position;
+        this.shape = shape;
     }
     
     public ASCIISprite getMapSprite() {
@@ -42,9 +40,26 @@ public class Body {
     public void draw(Graphics2D g) {
         g.setFont(new Font("Monospaced", Font.PLAIN, 12));
         FontMetrics m = g.getFontMetrics();
-        g.translate(m.stringWidth(" ") * mapSprite.getWidth()/2, m.getHeight() * mapSprite.getHeight()/2);
-        mapSprite.draw(position, g);
-        g.translate(-m.stringWidth(" ") * mapSprite.getWidth()/2, -m.getHeight() * mapSprite.getHeight()/2);
+        mapSprite.draw(getPosition(), g);
+    }
+
+    @Override
+    public Shape getFootprint() {
+        return shape;
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(shape.getBounds().getLocation());
+    }
+
+    @Override
+    public Point getCenterPoint() {
+        Rectangle bounds = shape.getBounds();
+        Point point = getPosition();
+        point.x += bounds.width/2;
+        point.y += bounds.height/2;
+        return point;
     }
     
     public class BodyPart {

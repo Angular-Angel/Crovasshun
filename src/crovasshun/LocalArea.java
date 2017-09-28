@@ -5,9 +5,12 @@
  */
 package crovasshun;
 
+import display.BodyScreen;
+import display.LargeObjectScreen;
+import display.Screen;
+import display.TerrainScreen;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
@@ -79,6 +82,53 @@ public class LocalArea {
         Rectangle bounds = t.getFootprint().getBounds();
         if (bounds.x + bounds.width > width) width = bounds.x + bounds.width;
         if (bounds.y + bounds.height > height) height = bounds.y + bounds.height;
+    }
+    
+    public Terrain getTerrain(int x, int y) {
+        for (Terrain t : terrain) {
+            if (t.area.contains(new Point(x, y)))
+                return t;
+        }
+        throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y);
+    }
+    
+    public Terrain getTerrain(Point point) {
+        return getTerrain(point.x, point.y);
+    }
+    
+    public GamePoint getPoint(int x, int y) { 
+        //if (x < 0 || x >= width || y < 0 || y >= height) throw new IllegalArgumentException("Bad X or Y value: " + x + ", " + y); 
+        GamePoint hex = new GamePoint(getTerrain(x, y).type, new Point(x, y)); 
+        for (Body b : bodies) { 
+            if (b.getFootprint().contains(new Point(x, y))) 
+                hex.bodies.add(b); 
+        } 
+        return hex; 
+    }
+     
+    public GamePoint getPoint(Point point) { 
+        return getPoint(point.x, point.y); 
+    }
+    
+    public ArrayList<Screen> getDetails(Point point) {
+        ArrayList<Screen> ret = new ArrayList<>();
+        try {
+            ret.add(new TerrainScreen(getTerrain(point).type));
+        } catch(IllegalArgumentException ex) {
+            
+        }
+        
+        for (Body b : bodies) { 
+            if (b.getFootprint().contains(point)) 
+                ret.add(new BodyScreen(b));
+        }
+        
+        for (LargeObject l : objects) { 
+            if (l.getFootprint().contains(point)) 
+                ret.add(new LargeObjectScreen(l));
+        }
+        
+        return ret;
     }
     
 }

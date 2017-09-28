@@ -18,9 +18,12 @@ public class GamePoint {
     
     public ArrayList<Body> bodies;
     
+    public ArrayList<LargeObject> objects;
+    
     public GamePoint(TerrainType terrain, Point point) {
         this.point = point;
         this.terrain = terrain;
         bodies = new ArrayList<>();
+        objects = new ArrayList<>();
     }
 }

@@ -10,6 +10,7 @@ import crovasshun.GamePoint;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 import javax.swing.JLayeredPane;
 
 /**
@@ -44,15 +45,16 @@ public class CombatPane extends JLayeredPane {
         });
     }
     
-    public void showTileReadout(GamePoint hex) {
+    public void showTileReadout(ArrayList<Screen> details) {
+        if (details.isEmpty()) {
+            hideTileReadout();
+            return;
+        }
+        
         tileScreen.removeAll();
         
-        TerrainScreen terrainScreen = new TerrainScreen(hex.terrain);
-        tileScreen.add(terrainScreen);
-        
-        for (Body b : hex.bodies) {
-            BodyScreen bodyScreen = new BodyScreen(b);
-            tileScreen.add(bodyScreen);
+        for (Screen s : details) {
+            tileScreen.add(s);
         }
         
         tileScreen.setSize(tileScreen.getPreferredSize());
@@ -60,8 +62,9 @@ public class CombatPane extends JLayeredPane {
         add(tileScreen, new Integer(1));
     }
     
-    public void hideTerrainReadout() {
+    public void hideTileReadout() {
         remove(tileScreen);
+        repaint();
     }
     
 }

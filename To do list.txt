@@ -1,5 +1,3 @@
-implement info displays
-
 implement game loop
 
 implement command buttons
@@ -10,7 +8,11 @@ implement obstacles.
 
 implement body stats
 
+implement items
+
 implement equipment
 
 implement melee attacks
+
+Implement A.I.
 
