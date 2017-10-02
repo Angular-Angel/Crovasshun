@@ -7,6 +7,7 @@ package display;
 
 import crovasshun.Body;
 import crovasshun.GamePoint;
+import crovasshun.Player;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -28,8 +29,8 @@ public class CombatPane extends JLayeredPane {
         localAreaScreen = new LocalAreaScreen(this);
         add(localAreaScreen, new Integer(0));
         
-        TextLogScreen textLog = new TextLogScreen();
-        add(textLog, new Integer(1));
+        CommandScreen commandScreen = new CommandScreen();
+        add(commandScreen, new Integer(1));
         
         tileScreen = new Screen();
         tileScreen.setLayout(new FlowLayout());
@@ -39,10 +40,11 @@ public class CombatPane extends JLayeredPane {
             @Override
             public void componentResized(ComponentEvent e) {
                 localAreaScreen.setSize(getWidth(), getHeight());
-                textLog.setBounds(10, getHeight()*3/4 +10, getWidth()-20, getHeight()/4 -20 );
+                commandScreen.setBounds(10, getHeight()*3/4 +10, getWidth()-20, getHeight()/4 -20 );
                 tileScreen.setLocation(getWidth()*5/6 -20, 10);
             }
         });
+        //setSize(getPreferredSize());
     }
     
     public void showTileReadout(ArrayList<Screen> details) {

@@ -1,6 +1,6 @@
-implement game loop
-
 implement command buttons
+
+implement game loop
 
 implement moving bodies
 
