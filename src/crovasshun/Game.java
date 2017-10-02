@@ -5,7 +5,7 @@
  */
 package crovasshun;
 
-import display.CombatPane;
+import display.CombatScreen;
 import display.TitleScreen;
 import display.ASCIIDisplay;
 import java.util.Random;
@@ -25,8 +25,8 @@ public class Game {
     }
     
     public void newGame() {
-        CombatPane combatPane = new CombatPane();
-        display.startScreen(combatPane);
+        CombatScreen combatScreen = new CombatScreen();
+        display.startScreen(combatScreen);
     }
     
     public void run() {

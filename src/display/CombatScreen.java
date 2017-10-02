@@ -8,43 +8,49 @@ package display;
 import crovasshun.Body;
 import crovasshun.GamePoint;
 import crovasshun.Player;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.JLayeredPane;
 
 /**
  *
  * @author angle
  */
-public class CombatPane extends JLayeredPane {
+public class CombatScreen extends Screen {
     
     private Screen tileScreen;
     private LocalAreaScreen localAreaScreen;
+    private JLayeredPane layeredPane;
     
-    public CombatPane() {
-        super();
+    public CombatScreen() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+        layeredPane = new JLayeredPane();
+        add(layeredPane);
         
         localAreaScreen = new LocalAreaScreen(this);
-        add(localAreaScreen, new Integer(0));
+        layeredPane.add(localAreaScreen, new Integer(0));
         
         CommandScreen commandScreen = new CommandScreen();
-        add(commandScreen, new Integer(1));
+        add(commandScreen);
         
         tileScreen = new Screen();
         tileScreen.setLayout(new FlowLayout());
-        
-        //Add a listener to adjust the sizes of things when the window is resized.
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                localAreaScreen.setSize(getWidth(), getHeight());
-                commandScreen.setBounds(10, getHeight()*3/4 +10, getWidth()-20, getHeight()/4 -20 );
-                tileScreen.setLocation(getWidth()*5/6 -20, 10);
-            }
-        });
-        //setSize(getPreferredSize());
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        layeredPane.setPreferredSize(new Dimension(getWidth(), getHeight() * 3/4));
+        localAreaScreen.setSize(layeredPane.getWidth(), layeredPane.getHeight());
+        tileScreen.setLocation(layeredPane.getWidth()*5/6 -20, 10);
+        revalidate();
+        super.paintComponent(g);
     }
     
     public void showTileReadout(ArrayList<Screen> details) {
@@ -60,12 +66,12 @@ public class CombatPane extends JLayeredPane {
         }
         
         tileScreen.setSize(tileScreen.getPreferredSize());
-        remove(tileScreen);
-        add(tileScreen, new Integer(1));
+        layeredPane.remove(tileScreen);
+        layeredPane.add(tileScreen, new Integer(1));
     }
     
     public void hideTileReadout() {
-        remove(tileScreen);
+        layeredPane.remove(tileScreen);
         repaint();
     }
     

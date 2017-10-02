@@ -25,16 +25,16 @@ import java.awt.geom.Ellipse2D;
  * @author angle
  */
 public class LocalAreaScreen extends Screen {
-    private CombatPane combatPane;
+    private CombatScreen combatPane;
     
     private LocalArea area;
     private int panX, panY;
 
-    public LocalAreaScreen(CombatPane combatPane) {
+    public LocalAreaScreen(CombatScreen combatPane) {
         this(15, combatPane);
     }
     
-    public LocalAreaScreen(int borderSize, CombatPane combatPane) {
+    public LocalAreaScreen(int borderSize, CombatScreen combatPane) {
         super();
         this.combatPane = combatPane;
         setFont(new Font("Monospaced", Font.PLAIN, 12));
