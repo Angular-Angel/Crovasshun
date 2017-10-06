@@ -6,14 +6,15 @@
 package display;
 
 import crovasshun.Body;
-import crovasshun.GamePoint;
-import crovasshun.Player;
+import crovasshun.CombatLoop;
+import crovasshun.LocalArea;
+import crovasshun.LocalMapGenerator;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLayeredPane;
@@ -27,8 +28,22 @@ public class CombatScreen extends Screen {
     private Screen tileScreen;
     private LocalAreaScreen localAreaScreen;
     private JLayeredPane layeredPane;
+    public LocalArea area;
+    private CombatLoop combatLoop;
     
     public CombatScreen() {
+        
+        combatLoop = new CombatLoop();
+        
+        area = LocalMapGenerator.getObelisk(1600, 800);
+        
+        area.bodies.add(new Body("Player", new ASCIISprite(new Color(30, 30, 30, 255), new Color(255, 182, 193), "_ |\n" +
+                                                                                                                 "-0-"), 
+                new ASCIISprite(new Color(0, 0, 0, 0), new Color(255, 182, 193), "   0\n" +
+                                                                                 "1_/|\\_O\n" +
+                                                                                 "   |\n" +
+                                                                                 "  / \\\n" +
+                                                                                 "  | |"), new Ellipse2D.Float(106, 150, 28, 36)));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
         layeredPane = new JLayeredPane();

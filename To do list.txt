@@ -1,10 +1,10 @@
-implement command buttons
-
 implement game loop
 
-implement moving bodies
+implement move command
 
-implement obstacles.
+implement collision checking
+
+implement obstacles
 
 implement body stats
 

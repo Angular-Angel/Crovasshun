@@ -7,8 +7,6 @@ package display;
 
 import crovasshun.Body;
 import crovasshun.LargeObject;
-import crovasshun.LocalArea;
-import crovasshun.LocalMapGenerator;
 import crovasshun.Terrain;
 import java.awt.Color;
 import java.awt.Font;
@@ -18,7 +16,6 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 
 /**
  *
@@ -27,7 +24,6 @@ import java.awt.geom.Ellipse2D;
 public class LocalAreaScreen extends Screen {
     private CombatScreen combatPane;
     
-    private LocalArea area;
     private int panX, panY;
 
     public LocalAreaScreen(CombatScreen combatPane) {
@@ -71,7 +67,7 @@ public class LocalAreaScreen extends Screen {
                     Point point = e.getPoint();
                     point.x -= panX;
                     point.y -= panY;
-                    combatPane.showTileReadout(area.getDetails(point));
+                    combatPane.showTileReadout(combatPane.area.getDetails(point));
                     
                 } catch (IllegalArgumentException ex) { 
                     System.out.println(ex);
@@ -90,15 +86,6 @@ public class LocalAreaScreen extends Screen {
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
         
-        area = LocalMapGenerator.getObelisk(1600, 800);
-        
-        area.bodies.add(new Body("Player", new ASCIISprite(new Color(30, 30, 30, 255), new Color(255, 182, 193), "_ |\n" +
-                                                                                                                 "-0-"), 
-                new ASCIISprite(new Color(0, 0, 0, 0), new Color(255, 182, 193), "   0\n" +
-                                                                                 "1_/|\\_O\n" +
-                                                                                 "   |\n" +
-                                                                                 "  / \\\n" +
-                                                                                 "  | |"), new Ellipse2D.Float(106, 150, 28, 36)));
     }
     
     @Override
@@ -109,15 +96,15 @@ public class LocalAreaScreen extends Screen {
         
         g2.translate(panX, panY);
         
-        for (Terrain t : area.terrain) {
+        for (Terrain t : combatPane.area.terrain) {
             t.draw(g2);
         }
         
-        for (LargeObject l : area.objects) {
+        for (LargeObject l : combatPane.area.objects) {
             l.draw(g2);
         }
         
-        for (Body b : area.bodies) {
+        for (Body b : combatPane.area.bodies) {
             b.draw(g2);
         }
         

@@ -26,10 +26,18 @@ public class CombatLoop {
     }
     
     public void loop() {
-        while(actors.get(currentActor).ready()) {
-            actors.get(currentActor).act();
-            currentActor++;
-            if (currentActor >= actors.size()) currentActor = 0;
+        while(true) {
+            if (actors.get(currentActor).ready()) {
+                actors.get(currentActor).act();
+                currentActor++;
+                if (currentActor >= actors.size()) currentActor = 0;
+            } else {
+                try {
+                    wait(10);
+                } catch (InterruptedException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
         }
     }
 }
