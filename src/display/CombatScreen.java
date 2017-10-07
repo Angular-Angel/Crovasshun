@@ -25,25 +25,22 @@ import javax.swing.JLayeredPane;
  */
 public class CombatScreen extends Screen {
     
-    private Screen tileScreen;
-    private LocalAreaScreen localAreaScreen;
-    private JLayeredPane layeredPane;
+    private final Screen tileScreen;
+    private final LocalAreaScreen localAreaScreen;
+    private final JLayeredPane layeredPane;
     public LocalArea area;
-    private CombatLoop combatLoop;
+    public final CombatLoop combatLoop;
     
-    public CombatScreen() {
+    public CombatScreen(LocalArea area) {
+        
+        this.area = area;
         
         combatLoop = new CombatLoop();
         
-        area = LocalMapGenerator.getObelisk(1600, 800);
+        for (Body b : area.bodies) {
+            combatLoop.addActor(b.getActor());
+        }
         
-        area.bodies.add(new Body("Player", new ASCIISprite(new Color(30, 30, 30, 255), new Color(255, 182, 193), "_ |\n" +
-                                                                                                                 "-0-"), 
-                new ASCIISprite(new Color(0, 0, 0, 0), new Color(255, 182, 193), "   0\n" +
-                                                                                 "1_/|\\_O\n" +
-                                                                                 "   |\n" +
-                                                                                 "  / \\\n" +
-                                                                                 "  | |"), new Ellipse2D.Float(106, 150, 28, 36)));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
         layeredPane = new JLayeredPane();
@@ -52,7 +49,7 @@ public class CombatScreen extends Screen {
         localAreaScreen = new LocalAreaScreen(this);
         layeredPane.add(localAreaScreen, new Integer(0));
         
-        CommandScreen commandScreen = new CommandScreen();
+        CommandScreen commandScreen = new CommandScreen(this);
         add(commandScreen);
         
         tileScreen = new Screen();
@@ -88,6 +85,11 @@ public class CombatScreen extends Screen {
     public void hideTileReadout() {
         layeredPane.remove(tileScreen);
         repaint();
+    }
+    
+    @Override
+    public void start() {
+        combatLoop.run();
     }
     
 }

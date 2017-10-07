@@ -22,7 +22,7 @@ import java.awt.event.MouseEvent;
  * @author angle
  */
 public class LocalAreaScreen extends Screen {
-    private CombatScreen combatPane;
+    private CombatScreen combatScreen;
     
     private int panX, panY;
 
@@ -32,7 +32,7 @@ public class LocalAreaScreen extends Screen {
     
     public LocalAreaScreen(int borderSize, CombatScreen combatPane) {
         super();
-        this.combatPane = combatPane;
+        this.combatScreen = combatPane;
         setFont(new Font("Monospaced", Font.PLAIN, 12));
         setBackground(Color.BLACK);
         panX = 10;
@@ -96,15 +96,15 @@ public class LocalAreaScreen extends Screen {
         
         g2.translate(panX, panY);
         
-        for (Terrain t : combatPane.area.terrain) {
+        for (Terrain t : combatScreen.area.terrain) {
             t.draw(g2);
         }
         
-        for (LargeObject l : combatPane.area.objects) {
+        for (LargeObject l : combatScreen.area.objects) {
             l.draw(g2);
         }
         
-        for (Body b : combatPane.area.bodies) {
+        for (Body b : combatScreen.area.bodies) {
             b.draw(g2);
         }
         

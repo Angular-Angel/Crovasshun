@@ -11,8 +11,6 @@ package crovasshun;
  */
 public interface Actor {
     
-    public boolean ready();
-    
-    public void act();
+    public void act(CombatLoop combatLoop);
     
 }

@@ -20,6 +20,7 @@ import java.awt.Shape;
 public class Body implements Footprint {
     public final String name;
     public final Shape shape;
+    private Actor actor;
     private ASCIISprite mapSprite, displaySprite;
     
     public Body(String name, ASCIISprite mapsprite, ASCIISprite displaySprite, Shape shape) {
@@ -60,6 +61,20 @@ public class Body implements Footprint {
         point.x += bounds.width/2;
         point.y += bounds.height/2;
         return point;
+    }
+
+    /**
+     * @return the actor
+     */
+    public Actor getActor() {
+        return actor;
+    }
+
+    /**
+     * @param actor the actor to set
+     */
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
     
     public class BodyPart {

@@ -11,10 +11,11 @@ import java.util.ArrayList;
  *
  * @author angle
  */
-public class CombatLoop {
+public class CombatLoop implements Runnable {
     
     private ArrayList<Actor> actors;
     int currentActor;
+    public Player player;
     
     public CombatLoop() {
         actors = new ArrayList<>();
@@ -25,19 +26,11 @@ public class CombatLoop {
         actors.add(actor);
     }
     
-    public void loop() {
+    public void run() {
         while(true) {
-            if (actors.get(currentActor).ready()) {
-                actors.get(currentActor).act();
-                currentActor++;
-                if (currentActor >= actors.size()) currentActor = 0;
-            } else {
-                try {
-                    wait(10);
-                } catch (InterruptedException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
+            actors.get(currentActor).act(this);
+            currentActor++;
+            if (currentActor >= actors.size()) currentActor = 0;
         }
     }
 }

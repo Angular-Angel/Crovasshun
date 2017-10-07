@@ -29,12 +29,13 @@ public class ASCIIDisplay extends JFrame {
         
     }
     
-    public void startScreen(JComponent screen) {
+    public void startScreen(Screen screen) {
         if (this.screen != null) {
             remove(this.screen);
         }
         add(screen);
         this.screen = screen;
         revalidate();
+        screen.start();
     }
 }

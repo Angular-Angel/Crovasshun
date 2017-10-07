@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  * @author angle
  */
 public class TitleScreen extends Screen {
-    public Game game;
+    public final Game game;
     
     public TitleScreen(Game game) {
         super();
@@ -40,7 +40,7 @@ public class TitleScreen extends Screen {
         button.setAction(new AbstractAction("NEW GAME") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                game.newGame();
+                game.startGame = true;
             }
         });
         invisiblePanel.add(button);

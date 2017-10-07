@@ -6,6 +6,8 @@
 package crovasshun;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,20 +15,32 @@ import java.util.ArrayList;
  */
 public class Player implements Actor {
     
+    private Body body;
+    
     public final ArrayList<BodyAction> actions;
     
-    public Player() {
+    public Player(Body body) {
+        this.body = body;
         actions = new ArrayList<>();
     }
 
-    @Override
     public boolean ready() {
-        return false;
+        return actions.size() > 0;
     }
 
     @Override
-    public void act() {
+    public synchronized void act(CombatLoop combatLoop) {
         
+        combatLoop.player = this;
+        try {
+            while(!ready())
+                wait(100);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        actions.get(0).perform(body);
+        actions.remove(0);
     }
     
 }

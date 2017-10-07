@@ -36,4 +36,8 @@ public class Screen extends JPanel {
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
     }
     
+    public void start() {
+        
+    }
+    
 }

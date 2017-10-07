@@ -5,6 +5,7 @@
  */
 package display;
 
+import crovasshun.MoveAction;
 import crovasshun.Player;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,11 +22,14 @@ import javax.swing.JPanel;
  */
 public class CommandScreen extends Screen {
     
-    private TextLogScreen textLog;
+    private final TextLogScreen textLog;
+    private final CombatScreen combatScreen;
     
-    public CommandScreen() {
+    public CommandScreen(CombatScreen combatScreen) {
         
         super();
+        
+        this.combatScreen = combatScreen;
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
@@ -41,7 +45,7 @@ public class CommandScreen extends Screen {
         button.setAction(new AbstractAction("Move") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                combatScreen.combatLoop.player.actions.add(new MoveAction());
             }
         });
         invisiblePanel.add(button);
