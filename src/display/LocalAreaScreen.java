@@ -26,7 +26,7 @@ public class LocalAreaScreen extends Screen {
     
     public int panX, panY;
     
-    public MouseAdapter mouseMode;
+    public ControlMode controlMode;
 
     public LocalAreaScreen(CombatScreen combatScreen) {
         this(15, combatScreen);
@@ -58,19 +58,17 @@ public class LocalAreaScreen extends Screen {
             }
         });
         
-        setMouseMode(new MousePanning(this));
+        setControlMode(new MousePanning());
     }
     
-    public void setMouseMode(MouseAdapter mouseAdapter) {
-        if (mouseMode != null) {
-            removeMouseListener(mouseMode);
-            removeMouseMotionListener(mouseMode);
+    public void setControlMode(ControlMode controlMode) {
+        if (this.controlMode != null) {
+            this.controlMode.end();
         }
         
-        mouseMode = mouseAdapter;
+        this.controlMode = controlMode;
         
-        addMouseListener(mouseMode);
-        addMouseMotionListener(mouseMode);
+        controlMode.init(combatScreen);
     }
     
     @Override

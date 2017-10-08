@@ -13,13 +13,12 @@ import java.awt.event.MouseEvent;
  *
  * @author angle
  */
-public class MousePanning extends MouseAdapter {
+public class MousePanning extends MouseAdapter implements ControlMode {
             
     Point mousePoint = null;
     private LocalAreaScreen localAreaScreen;
 
-    public MousePanning(LocalAreaScreen localAreaScreen) {
-        this.localAreaScreen = localAreaScreen;
+    public MousePanning() {
     }
     
     @Override
@@ -41,6 +40,19 @@ public class MousePanning extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         mousePoint = null;
         localAreaScreen.repaint();
+    }
+
+    @Override
+    public void init(CombatScreen combatScreen) {
+        this.localAreaScreen = combatScreen.localAreaScreen;
+        localAreaScreen.addMouseListener(this);
+        localAreaScreen.addMouseMotionListener(this);
+    }
+
+    @Override
+    public void end() {
+        localAreaScreen.removeMouseListener(this);
+        localAreaScreen.removeMouseMotionListener(this);
     }
 
 };

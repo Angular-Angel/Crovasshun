@@ -22,7 +22,7 @@ import javax.swing.JLayeredPane;
 public class CombatScreen extends Screen {
     
     private final Screen tileScreen;
-    private final LocalAreaScreen localAreaScreen;
+    public final LocalAreaScreen localAreaScreen;
     private final JLayeredPane layeredPane;
     public LocalArea area;
     public final CombatLoop combatLoop;
