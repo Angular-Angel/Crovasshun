@@ -34,7 +34,7 @@ public class Player implements Actor {
         combatLoop.player = this;
         try {
             while(!ready())
-                wait(100);
+                wait(10);
         } catch (InterruptedException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }

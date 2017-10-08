@@ -22,70 +22,37 @@ import java.awt.event.MouseEvent;
  * @author angle
  */
 public class LocalAreaScreen extends Screen {
-    private CombatScreen combatScreen;
+    public CombatScreen combatScreen;
     
-    private int panX, panY;
+    public int panX, panY;
+    
+    public MouseAdapter mouseMode;
 
-    public LocalAreaScreen(CombatScreen combatPane) {
-        this(15, combatPane);
+    public LocalAreaScreen(CombatScreen combatScreen) {
+        this(15, combatScreen);
     }
     
-    public LocalAreaScreen(int borderSize, CombatScreen combatPane) {
+    public LocalAreaScreen(int borderSize, CombatScreen combatScreen) {
         super();
-        this.combatScreen = combatPane;
+        this.combatScreen = combatScreen;
         setFont(new Font("Monospaced", Font.PLAIN, 12));
         setBackground(Color.BLACK);
         panX = 10;
         panY = 10;
         
-        LocalAreaScreen localAreaScreen = this;
+        setMouseMode(new MousePanning(this));
+    }
+    
+    public void setMouseMode(MouseAdapter mouseAdapter) {
+        if (mouseMode != null) {
+            removeMouseListener(mouseMode);
+            removeMouseMotionListener(mouseMode);
+        }
         
-        MouseAdapter mouseAdapter;
-        mouseAdapter = new MouseAdapter() {
-            
-            Point mousePoint = null;
-            
-            @Override
-            public void mousePressed(MouseEvent e) {
-                mousePoint = e.getPoint();
-            }
-            
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (mousePoint != null) {
-                    localAreaScreen.panX += e.getX() - mousePoint.x;
-                    localAreaScreen.panY += e.getY() - mousePoint.y;
-                    mousePoint = e.getPoint();
-                    localAreaScreen.repaint();
-                }
-            }
-            
-                
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                try { 
-                    Point point = e.getPoint();
-                    point.x -= panX;
-                    point.y -= panY;
-                    combatPane.showTileReadout(combatPane.area.getDetails(point));
-                    
-                } catch (IllegalArgumentException ex) { 
-                    System.out.println(ex);
-                    combatPane.hideTileReadout(); 
-                }
-            }
-            
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                mousePoint = null;
-                localAreaScreen.repaint();
-            }
-
-        };
+        mouseMode = mouseAdapter;
         
-        addMouseListener(mouseAdapter);
-        addMouseMotionListener(mouseAdapter);
-        
+        addMouseListener(mouseMode);
+        addMouseMotionListener(mouseMode);
     }
     
     @Override

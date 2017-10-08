@@ -6,10 +6,8 @@
 package display;
 
 import crovasshun.MoveAction;
-import crovasshun.Player;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
