@@ -37,21 +37,6 @@ public class MousePanning extends MouseAdapter {
         }
     }
 
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        try { 
-            Point point = e.getPoint();
-            point.x -= localAreaScreen.panX;
-            point.y -= localAreaScreen.panY;
-            localAreaScreen.combatScreen.showTileReadout(localAreaScreen.combatScreen.area.getDetails(point));
-
-        } catch (IllegalArgumentException ex) { 
-            System.out.println(ex);
-            localAreaScreen.combatScreen.hideTileReadout(); 
-        }
-    }
-
     @Override
     public void mouseReleased(MouseEvent e) {
         mousePoint = null;

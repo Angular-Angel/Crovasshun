@@ -1,6 +1,6 @@
-implement game loop
-
 implement move command
+
+implement tracking actual sizes of objects.
 
 implement collision checking
 

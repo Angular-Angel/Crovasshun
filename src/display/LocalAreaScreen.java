@@ -40,6 +40,24 @@ public class LocalAreaScreen extends Screen {
         panX = 10;
         panY = 10;
         
+        LocalAreaScreen localAreaScreen = this;
+        
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                try { 
+                    Point point = e.getPoint();
+                    point.x -= localAreaScreen.panX;
+                    point.y -= localAreaScreen.panY;
+                    localAreaScreen.combatScreen.showTileReadout(localAreaScreen.combatScreen.area.getDetails(point));
+
+                } catch (IllegalArgumentException ex) { 
+                    System.out.println(ex);
+                    localAreaScreen.combatScreen.hideTileReadout(); 
+                }
+            }
+        });
+        
         setMouseMode(new MousePanning(this));
     }
     
