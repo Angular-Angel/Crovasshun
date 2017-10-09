@@ -2,6 +2,8 @@ implement move command
 
 implement tracking actual sizes of objects.
 
+implement separation between actual objects and visible representations.
+
 implement collision checking
 
 implement obstacles

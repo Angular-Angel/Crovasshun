@@ -78,10 +78,23 @@ public class LocalArea {
         }
         objects.add(terrainObject);
     }
+    
     public void addTerrain(Terrain t) {
         Rectangle bounds = t.getFootprint().getBounds();
         if (bounds.x + bounds.width > width) width = bounds.x + bounds.width;
         if (bounds.y + bounds.height > height) height = bounds.y + bounds.height;
+    }
+    
+    public boolean hasTerrain(int x, int y) {
+        for (Terrain t : terrain) {
+            if (t.area.contains(new Point(x, y)))
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean hasTerrain(Point point) {
+        return hasTerrain(point.x, point.y);
     }
     
     public Terrain getTerrain(int x, int y) {

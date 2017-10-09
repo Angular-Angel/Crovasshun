@@ -43,7 +43,7 @@ public class CommandScreen extends Screen {
         button.setAction(new AbstractAction("Move") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                combatScreen.combatLoop.player.actions.add(new MoveAction());
+                combatScreen.localAreaScreen.setControlMode(new MouseMovePlotting());
             }
         });
         invisiblePanel.add(button);
