@@ -11,6 +11,9 @@ import crovasshun.LocalArea;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLayeredPane;
@@ -43,6 +46,25 @@ public class CombatScreen extends Screen {
         add(layeredPane);
         
         localAreaScreen = new LocalAreaScreen(this);
+        
+        CombatScreen combatScreen = this;
+        
+        localAreaScreen.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                try { 
+                    Point point = e.getPoint();
+                    point.x -= localAreaScreen.panX;
+                    point.y -= localAreaScreen.panY;
+                    combatScreen.showTileReadout(combatScreen.area.getDetails(point));
+                } catch (IllegalArgumentException ex) { 
+                    System.out.println(ex);
+                    combatScreen.hideTileReadout(); 
+                }
+            }
+        });
+        
+        localAreaScreen.setControlMode(new MousePanning());
         layeredPane.add(localAreaScreen, new Integer(0));
         
         CommandScreen commandScreen = new CommandScreen(this);

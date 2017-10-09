@@ -16,6 +16,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,6 +28,8 @@ public class LocalAreaScreen extends Screen {
     public int panX, panY;
     
     public ControlMode controlMode;
+    
+    public ArrayList<Drawable> drawables;
 
     public LocalAreaScreen(CombatScreen combatScreen) {
         this(15, combatScreen);
@@ -39,26 +42,7 @@ public class LocalAreaScreen extends Screen {
         setBackground(Color.BLACK);
         panX = 10;
         panY = 10;
-        
-        LocalAreaScreen localAreaScreen = this;
-        
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                try { 
-                    Point point = e.getPoint();
-                    point.x -= localAreaScreen.panX;
-                    point.y -= localAreaScreen.panY;
-                    localAreaScreen.combatScreen.showTileReadout(localAreaScreen.combatScreen.area.getDetails(point));
-
-                } catch (IllegalArgumentException ex) { 
-                    System.out.println(ex);
-                    localAreaScreen.combatScreen.hideTileReadout(); 
-                }
-            }
-        });
-        
-        setControlMode(new MousePanning());
+        drawables = new ArrayList<>();
     }
     
     public void setControlMode(ControlMode controlMode) {
@@ -90,6 +74,8 @@ public class LocalAreaScreen extends Screen {
             b.draw(g2);
         }
         
+        for (Drawable d : drawables) {
+            d.draw(g2);
+        }
     }
-    
 }

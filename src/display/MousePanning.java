@@ -15,12 +15,9 @@ import java.awt.event.MouseEvent;
  */
 public class MousePanning extends MouseAdapter implements ControlMode {
             
-    Point mousePoint = null;
+    Point mousePoint;
     private LocalAreaScreen localAreaScreen;
 
-    public MousePanning() {
-    }
-    
     @Override
     public void mousePressed(MouseEvent e) {
         mousePoint = e.getPoint();
