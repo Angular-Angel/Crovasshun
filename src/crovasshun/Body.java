@@ -6,6 +6,7 @@
 package crovasshun;
 
 import display.ASCIISprite;
+import display.Drawable;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -17,7 +18,7 @@ import java.awt.Shape;
  *
  * @author angle
  */
-public class Body implements Footprint {
+public class Body implements Footprint, Drawable {
     public final String name;
     public final Shape shape;
     private Actor actor;
@@ -38,6 +39,7 @@ public class Body implements Footprint {
         return displaySprite;
     }
     
+    @Override
     public void draw(Graphics2D g) {
         g.setFont(new Font("Monospaced", Font.PLAIN, 12));
         FontMetrics m = g.getFontMetrics();

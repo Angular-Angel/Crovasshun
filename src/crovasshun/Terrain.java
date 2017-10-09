@@ -5,6 +5,7 @@
  */
 package crovasshun;
 
+import display.Drawable;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -16,7 +17,7 @@ import java.awt.geom.Area;
  *
  * @author angle
  */
-public class Terrain implements Footprint {
+public class Terrain implements Footprint, Drawable {
     public final Area area;
     public final TerrainType type;
     
@@ -25,6 +26,7 @@ public class Terrain implements Footprint {
         this.type = type;
     }
     
+    @Override
     public void draw(Graphics2D g) {
         type.appearance.fillShape(area, g);
         g.setColor(Color.WHITE);

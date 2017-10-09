@@ -6,6 +6,7 @@
 package crovasshun;
 
 import display.ASCIITexture;
+import display.Drawable;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -16,7 +17,7 @@ import java.awt.Shape;
  *
  * @author angle
  */
-public class LargeObject implements Footprint {
+public class LargeObject implements Footprint, Drawable {
     private Shape shape;
     public final String name;
     public ASCIITexture texture;
@@ -27,6 +28,7 @@ public class LargeObject implements Footprint {
         this.texture = texture;
     }
     
+    @Override
     public void draw(Graphics2D g) {
         texture.fillShape(shape, g);
         g.setColor(Color.WHITE);
