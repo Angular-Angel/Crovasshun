@@ -43,7 +43,7 @@ public class CommandScreen extends Screen {
         button.setAction(new AbstractAction("Move") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                combatScreen.localAreaScreen.setControlMode(new MouseMovePlotting());
+                combatScreen.localAreaScreen.addControlMode(new MouseMovePlotting());
             }
         });
         invisiblePanel.add(button);
@@ -51,9 +51,6 @@ public class CommandScreen extends Screen {
         textLog = new TextLogScreen();
         
         add(textLog);
-        
-        
-        
     }
     
 }

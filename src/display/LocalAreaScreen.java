@@ -27,8 +27,6 @@ public class LocalAreaScreen extends Screen {
     
     public int panX, panY;
     
-    public ControlMode controlMode;
-    
     public ArrayList<Drawable> drawables;
 
     public LocalAreaScreen(CombatScreen combatScreen) {
@@ -45,14 +43,12 @@ public class LocalAreaScreen extends Screen {
         drawables = new ArrayList<>();
     }
     
-    public void setControlMode(ControlMode controlMode) {
-        if (this.controlMode != null) {
-            this.controlMode.end();
-        }
-        
-        this.controlMode = controlMode;
-        
+    public void addControlMode(ControlMode controlMode) {
         controlMode.init(combatScreen);
+    }
+    
+    public void removeControlMode(ControlMode controlMode) {
+        controlMode.end();
     }
     
     @Override

@@ -64,7 +64,7 @@ public class CombatScreen extends Screen {
             }
         });
         
-        localAreaScreen.setControlMode(new MousePanning());
+        localAreaScreen.addControlMode(new MousePanning());
         layeredPane.add(localAreaScreen, new Integer(0));
         
         CommandScreen commandScreen = new CommandScreen(this);

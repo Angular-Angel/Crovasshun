@@ -1,5 +1,9 @@
 implement move command
 
+implement proper synced timestep
+
+implement proper sidescreen panning.
+
 implement tracking actual sizes of objects.
 
 implement separation between actual objects and visible representations.
