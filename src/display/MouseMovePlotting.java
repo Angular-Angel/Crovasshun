@@ -20,6 +20,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
     private CombatScreen combatScreen;
     private LocalAreaScreen localAreaScreen;
     private Pointer mousePointer;
+    private DisplayLine pointerLine;
     private MovePath movePath;
     private boolean showingPointer;
 
@@ -36,6 +37,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
             point.y -= localAreaScreen.panY;
             if (combatScreen.area.hasTerrain(point)) {
                 movePath.addPoint(new Pointer(point));
+                pointerLine.start = point;
             }
         }
     }
@@ -48,6 +50,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
             point.y -= localAreaScreen.panY;
             
             movePath.removePoint(point);
+            pointerLine.start = movePath.getEnd();
         }
     }
 
@@ -59,12 +62,14 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         if (combatScreen.area.hasTerrain(point)) {
             if (!showingPointer) {
                 localAreaScreen.drawables.add(mousePointer);
+                localAreaScreen.drawables.add(pointerLine);
                 showingPointer = true;
             }
             mousePointer.point.setLocation(point);
             localAreaScreen.repaint();
         } else if (showingPointer) {
             localAreaScreen.drawables.remove(mousePointer);
+            localAreaScreen.drawables.remove(pointerLine);
             showingPointer = false;
             localAreaScreen.repaint();
         }
@@ -74,6 +79,8 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
     public void mouseExited(MouseEvent e) {
         if (showingPointer) {
             localAreaScreen.drawables.remove(mousePointer);
+            localAreaScreen.drawables.remove(pointerLine);
+            System.out.println(localAreaScreen.drawables);
             showingPointer = false;
             localAreaScreen.repaint();
         }
@@ -88,6 +95,8 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         
         this.movePath =  new MovePath(combatScreen.combatLoop.player.body.getCenterPoint());
         localAreaScreen.drawables.add(movePath);
+        this.pointerLine = new DisplayLine(movePath.getEnd(), mousePointer.point);
+        localAreaScreen.drawables.add(pointerLine);
     }
 
     @Override
@@ -96,6 +105,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         localAreaScreen.removeMouseMotionListener(this);
         if (showingPointer) {
             localAreaScreen.drawables.remove(mousePointer);
+            localAreaScreen.drawables.remove(pointerLine);
             showingPointer = false;
         }
     }

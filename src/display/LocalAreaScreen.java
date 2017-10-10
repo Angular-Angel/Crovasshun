@@ -17,6 +17,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
@@ -27,7 +28,7 @@ public class LocalAreaScreen extends Screen {
     
     public int panX, panY;
     
-    public ArrayList<Drawable> drawables;
+    public HashSet<Drawable> drawables;
 
     public LocalAreaScreen(CombatScreen combatScreen) {
         this(15, combatScreen);
@@ -40,7 +41,7 @@ public class LocalAreaScreen extends Screen {
         setBackground(Color.BLACK);
         panX = 10;
         panY = 10;
-        drawables = new ArrayList<>();
+        drawables = new HashSet<>();
     }
     
     public void addControlMode(ControlMode controlMode) {

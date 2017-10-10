@@ -71,6 +71,12 @@ public class MovePath implements Drawable {
         }
     }
     
+    public Point getEnd() {
+        if (pointers.size() > 0)
+            return pointers.get(pointers.size() - 1).point;
+        else return startPoint;
+    }
+    
     @Override
     public void draw(Graphics2D g) {
         for (DisplayLine line: lines)
