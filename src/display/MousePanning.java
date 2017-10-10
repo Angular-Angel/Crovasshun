@@ -20,7 +20,8 @@ public class MousePanning extends MouseAdapter implements ControlMode {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mousePoint = e.getPoint();
+        if (e.getButton() == 1)
+            mousePoint = e.getPoint();
     }
 
     @Override
