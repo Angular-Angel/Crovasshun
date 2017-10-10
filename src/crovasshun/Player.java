@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class Player implements Actor {
     
-    private Body body;
+    public Body body;
     
     public final ArrayList<BodyAction> actions;
     

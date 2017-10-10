@@ -20,12 +20,11 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
     private CombatScreen combatScreen;
     private LocalAreaScreen localAreaScreen;
     private Pointer mousePointer;
-    public ArrayList<Pointer> pointers;
+    private MovePath movePath;
     private boolean showingPointer;
 
     public MouseMovePlotting() {
         this.mousePointer = new Pointer(new Point());
-        this.pointers =  new ArrayList<>();
         showingPointer = false;
     }
     
@@ -36,34 +35,19 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
             point.x -= localAreaScreen.panX;
             point.y -= localAreaScreen.panY;
             if (combatScreen.area.hasTerrain(point)) {
-                Pointer pointer = new Pointer(point);
-                pointers.add(pointer);
-                localAreaScreen.drawables.add(pointer);
+                movePath.addPoint(new Pointer(point));
             }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getButton() == 3 && pointers.size() > 0) {
+        if (e.getButton() == 3) {
             Point point = e.getPoint();
             point.x -= localAreaScreen.panX;
             point.y -= localAreaScreen.panY;
             
-            Pointer pointer = null;
-            
-            double distance = 75;
-            
-            for (Pointer curPointer : pointers) {
-                if (curPointer.point.distance(point) < distance) {
-                    pointer = curPointer;
-                    distance = curPointer.point.distance(point);
-                }
-            }
-            
-            pointers.remove(pointer);
-            localAreaScreen.drawables.remove(pointer);
-            localAreaScreen.repaint();
+            movePath.removePoint(point);
         }
     }
 
@@ -101,6 +85,9 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         this.localAreaScreen = combatScreen.localAreaScreen;
         localAreaScreen.addMouseListener(this);
         localAreaScreen.addMouseMotionListener(this);
+        
+        this.movePath =  new MovePath(combatScreen.combatLoop.player.body.getCenterPoint());
+        localAreaScreen.drawables.add(movePath);
     }
 
     @Override
