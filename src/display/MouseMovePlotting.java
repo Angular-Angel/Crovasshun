@@ -111,11 +111,13 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         button.setAction(new AbstractAction("Move") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MoveAction moveAction = new MoveAction();
-                for (Pointer pointer : movePath.pointers) {
-                    moveAction.addPoint(pointer.point);
+                if (movePath.pointers.size() > 0) {
+                    MoveAction moveAction = new MoveAction();
+                    for (Pointer pointer : movePath.pointers) {
+                        moveAction.addPoint(pointer.point);
+                    }
+                    combatScreen.combatLoop.player.addAction(moveAction);
                 }
-                combatScreen.combatLoop.player.addAction(moveAction);
                 self.end();
             }
         });

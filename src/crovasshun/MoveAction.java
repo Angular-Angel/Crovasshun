@@ -31,7 +31,8 @@ public class MoveAction implements BodyAction {
 
     @Override
     public void perform(Body body) {
-        body.setPosition(points.get(points.size() - 1));
+        if (points.size() > 0)
+            body.setPosition(points.get(points.size() - 1));
     }
 
     @Override

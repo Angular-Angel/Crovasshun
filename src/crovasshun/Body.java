@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 
 /**
  *
@@ -20,7 +21,7 @@ import java.awt.Shape;
  */
 public class Body implements Footprint, Drawable {
     public final String name;
-    public final Shape shape;
+    public Shape shape;
     private Actor actor;
     private ASCIISprite mapSprite, displaySprite;
     
@@ -54,6 +55,14 @@ public class Body implements Footprint, Drawable {
     @Override
     public Point getPosition() {
         return new Point(shape.getBounds().getLocation());
+    }
+    
+    public void setPosition(Point point) {
+        Point position = getCenterPoint();
+        int x = point.x - position.x;
+        int y = point.y - position.y;
+        AffineTransform translateInstance = AffineTransform.getTranslateInstance(x, y);
+        shape = translateInstance.createTransformedShape(shape);
     }
 
     @Override
