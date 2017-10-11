@@ -17,7 +17,7 @@ public class Player implements Actor {
     
     public Body body;
     
-    public final ArrayList<BodyAction> actions;
+    private final ArrayList<BodyAction> actions;
     
     public Player(Body body) {
         this.body = body;
@@ -26,6 +26,10 @@ public class Player implements Actor {
 
     public boolean ready() {
         return actions.size() > 0;
+    }
+    
+    public void addAction(BodyAction action) {
+        actions.add(action);
     }
 
     @Override

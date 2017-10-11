@@ -5,11 +5,15 @@
  */
 package display;
 
+import crovasshun.MoveAction;
+import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.AbstractAction;
 
 /**
  *
@@ -80,7 +84,6 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         if (showingPointer) {
             localAreaScreen.drawables.remove(mousePointer);
             localAreaScreen.drawables.remove(pointerLine);
-            System.out.println(localAreaScreen.drawables);
             showingPointer = false;
             localAreaScreen.repaint();
         }
@@ -97,16 +100,51 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         localAreaScreen.drawables.add(movePath);
         this.pointerLine = new DisplayLine(movePath.getEnd(), mousePointer.point);
         localAreaScreen.drawables.add(pointerLine);
+        
+        MouseMovePlotting self = this;
+        
+        ButtonScreen buttonScreen = new ButtonScreen();
+        
+        //adds the buttons.
+        ASCIIButton button = new ASCIIButton("Move");
+        button.setAlignmentY(Component.CENTER_ALIGNMENT);
+        button.setAction(new AbstractAction("Move") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MoveAction moveAction = new MoveAction();
+                for (Pointer pointer : movePath.pointers) {
+                    moveAction.addPoint(pointer.point);
+                }
+                combatScreen.combatLoop.player.addAction(moveAction);
+                self.end();
+            }
+        });
+        buttonScreen.add(button);
+        
+        button = new ASCIIButton("Cancel");
+        button.setAlignmentY(Component.CENTER_ALIGNMENT);
+        button.setAction(new AbstractAction("Cancel") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                self.end();
+            }
+        });
+        buttonScreen.add(button);
+        
+        combatScreen.commandScreen.pushButtonScreen(buttonScreen);
     }
 
     @Override
     public void end() {
         localAreaScreen.removeMouseListener(this);
         localAreaScreen.removeMouseMotionListener(this);
+        localAreaScreen.drawables.remove(movePath);
+        combatScreen.commandScreen.popButtonScreen();
         if (showingPointer) {
             localAreaScreen.drawables.remove(mousePointer);
             localAreaScreen.drawables.remove(pointerLine);
             showingPointer = false;
         }
+        localAreaScreen.repaint();
     }
 }

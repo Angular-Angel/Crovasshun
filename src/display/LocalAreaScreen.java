@@ -44,14 +44,6 @@ public class LocalAreaScreen extends Screen {
         drawables = new HashSet<>();
     }
     
-    public void addControlMode(ControlMode controlMode) {
-        controlMode.init(combatScreen);
-    }
-    
-    public void removeControlMode(ControlMode controlMode) {
-        controlMode.end();
-    }
-    
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;

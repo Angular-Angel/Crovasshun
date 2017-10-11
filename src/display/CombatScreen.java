@@ -26,6 +26,7 @@ public class CombatScreen extends Screen {
     
     private final Screen tileScreen;
     public final LocalAreaScreen localAreaScreen;
+    public final CommandScreen commandScreen;
     private final JLayeredPane layeredPane;
     public LocalArea area;
     public final CombatLoop combatLoop;
@@ -64,10 +65,10 @@ public class CombatScreen extends Screen {
             }
         });
         
-        localAreaScreen.addControlMode(new MousePanning());
+        new MousePanning().init(combatScreen);
         layeredPane.add(localAreaScreen, new Integer(0));
         
-        CommandScreen commandScreen = new CommandScreen(this);
+        commandScreen = new CommandScreen(this);
         add(commandScreen);
         
         tileScreen = new Screen();
