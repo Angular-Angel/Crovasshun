@@ -142,11 +142,9 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         localAreaScreen.removeMouseMotionListener(this);
         localAreaScreen.drawables.remove(movePath);
         combatScreen.commandScreen.popButtonScreen();
-        if (showingPointer) {
-            localAreaScreen.drawables.remove(mousePointer);
-            localAreaScreen.drawables.remove(pointerLine);
-            showingPointer = false;
-        }
+        localAreaScreen.drawables.remove(mousePointer);
+        localAreaScreen.drawables.remove(pointerLine);
+        showingPointer = false;
         localAreaScreen.repaint();
     }
 }
