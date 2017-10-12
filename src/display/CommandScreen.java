@@ -65,19 +65,19 @@ public class CommandScreen extends Screen {
     }
     
     public void pushButtonScreen(ButtonScreen buttonScreen) {
-        if (buttonScreens.contains(buttonScreen)) throw new IllegalArgumentException("Trying to add Duplicate buttonScreen.");
-        if (buttonScreens.size() > 0)
-            invisiblePanel.removeAll();
+        if (buttonScreens.contains(buttonScreen)) 
+            throw new IllegalArgumentException("Trying to add Duplicate buttonScreen.");
+        invisiblePanel.removeAll();
         buttonScreens.add(buttonScreen);
         invisiblePanel.add(buttonScreen);
         revalidate();
     }
     
     public void popButtonScreen() {
-        if (buttonScreens.size() > 0){
-            invisiblePanel.removeAll();
-            buttonScreens.remove(buttonScreens.size() - 1);
-        }
+        if (buttonScreens.size() == 0)
+            throw new IllegalStateException("Cannot popButtonScreen when there are no buttonScreens");
+        invisiblePanel.removeAll();
+        buttonScreens.remove(buttonScreens.size() - 1);
         if (buttonScreens.size() > 0)
             invisiblePanel.add(buttonScreens.get(buttonScreens.size() - 1));
         revalidate();

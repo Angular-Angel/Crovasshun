@@ -7,12 +7,10 @@ package display;
 
 import crovasshun.MoveAction;
 import java.awt.Component;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import javax.swing.AbstractAction;
 
 /**
@@ -23,7 +21,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
 
     private CombatScreen combatScreen;
     private LocalAreaScreen localAreaScreen;
-    private Pointer mousePointer;
+    private final Pointer mousePointer;
     private DisplayLine pointerLine;
     private MovePath movePath;
     private boolean showingPointer;
@@ -98,6 +96,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         
         this.movePath =  new MovePath(combatScreen.combatLoop.player.body.getCenterPoint());
         localAreaScreen.drawables.add(movePath);
+        
         this.pointerLine = new DisplayLine(movePath.getEnd(), mousePointer.point);
         localAreaScreen.drawables.add(pointerLine);
         
@@ -140,11 +139,13 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
     public void end() {
         localAreaScreen.removeMouseListener(this);
         localAreaScreen.removeMouseMotionListener(this);
+        
         localAreaScreen.drawables.remove(movePath);
-        combatScreen.commandScreen.popButtonScreen();
         localAreaScreen.drawables.remove(mousePointer);
         localAreaScreen.drawables.remove(pointerLine);
         showingPointer = false;
+        
+        combatScreen.commandScreen.popButtonScreen();
         localAreaScreen.repaint();
     }
 }

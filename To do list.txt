@@ -1,4 +1,4 @@
-implement move command
+refactor and clean code.
 
 implement proper synced timestep
 
@@ -6,11 +6,11 @@ implement proper sidescreen panning.
 
 implement tracking actual sizes of objects.
 
-implement separation between actual objects and visible representations.
+implement determining visual representation based on underlying object data.
 
-implement collision checking
+implement collision checking (I.E. being able to tell if a position would have a character standing in the wall or in the lava.
 
-implement obstacles
+implement obstacles I.E. things that stop you from moving if you'd collide with them.
 
 implement body stats
 
