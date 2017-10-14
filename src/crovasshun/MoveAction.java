@@ -5,6 +5,9 @@
  */
 package crovasshun;
 
+import display.CombatScreen;
+import display.MovePath;
+import display.Pointer;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -14,31 +17,37 @@ import java.util.ArrayList;
  */
 public class MoveAction implements BodyAction {
     
-    public ArrayList<Point> points;
+    private MovePath movePath;
     
-    public MoveAction() {
-        points = new ArrayList<>();
-    }
-    
-    public void addPoint(Point point) {
-        points.add(point);
-    }
-    
-    public void removePoint() {
-        if (points.size() > 0)
-            points.remove(points.size() - 1);
+    public MoveAction(MovePath movePath) {
+        this.movePath = movePath;
     }
 
     @Override
     public void perform(Body body) {
-        if (points.size() > 0)
-            body.setPosition(points.get(points.size() - 1));
+        if (movePath.pointers.size() > 0) {
+            Point point = movePath.pointers.get(0).point;
+            body.setPosition(point);
+            movePath.startPoint = point;
+            movePath.pointers.remove(0);
+            movePath.lines.remove(0);
+        }
     }
 
     @Override
     public boolean isValid() {
         
         return true;
+    }
+
+    @Override
+    public boolean isDone() {
+        return (movePath.pointers.isEmpty());
+    }
+
+    @Override
+    public void onEnd(CombatScreen combatScreen) {
+        combatScreen.localAreaScreen.drawables.remove(movePath);
     }
     
 }

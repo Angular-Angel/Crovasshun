@@ -5,6 +5,8 @@
  */
 package crovasshun;
 
+import display.CombatScreen;
+
 /**
  *
  * @author angle
@@ -13,6 +15,10 @@ public interface BodyAction {
     
     public boolean isValid();
     
+    public boolean isDone();
+    
     public void perform(Body body);
+    
+    public void onEnd(CombatScreen combatScreen);
     
 }

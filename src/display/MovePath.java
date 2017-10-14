@@ -15,9 +15,9 @@ import java.util.ArrayList;
  */
 public class MovePath implements Drawable {
     
-    private Point startPoint;
+    public Point startPoint;
     public final ArrayList<Pointer> pointers;
-    private ArrayList<DisplayLine> lines;
+    public ArrayList<DisplayLine> lines;
     
     public MovePath(Point startPoint) {
         this.startPoint = startPoint;

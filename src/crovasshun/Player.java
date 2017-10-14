@@ -43,8 +43,13 @@ public class Player implements Actor {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        actions.get(0).perform(body);
-        actions.remove(0);
+        BodyAction action = actions.get(0);
+        if (action.isValid())action.perform(body);
+        else actions.remove(action);
+        if (action.isDone()) {
+            action.onEnd(combatLoop.combatScreen);
+            actions.remove(action);
+        }
     }
     
 }

@@ -35,7 +35,7 @@ public class CombatScreen extends Screen {
         
         this.area = area;
         
-        combatLoop = new CombatLoop();
+        combatLoop = new CombatLoop(this);
         
         for (Body b : area.bodies) {
             combatLoop.addActor(b.getActor());

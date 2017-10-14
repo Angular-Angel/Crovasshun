@@ -5,7 +5,10 @@
  */
 package crovasshun;
 
+import display.CombatScreen;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,23 +17,37 @@ import java.util.ArrayList;
 public class CombatLoop implements Runnable {
     
     private ArrayList<Actor> actors;
-    int currentActor;
     public Player player;
+    public CombatScreen combatScreen;
     
-    public CombatLoop() {
+    public CombatLoop(CombatScreen combatScreen) {
+        this.combatScreen = combatScreen;
         actors = new ArrayList<>();
-        currentActor = 0;
     }
     
     public void addActor(Actor actor) {
         actors.add(actor);
     }
     
-    public void run() {
+    private synchronized void update() {
+        for (Actor a : actors) {
+            a.act(this);
+        }
+    }
+    
+    public synchronized void run() {
+        long waitTimer = System.currentTimeMillis();
         while(true) {
-            actors.get(currentActor).act(this);
-            currentActor++;
-            if (currentActor >= actors.size()) currentActor = 0;
+            try {
+                update();
+                combatScreen.localAreaScreen.repaint();
+                waitTimer += 16 - System.currentTimeMillis();
+                if (waitTimer > 0)
+                    wait(waitTimer);
+                waitTimer = System.currentTimeMillis();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CombatLoop.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

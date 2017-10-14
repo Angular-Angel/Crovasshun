@@ -1,6 +1,6 @@
 refactor and clean code.
 
-implement proper synced timestep
+implement gradual movement
 
 implement proper sidescreen panning.
 
