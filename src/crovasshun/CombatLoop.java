@@ -29,25 +29,22 @@ public class CombatLoop implements Runnable {
         actors.add(actor);
     }
     
-    private synchronized void update() {
+    private synchronized void update(long dt) {
         for (Actor a : actors) {
-            a.act(this);
+            a.act(this, dt);
         }
     }
     
+    private static final int MILLISECONDS_PER_FRAME = 1000/60; //120 frames per second
+    
     public synchronized void run() {
-        long waitTimer = System.currentTimeMillis();
+        long lastTime = System.currentTimeMillis();
         while(true) {
-            try {
-                update();
-                combatScreen.localAreaScreen.repaint();
-                waitTimer += 16 - System.currentTimeMillis();
-                if (waitTimer > 0)
-                    wait(waitTimer);
-                waitTimer = System.currentTimeMillis();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(CombatLoop.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            long currentTime = System.currentTimeMillis();
+            long dt = currentTime - lastTime;
+            update(dt);
+            combatScreen.localAreaScreen.repaint();
+            lastTime = currentTime;
         }
     }
 }

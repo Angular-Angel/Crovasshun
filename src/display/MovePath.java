@@ -71,6 +71,11 @@ public class MovePath implements Drawable {
         }
     }
     
+    public void setStart(Point point) {
+        startPoint = point;
+        lines.set(0, new DisplayLine(point, pointers.get(0).point));
+    }
+    
     public Point getEnd() {
         if (pointers.size() > 0)
             return pointers.get(pointers.size() - 1).point;

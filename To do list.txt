@@ -1,6 +1,6 @@
 refactor and clean code.
 
-implement gradual movement
+Fix corner movement loss.
 
 implement proper sidescreen panning.
 

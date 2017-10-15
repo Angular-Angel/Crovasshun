@@ -7,9 +7,7 @@ package crovasshun;
 
 import display.CombatScreen;
 import display.MovePath;
-import display.Pointer;
 import java.awt.Point;
-import java.util.ArrayList;
 
 /**
  *
@@ -24,13 +22,48 @@ public class MoveAction implements BodyAction {
     }
 
     @Override
-    public void perform(Body body) {
+    public void perform(Body body, long dt) {
         if (movePath.pointers.size() > 0) {
-            Point point = movePath.pointers.get(0).point;
-            body.setPosition(point);
-            movePath.startPoint = point;
-            movePath.pointers.remove(0);
-            movePath.lines.remove(0);
+            Point target = movePath.pointers.get(0).point;
+            Point start = body.getCenterPoint();
+            
+            int x = target.x - start.x;
+            int y = target.y - start.y;
+            
+            double normal = Math.sqrt(x*x+y*y);
+            
+            System.out.println(dt);
+            
+            x *= dt;
+            x/= normal;
+            
+            y *= dt;
+            y /= normal;
+            
+            Point destination = new Point(start.x + x, start.y + y);
+            
+            if(x > 0 && destination.x > target.x) {
+                destination.x = target.x;
+            }
+            
+            if(x < 0 && destination.x < target.x) {
+                destination.x = target.x;
+            }
+            
+            if(y > 0 && destination.y > target.y) {
+                destination.y = target.y;
+            }
+            
+            if(y < 0 && destination.y < target.y) {
+                destination.y = target.y;
+            }
+            
+            body.setPosition(destination);
+            movePath.setStart(destination);
+            if(destination.x == target.x && destination.y == target.y) {
+                movePath.pointers.remove(0);
+                movePath.lines.remove(0);
+            }
         }
     }
 

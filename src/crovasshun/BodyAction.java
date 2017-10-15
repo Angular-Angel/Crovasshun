@@ -17,7 +17,7 @@ public interface BodyAction {
     
     public boolean isDone();
     
-    public void perform(Body body);
+    public void perform(Body body, long dt);
     
     public void onEnd(CombatScreen combatScreen);
     

@@ -11,6 +11,6 @@ package crovasshun;
  */
 public interface Actor {
     
-    public void act(CombatLoop combatLoop);
+    public void act(CombatLoop combatLoop, long dt);
     
 }

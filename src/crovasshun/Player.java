@@ -33,7 +33,7 @@ public class Player implements Actor {
     }
 
     @Override
-    public synchronized void act(CombatLoop combatLoop) {
+    public synchronized void act(CombatLoop combatLoop, long dt) {
         
         combatLoop.player = this;
         try {
@@ -44,7 +44,7 @@ public class Player implements Actor {
         }
         
         BodyAction action = actions.get(0);
-        if (action.isValid())action.perform(body);
+        if (action.isValid())action.perform(body, dt);
         else actions.remove(action);
         if (action.isDone()) {
             action.onEnd(combatLoop.combatScreen);
