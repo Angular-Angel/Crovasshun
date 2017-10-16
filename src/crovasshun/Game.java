@@ -45,7 +45,7 @@ public class Game {
                         "  / \\\n" +
                         "  | |"), new Ellipse2D.Float(106, 150, 28, 36));
         
-        body.setActor(new Player(body));
+        body.setActor(new PlayerUnit(body));
         
         area.bodies.add(body);
         

@@ -94,7 +94,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
         localAreaScreen.addMouseListener(this);
         localAreaScreen.addMouseMotionListener(this);
         
-        this.movePath =  new MovePath(combatScreen.combatLoop.player.body.getCenterPoint());
+        this.movePath =  new MovePath(combatScreen.currentUnit.body.getCenterPoint());
         localAreaScreen.drawables.add(movePath);
         
         this.pointerLine = new DisplayLine(movePath.getEnd(), mousePointer.point);
@@ -112,7 +112,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
             public void actionPerformed(ActionEvent e) {
                 if (movePath.pointers.size() > 0) {
                     MoveAction moveAction = new MoveAction(movePath);
-                    combatScreen.combatLoop.player.addAction(moveAction);
+                    combatScreen.currentUnit.addAction(moveAction);
                 }
                 self.end();
             }

@@ -32,12 +32,10 @@ public class MoveAction implements BodyAction {
             
             double normal = Math.sqrt(x*x+y*y);
             
-            System.out.println(dt);
-            
-            x *= dt;
+            x *= 2*dt;
             x/= normal;
             
-            y *= dt;
+            y *= 2*dt;
             y /= normal;
             
             Point destination = new Point(start.x + x, start.y + y);

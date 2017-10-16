@@ -7,17 +7,14 @@ package crovasshun;
 
 import display.CombatScreen;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author angle
  */
-public class CombatLoop implements Runnable {
+public class CombatLoop {
     
     private ArrayList<Actor> actors;
-    public Player player;
     public CombatScreen combatScreen;
     
     public CombatLoop(CombatScreen combatScreen) {
@@ -35,14 +32,19 @@ public class CombatLoop implements Runnable {
         }
     }
     
-    private static final int MILLISECONDS_PER_FRAME = 1000/60; //120 frames per second
+    private boolean actorsReady() {
+        for (Actor a : actors) {
+            if (!a.ready()) return false;
+        }
+        return true;
+    }
     
     public synchronized void run() {
         long lastTime = System.currentTimeMillis();
         while(true) {
             long currentTime = System.currentTimeMillis();
             long dt = currentTime - lastTime;
-            update(dt);
+            if (actorsReady()) update(dt);
             combatScreen.localAreaScreen.repaint();
             lastTime = currentTime;
         }

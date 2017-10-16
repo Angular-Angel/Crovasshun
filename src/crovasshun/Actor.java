@@ -13,4 +13,6 @@ public interface Actor {
     
     public void act(CombatLoop combatLoop, long dt);
     
+    public boolean ready();
+    
 }

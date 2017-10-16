@@ -5,9 +5,11 @@
  */
 package display;
 
+import crovasshun.Actor;
 import crovasshun.Body;
 import crovasshun.CombatLoop;
 import crovasshun.LocalArea;
+import crovasshun.PlayerUnit;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -30,6 +32,8 @@ public class CombatScreen extends Screen {
     private final JLayeredPane layeredPane;
     public LocalArea area;
     public final CombatLoop combatLoop;
+    public final ArrayList<PlayerUnit> units;
+    public PlayerUnit currentUnit;
     
     public CombatScreen(LocalArea area) {
         
@@ -37,9 +41,16 @@ public class CombatScreen extends Screen {
         
         combatLoop = new CombatLoop(this);
         
+        units = new ArrayList<>();
+        
         for (Body b : area.bodies) {
-            combatLoop.addActor(b.getActor());
+            Actor actor = b.getActor();
+            combatLoop.addActor(actor);
+            if (actor instanceof PlayerUnit)
+                units.add((PlayerUnit) actor);
         }
+        
+        currentUnit = units.get(0);
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
