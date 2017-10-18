@@ -6,3 +6,5 @@ dist/
 build\.xml
 
 nbproject/private/private\.xml
+
+nbproject/private/profiler/settings\.xml

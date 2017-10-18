@@ -15,4 +15,6 @@ public interface ControlMode {
     
     public void end();
     
+    public void step(long dt);
+    
 }

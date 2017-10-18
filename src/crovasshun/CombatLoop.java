@@ -44,6 +44,7 @@ public class CombatLoop {
         while(true) {
             long currentTime = System.currentTimeMillis();
             long dt = currentTime - lastTime;
+            combatScreen.processInput(dt);
             if (actorsReady()) update(dt);
             combatScreen.localAreaScreen.repaint();
             lastTime = currentTime;

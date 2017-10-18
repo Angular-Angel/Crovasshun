@@ -17,6 +17,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import javax.swing.BoxLayout;
 import javax.swing.JLayeredPane;
 
@@ -34,8 +36,11 @@ public class CombatScreen extends Screen {
     public final CombatLoop combatLoop;
     public final ArrayList<PlayerUnit> units;
     public PlayerUnit currentUnit;
+    public final HashSet<ControlMode> controlModes;
     
     public CombatScreen(LocalArea area) {
+        
+        controlModes = new HashSet<>();
         
         this.area = area;
         
@@ -84,6 +89,15 @@ public class CombatScreen extends Screen {
         
         tileScreen = new Screen();
         tileScreen.setLayout(new FlowLayout());
+    }
+    
+    public void processInput(long dt) {
+        synchronized (controlModes) {
+            for (Iterator<ControlMode> it = controlModes.iterator(); it.hasNext();) {
+                ControlMode mode = it.next();
+                mode.step(dt);
+            }
+        }
     }
     
     @Override

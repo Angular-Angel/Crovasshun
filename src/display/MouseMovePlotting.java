@@ -88,7 +88,13 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
     }
     
     @Override
+    public void step(long dt) {
+        
+    }
+    
+    @Override
     public void init(CombatScreen combatScreen) {
+        combatScreen.controlModes.add(this);
         this.combatScreen = combatScreen;
         this.localAreaScreen = combatScreen.localAreaScreen;
         localAreaScreen.addMouseListener(this);
@@ -134,6 +140,7 @@ public class MouseMovePlotting extends MouseAdapter implements ControlMode {
 
     @Override
     public void end() {
+        combatScreen.controlModes.remove(this);
         localAreaScreen.removeMouseListener(this);
         localAreaScreen.removeMouseMotionListener(this);
         

@@ -1,14 +1,14 @@
 refactor and clean code.
 
-Fix corner movement loss.
-
 implement proper sidescreen panning.
 
-implement tracking actual sizes of objects.
+implement tracking actual sizes and positions of objects.
 
 implement determining visual representation based on underlying object data.
 
-implement collision checking (I.E. being able to tell if a position would have a character standing in the wall or in the lava.
+Fix corner movement loss.
+
+implement collision checking, I.E. being able to tell if a position would have a character standing in the wall or in the lava.
 
 implement obstacles I.E. things that stop you from moving if you'd collide with them.
 
