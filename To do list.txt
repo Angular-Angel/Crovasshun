@@ -1,8 +1,8 @@
 refactor and clean code.
 
-implement proper sidescreen panning.
-
 implement tracking actual sizes and positions of objects.
+
+Sperate AWT code from game code as thoroughly as possible.
 
 implement determining visual representation based on underlying object data.
 

@@ -54,7 +54,8 @@ public class MousePanning extends MouseAdapter implements ControlMode {
     }
     
     public void step(long dt) {
-        if (mousePoint == null) return;
+        /*if (mousePoint == null) 
+            return;
         if (mousePoint.x < 100)
             localAreaScreen.panX += dt;
         if (mousePoint.x > localAreaScreen.getWidth() - 100)
@@ -63,7 +64,7 @@ public class MousePanning extends MouseAdapter implements ControlMode {
         if (mousePoint.y < 100)
             localAreaScreen.panY += dt;
         if (mousePoint.y > localAreaScreen.getHeight() - 100)
-            localAreaScreen.panY -= dt;
+            localAreaScreen.panY -= dt;*/
     }
 
     @Override
