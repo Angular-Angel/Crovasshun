@@ -18,24 +18,28 @@ import java.util.Random;
  */
 public class ASCIITexture {
     
+	public final String name;
     public final char[] chars;
     public final Color[] colors;
     public final Color background;
     public final boolean random;
     
-    public ASCIITexture(Color color, char[] chars) {
-        this(color, Color.BLACK, chars);
+    private int stringIndex = 0;
+    
+    public ASCIITexture(String name, Color color, char[] chars) {
+        this(name, color, Color.BLACK, chars);
     }
     
-    public ASCIITexture(Color[] colors, char[] chars) {
-        this(colors, Color.BLACK, chars, true);
+    public ASCIITexture(String name, Color[] colors, char[] chars) {
+        this(name, colors, Color.BLACK, chars, true);
     }
     
-    public ASCIITexture(Color color, Color background, char[] chars) {
-        this(color, background, chars, true);
+    public ASCIITexture(String name, Color color, Color background, char[] chars) {
+        this(name, color, background, chars, true);
     }
     
-    public ASCIITexture(Color color, Color background, char[] chars, boolean random) {
+    public ASCIITexture(String name, Color color, Color background, char[] chars, boolean random) {
+    	this.name = name;
         Color[] colors = new Color[1];
         colors[0] = color;
         this.colors = colors;
@@ -44,7 +48,8 @@ public class ASCIITexture {
         this.random = random;
     }
     
-    public ASCIITexture(Color color, Color background, char character, boolean random) {
+    public ASCIITexture(String name, Color color, Color background, char character, boolean random) {
+    	this.name = name;
         Color[] colors = new Color[1];
         colors[0] = color;
         this.colors = colors;
@@ -55,15 +60,26 @@ public class ASCIITexture {
         this.random = random;
     }
     
-    public ASCIITexture(Color[] colors, Color background, char[] chars) {
-        this(colors, background, chars, true);
+    public ASCIITexture(String name, Color[] colors, Color background, char[] chars) {
+        this(name, colors, background, chars, true);
     }
     
-    public ASCIITexture(Color[] colors, Color background, char[] chars,  boolean random) {
+    public ASCIITexture(String name, Color[] colors, Color background, char[] chars,  boolean random) {
+    	this.name = name;
         this.colors = colors;
         this.background = background;
         this.chars = chars;
         this.random = random;
+    }
+    
+    private char getCharacter(Random randomGen) {
+        if (random) return this.chars[randomGen.nextInt(this.chars.length)];
+        else return this.chars[stringIndex++ % this.chars.length];
+    }
+    
+    private Color getColor(Random randomGen) {
+    	if (random) return this.colors[randomGen.nextInt(this.colors.length)];
+        else return this.colors[stringIndex++ % this.colors.length];
     }
     
     public void fillShape(Shape shape, Graphics2D g) {
@@ -76,38 +92,43 @@ public class ASCIITexture {
         Random randomGen = new Random(bounds.x + 7 * bounds.y);
         
         FontMetrics m = g.getFontMetrics();
-        int border = 2, i = 0;
+        int border = 3;
         
-        String string = "";
-        int yi = 2;
+        stringIndex = 0;
+        int yi = 0;
         
         while(yi <= bounds.height) {
-            int leftX = bounds.x;
-            while (!shape.contains(new Rectangle(leftX, bounds.y + yi, 10, m.getHeight() + border)) && leftX < bounds.width + bounds.x) {
-                leftX++;
+            int leftBound = bounds.x;
+            
+            while (leftBound + border < bounds.x + bounds.width) {
+            	String string = "";
+	            while (!shape.contains(new Rectangle(leftBound, bounds.y + yi, m.stringWidth(string) + border*2, m.getHeight() + border)) && leftBound < bounds.width + bounds.x) {
+	            	leftBound++;
+	            }
+	            stringIndex = 0;
+	            while(shape.contains(new Rectangle(leftBound, bounds.y + yi, m.stringWidth(string) + border*2, m.getHeight() + border))) {
+	            	string += getCharacter(randomGen);
+	            }
+	            if (string.length() > 0) {
+	            	
+		            if (this.colors.length > 1) { //If the texture has multiple colors, draw it's characters one at a time, alternating colors
+		                stringIndex = 0;
+		                while (string.length() > 0) {
+		                	g.setColor(getColor(randomGen));
+		                    String substring = string.substring(0, 1);
+		                    g.drawString(substring, leftBound, bounds.y + yi + m.getHeight());
+		                    leftBound += m.stringWidth(substring);
+		                    string = string.substring(1, string.length());
+		                }
+		            } else {
+		                g.setColor(this.colors[0]);
+		                g.drawString(string, leftBound, bounds.y + yi + border + m.getHeight());
+	                    leftBound += m.stringWidth(string);
+		            }
+	            }
             }
-            i = 0;
-            while(shape.contains(new Rectangle(leftX, bounds.y + yi, m.stringWidth(string) + (border*2), m.getHeight() + border))) {
-                if (random) string += this.chars[randomGen.nextInt(this.chars.length)];
-                else string += this.chars[i % this.chars.length];
-                i++;
-            }
-            if (this.colors.length > 1) {
-                int xi = 0;
-                i = 0;
-                while (string.length() > 0) {
-                    if (random) g.setColor(this.colors[randomGen.nextInt(this.colors.length)]);
-                    else g.setColor(this.colors[i % this.colors.length]);
-                    g.drawString(string.substring(0, 1), leftX + xi, bounds.y + yi + m.getHeight());
-                    xi += m.stringWidth(string.substring(0, 1));
-                    string = string.substring(1, string.length());
-                    i++;
-                }
-            } else {
-                g.setColor(this.colors[0]);
-                g.drawString(string, leftX, bounds.y + yi + m.getHeight());
-            }
-            string = "";
+
+        	//System.out.println(name + ": " + yi);
             yi += m.getHeight();
         }
         

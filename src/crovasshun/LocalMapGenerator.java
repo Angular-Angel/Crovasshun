@@ -42,7 +42,7 @@ public class LocalMapGenerator {
         dirtChars[3] = '\'';
         dirtChars[4] = ',';
         dirtChars[5] = '.';
-        addTerrain(new TerrainType("Dirt", new ASCIITexture(dirtColors, new Color(139,69,19), dirtChars)));
+        addTerrain(new TerrainType("Dirt", new ASCIITexture("Dirt Texture", dirtColors, new Color(139,69,19), dirtChars)));
         
         Color[] grassColors = new Color[3];
         grassColors[0] = Color.GREEN;
@@ -54,7 +54,7 @@ public class LocalMapGenerator {
         grassChars[2] = '"';
         grassChars[3] = '.';
         grassChars[4] = '`';
-        addTerrain(new TerrainType("Grass", new ASCIITexture(grassColors, new Color(0, 70, 0), grassChars)));
+        addTerrain(new TerrainType("Grass", new ASCIITexture("Grass Texture",grassColors, new Color(0, 70, 0), grassChars)));
         
         Color[] stoneColors = new Color[3];
         stoneColors[0] = Color.LIGHT_GRAY;
@@ -67,9 +67,9 @@ public class LocalMapGenerator {
         stoneChars[3] = '=';
         stoneChars[4] = '/';
         stoneChars[5] = '\\';
-        addTerrain(new TerrainType("Stone", new ASCIITexture(stoneColors, Color.DARK_GRAY, stoneChars)));
+        addTerrain(new TerrainType("Stone", new ASCIITexture("Stone Texture", stoneColors, Color.DARK_GRAY, stoneChars)));
         
-        addTerrain(new TerrainType("Polished Stone", new ASCIITexture(Color.LIGHT_GRAY, Color.DARK_GRAY, '+', false)));
+        addTerrain(new TerrainType("Polished Stone", new ASCIITexture("Polished Stone Texture", Color.LIGHT_GRAY, Color.DARK_GRAY, '+', false)));
         
         initialized = true;
     }
@@ -122,7 +122,7 @@ public class LocalMapGenerator {
             char[] obeliskChars = new char[2];
             obeliskChars[0] = '-';
             obeliskChars[1] = '|';
-            ASCIITexture asciiTexture = new ASCIITexture(Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
+            ASCIITexture asciiTexture = new ASCIITexture("Obelisk Texture", Color.MAGENTA, Color.DARK_GRAY, obeliskChars, false);
 
             TerrainObject terrainObject = new TerrainObject("Obelisk", polygon, asciiTexture);
 

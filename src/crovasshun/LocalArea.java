@@ -73,8 +73,8 @@ public class LocalArea {
         for (int i = 0; i < terrain.size(); i++) {
             Terrain t = terrain.get(i);
             t.subtract(terrainObject);
-            if (!t.area.isSingular())
-                splitTerrain(t, point);
+            /*if (!t.area.isSingular())
+                splitTerrain(t, point);*/
         }
         objects.add(terrainObject);
     }
