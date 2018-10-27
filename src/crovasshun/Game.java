@@ -5,32 +5,42 @@
  */
 package crovasshun;
 
-import display.CombatScreen;
-import display.TitleScreen;
-import display.ASCIIDisplay;
-import display.ASCIISprite;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import display.ASCIIDisplay;
+import display.ASCIISprite;
+import display.CombatScreen;
+import display.TitleScreen;
+import g4p_controls.G4P;
+import g4p_controls.GCScheme;
+import g4p_controls.GPanel;
+import geomerative.RFont;
+import geomerative.RG;
+import geomerative.RShape;
+import processing.core.PApplet;
+import processingdisplay.ASCIIShape;
+import processingdisplay.ASCIITexture;
 /**
  *
  * @author angle
  */
-public class Game {
+public class Game extends PApplet{
     
     public Random random;
     public ASCIIDisplay display;
+    ASCIIShape shape;
     
     public boolean running, startGame;
     
     public Game() {
-        random = new Random();
-        display = new ASCIIDisplay("Crovasshun: Tales of Blood and Steel");
-        running = true;
-        startGame = false;
+        //random = new Random();
+        //display = new ASCIIDisplay("Crovasshun: Tales of Blood and Steel");
+        //running = true;
+        //startGame = false;
     }
     
     public void newGame() {
@@ -64,15 +74,60 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Game game = new Game();
-        game.run();
+        //Game game = new Game();
+        //game.run();
+    	PApplet.main("crovasshun.Game");
+    }
+    
+    public void settings(){
+        size(1606, 975);
+        smooth();
+    }
+
+    public void setup(){
+		RG.init(this);
+		random = new Random();
+		running = true;
+		startGame = false;
+		
+		RFont font = RG.loadFont("./go-mono/Go-Mono.ttf");
+		
+		font.setSize(20);
+		//font.setAlign(font.CENTER);
+		
+		G4P.messagesEnabled(false);
+		G4P.setGlobalColorScheme(GCScheme.SCHEME_9);
+		G4P.setCursor(ARROW);
+		surface.setTitle("Crovasshun: Tales of Blood and Steel");
+		//GPanel panel1 = new GPanel(this, 0, 0, 480, 320, "Tab bar text");
+		//panel1.setText("Tab bar text");
+		//panel1.setLocalColorScheme(GCScheme.SCHEME_8);
+		//panel1.setOpaque(true);
+		//panel1.addEventHandler(this, "panel1_Click1");
+		
+		int[] grassColors = new int[3];
+		grassColors[0] = color(0, 255, 0);
+		grassColors[1] = color(0, 130, 0);
+		grassColors[2] = color(30, 180, 0);
+		char[] grassChars = new char[5];
+		grassChars[0] = ',';
+		grassChars[1] = '\'';
+		grassChars[2] = '"';
+		grassChars[3] = '.';
+		grassChars[4] = '`';
+		shape = new ASCIIShape(RG.getRect(100,200,300,200), new ASCIITexture("Grass Texture", font, grassColors, color(0, 70, 0), grassChars));
+    }
+
+    public void draw(){
+    	background(0);
+    	//texture.fillShape(shape, this);
+    	shape.draw(this);
     }
     
 }
