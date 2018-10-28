@@ -12,52 +12,52 @@ public class ASCIIShape {
 	public ASCIIShape(RShape shape, ASCIITexture texture) {
 		this.shape = shape;
     	shape.setFill(texture.background);
-    	RPoint point = shape.getBottomLeft();
     	Random randomGen = new Random();
     	int border = 5;
     	
-    	RShape shrink = new RShape(shape);
-    	//shrink.scale(border)
-    	shrink.scale((shape.getWidth() - border) / shape.getWidth(), (shape.getHeight() - border) / shape.getHeight());
-        
         int index = 0;
         int yIncrease = 0;
-        final float width = shrink.getWidth();
-        final float height = shrink.getHeight();
+        final float width = shape.getWidth();
+        final float height = shape.getHeight();
         
-        final float x = shrink.getX();
-        final float y = shrink.getY();
+        final float x = shape.getX();
+        final float y = shape.getY();
 
-        System.out.println("Shape: " + shape.getX() + ", " + shape.getY() + ", " + shape.getWidth() + ", " + shape.getHeight());
-        System.out.println("Shrink: " + x + ", " + y + ", " + width + ", " + height);
         while(yIncrease <= height) {
         	
         	int xIncrease = 0;
         	boolean drewCharacter = false;
             
-            while (xIncrease + border * 2 < width) {
+            while (xIncrease < width) {
             	char c;
             	if (texture.isRandom) 
             		c = texture.chars[randomGen.nextInt(texture.chars.length)];
             	else c = texture.chars[index++ % texture.chars.length];
+            	
             	RShape character = texture.font.toShape(c);
-            	character.translate(x + xIncrease + border, y + yIncrease + border + texture.font.getLineSpacing());
-	            while (!contains(shrink, character) && xIncrease + border * 2 < width) {
+            	character.translate(x + xIncrease, y + yIncrease + texture.font.getLineSpacing());
+            	
+            	RPoint centroid  = character.getCentroid();
+            	RShape borderedCharacter = new RShape(character); //Expand the shape to account for the borders.
+            	borderedCharacter.scale((character.getWidth() + border*2) / character.getWidth(), (character.getHeight() + border*2) / character.getHeight(), centroid.x, centroid.y);
+                
+	            while (!contains(shape, borderedCharacter) && xIncrease < width) {
 	            	character.translate(1, 0);
+	            	borderedCharacter.translate(1, 0);
 	            	xIncrease++;
 	            }
 	            index = 0;
-	            if (xIncrease + border * 2 < width) {
+	            if (xIncrease < width) {
 	            	character.setStroke(false);
+	            	
 	            	if (texture.isRandom && texture.colors.length > 1) 
 	            		character.setFill(texture.getColor(randomGen.nextInt(texture.colors.length)));
 	            	else character.setFill(texture.colors[index++ % texture.colors.length]);
+	            	
 	                shape.addChild(character);
-	                System.out.println("Adding character: " + c);
-	                drewCharacter = true;
+	                
 	                xIncrease += character.getWidth() + texture.font.size/5;
-	            } else {
-	                System.out.println("Failing to add character: " + c);
+	                drewCharacter = true;
 	            }
             }
             if (drewCharacter) {

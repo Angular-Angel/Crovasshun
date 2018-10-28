@@ -98,7 +98,7 @@ public class Game extends PApplet{
 		
 		RFont font = RG.loadFont("./go-mono/Go-Mono.ttf");
 		
-		font.setSize(20);
+		font.setSize(15);
 		//font.setAlign(font.CENTER);
 		
 		G4P.messagesEnabled(false);
@@ -115,13 +115,10 @@ public class Game extends PApplet{
 		grassColors[0] = color(0, 255, 0);
 		grassColors[1] = color(0, 130, 0);
 		grassColors[2] = color(30, 180, 0);
-		char[] grassChars = new char[5];
-		grassChars[0] = ',';
-		grassChars[1] = '\'';
-		grassChars[2] = '"';
-		grassChars[3] = '.';
-		grassChars[4] = '`';
-		shape = new ASCIIShape(RG.getRect(100,200,300,200), new ASCIITexture("Grass Texture", font, grassColors, color(0, 70, 0), grassChars));
+		RShape rShape = RG.getEllipse(200,200,300,200);
+		rShape = rShape.diff(RG.getRect(100, 150, 120, 70));
+		rShape = rShape.diff(RG.getRect(240, 150, 20, 40));
+		shape = new ASCIIShape(rShape, new ASCIITexture("Grass Texture", font, grassColors, color(0, 70, 0), ',', '\'', '"', '`', '.'));
     }
 
     public void draw(){

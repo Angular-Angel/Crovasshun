@@ -27,7 +27,7 @@ public class ASCIITexture {
     
     private int index = 0;
     
-    public ASCIITexture(String name, RFont font, int color, int background, char[] chars) {
+    public ASCIITexture(String name, RFont font, int color, int background, char... chars) {
         this(name, font, color, background, chars, true);
     }
     
@@ -55,8 +55,8 @@ public class ASCIITexture {
         this.isRandom = random;
     }
     
-    public ASCIITexture(String name, RFont font, int[] colors, int background, char[] chars) {
-        this(name, font, colors, background, chars, true);
+    public ASCIITexture(String name, RFont font, int[] colors, int background, char... chars) {
+    	this(name, font, colors, background, chars, true);
     }
     
     public ASCIITexture(String name, RFont font, int[] colors, int background, char[] chars,  boolean random) {
