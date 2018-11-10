@@ -8,8 +8,8 @@ package crovasshun;
 import java.util.ArrayList;
 import java.util.Random;
 
+import g4p_controls.GCScheme;
 import geomerative.RG;
-import interfascia.IFLookAndFeel;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 import processingdisplay.ASCIIFont;
@@ -23,7 +23,6 @@ import processingdisplay.TitleScreen;
 public class Game extends PApplet{
     
     public Random random;
-    public IFLookAndFeel look;
     public ArrayList<Updatable> updatables = new ArrayList<>();
     public boolean mousePresent = true;
     public ASCIIFont font;
@@ -89,15 +88,18 @@ public class Game extends PApplet{
     @Override
     public void setup(){
 		RG.init(this);
+		
 		random = new Random();
 		
 		surface.setTitle("Crovasshun: Tales of Blood and Steel");
 		surface.setResizable(true);
 		
-		look = new IFLookAndFeel(this, IFLookAndFeel.DEFAULT);
-		look.baseColor = color(0);
-		look.textColor = color(255);
-		look.highlightColor = color(144);
+		
+		GCScheme.makeColorSchemes(this); // This statement is rarely needed
+		GCScheme.copyPalette(10, 11);
+		GCScheme.changePaletteColor(11, 4, color(0));
+		GCScheme.changePaletteColor(11, 6, color(144));
+		GCScheme.changePaletteColor(11, 14, color(200));
 		
 		font = new ASCIIFont("./go-mono/Go-Mono.ttf", 15);
 		

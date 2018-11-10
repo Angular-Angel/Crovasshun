@@ -4,30 +4,32 @@ import crovasshun.Game;
 import crovasshun.LocalArea;
 import crovasshun.Terrain;
 import crovasshun.TerrainType;
-import geomerative.RFont;
+import g4p_controls.GButton;
+import g4p_controls.GEvent;
 import geomerative.RG;
 import geomerative.RShape;
-import interfascia.GUIEvent;
-import interfascia.IFButton;
 
 public class TitleScreen extends Screen {
 
 	public TitleScreen(Game game) {
 		super(game);
 		
-		IFButton newGame = new IFButton("New Game", 750, 425, 100, 50);
-		newGame.addActionListener(this);
+		GButton newGame = new GButton(game, 750, 425, 100, 50, "New Game");
+		newGame.setLocalColorScheme(11);
+		newGame.addEventHandler(this, "newGame");
 		
-		IFButton load = new IFButton("Load Game", 750, 475, 100, 50);
+		GButton load = new GButton(game, 750, 475, 100, 50, "Load Game");
+		load.setLocalColorScheme(11);
 		
-		IFButton about = new IFButton("About", 750, 525, 100, 50);
+		GButton about = new GButton(game, 750, 525, 100, 50, "About");
+		about.setLocalColorScheme(11);
 		
-		controller.add(newGame);
-		controller.add(load);
-		controller.add(about);
+		controller.addControl(newGame);
+		controller.addControl(load);
+		controller.addControl(about);
 	}
 	
-	public void actionPerformed (GUIEvent e) {
+	public void newGame(GButton button, GEvent event) {
 		
 		int[] grassColors = new int[3];
 		grassColors[0] = game.color(0, 255, 0);

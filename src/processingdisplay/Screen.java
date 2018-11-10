@@ -1,18 +1,18 @@
 package processingdisplay;
 
 import crovasshun.Game;
-import interfascia.GUIController;
+import g4p_controls.GGroup;
 import processing.event.MouseEvent;
 
 public abstract class Screen {
 	public final Game game;
-	protected final GUIController controller;
+	protected final GGroup controller;
 	
 	public Screen(Game game) {
 		this.game = game;
 		
-		controller = new GUIController(game);
-		controller.setLookAndFeel(game.look);
+		controller = new GGroup(game);
+		//controller.setLookAndFeel(game.look);
 	}
 	
 	public void draw() {
