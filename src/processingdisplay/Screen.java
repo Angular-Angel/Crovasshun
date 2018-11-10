@@ -2,6 +2,7 @@ package processingdisplay;
 
 import crovasshun.Game;
 import interfascia.GUIController;
+import processing.event.MouseEvent;
 
 public abstract class Screen {
 	public final Game game;
@@ -25,4 +26,8 @@ public abstract class Screen {
 	public void show() {
 		controller.setVisible(true);
 	}
+	
+	public void mouseWheel(MouseEvent event) {
+    	
+    }
 }

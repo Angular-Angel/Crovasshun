@@ -6,6 +6,8 @@ import crovasshun.Terrain;
 import crovasshun.Updatable;
 import crovasshun.View;
 import geomerative.RG;
+import geomerative.RPoint;
+import processing.event.MouseEvent;
 
 public class AreaScreen extends Screen implements Updatable {
 	
@@ -21,7 +23,7 @@ public class AreaScreen extends Screen implements Updatable {
 		this.view = new View();
 		game.updatables.add(this);
 		sprite = new ASCIISprite(RG.getEllipse(100, 100, 70, 120), game.color(199), game.font, "_ |\n" +
-                																		   "-0-\n");
+                																		   	   "-0-\n");
 	}
 	
 	public void update(float deltaTime) {
@@ -42,11 +44,30 @@ public class AreaScreen extends Screen implements Updatable {
 
 	@Override
 	public void draw() {
+		game.pushMatrix();
 		view.apply(game);
 		for (Terrain terrain : localArea.terrain) {
 			terrain.shape.draw(game);
 		}
 		sprite.shape.draw(game);
+		game.popMatrix();
 	}
+	
+	@Override
+	public void mouseWheel(MouseEvent event) {
+		float oldscale = view.scale;
+		
+		RPoint point = new RPoint(game.mouseX, game.mouseY);
+		point.translate(-view.x, -view.y);
+		point.scale(1/view.scale);
+		
+    	view.scale *= Math.pow(0.9, event.getCount());
+		
+		float scalechange = view.scale - oldscale;
+		
+		
+		view.x -= point.x * scalechange;
+		view.y -= point.y * scalechange;
+    }
 
 }

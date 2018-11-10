@@ -8,10 +8,10 @@ package crovasshun;
 import java.util.ArrayList;
 import java.util.Random;
 
-import geomerative.RFont;
 import geomerative.RG;
 import interfascia.IFLookAndFeel;
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 import processingdisplay.ASCIIFont;
 import processingdisplay.Screen;
 import processingdisplay.TitleScreen;
@@ -38,13 +38,20 @@ public class Game extends PApplet{
         this.screen = screen;
         screen.show();
     }
-    
+
+    @Override
     public void mouseExited() {
     	mousePresent = false;
     }
     
+    @Override
     public void mouseEntered() {
     	mousePresent = true;
+    }
+    
+    @Override
+    public void mouseWheel(MouseEvent event) {
+    	screen.mouseWheel(event);
     }
     
     public void newGame() {
@@ -72,12 +79,14 @@ public class Game extends PApplet{
     public static void main(String[] args) {
     	PApplet.main("crovasshun.Game");
     }
-    
+
+    @Override
     public void settings(){
         size(1600, 1000);
         smooth();
     }
 
+    @Override
     public void setup(){
 		RG.init(this);
 		random = new Random();
@@ -97,6 +106,7 @@ public class Game extends PApplet{
 		lastFrameTime = System.nanoTime();
     }
 
+    @Override
     public void draw(){
     	long currentFrameTime = System.nanoTime();
     	long deltaTime = currentFrameTime - lastFrameTime;
