@@ -44,6 +44,10 @@ public class AreaScreen extends Screen implements Updatable {
 
 	@Override
 	public void draw() {
+		drawArea(localArea);
+	}
+	
+	public void drawArea(LocalArea localArea) {
 		game.pushMatrix();
 		view.apply(game);
 		for (Terrain terrain : localArea.terrain) {
@@ -53,18 +57,19 @@ public class AreaScreen extends Screen implements Updatable {
 		game.popMatrix();
 	}
 	
+	public void drawFrame() {
+		
+	}
+	
 	@Override
 	public void mouseWheel(MouseEvent event) {
 		float oldscale = view.scale;
 		
-		RPoint point = new RPoint(game.mouseX, game.mouseY);
-		point.translate(-view.x, -view.y);
-		point.scale(1/view.scale);
+		RPoint point = view.adjustPoint(event.getX(), event.getY());
 		
     	view.scale *= Math.pow(0.9, event.getCount());
 		
 		float scalechange = view.scale - oldscale;
-		
 		
 		view.x -= point.x * scalechange;
 		view.y -= point.y * scalechange;
