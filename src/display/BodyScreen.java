@@ -5,7 +5,6 @@
  */
 package display;
 
-import crovasshun.Body;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -13,6 +12,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+
+import old.Body;
 
 /**
  *

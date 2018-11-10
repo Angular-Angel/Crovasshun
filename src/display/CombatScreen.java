@@ -5,11 +5,12 @@
  */
 package display;
 
-import crovasshun.Actor;
-import crovasshun.Body;
-import crovasshun.CombatLoop;
-import crovasshun.LocalArea;
-import crovasshun.PlayerUnit;
+import old.Actor;
+import old.Body;
+import old.CombatLoop;
+import old.LocalArea;
+import old.PlayerUnit;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;

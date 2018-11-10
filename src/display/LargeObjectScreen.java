@@ -5,8 +5,9 @@
  */
 package display;
 
-import crovasshun.Body;
-import crovasshun.LargeObject;
+import old.Body;
+import old.LargeObject;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;

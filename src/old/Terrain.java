@@ -3,51 +3,56 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crovasshun;
+package old;
 
-import display.ASCIITexture;
 import display.Drawable;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.Area;
 
 /**
  *
  * @author angle
  */
-public class LargeObject implements Footprint, Drawable {
-    private Shape shape;
-    public final String name;
-    public ASCIITexture texture;
+public class Terrain implements Footprint, Drawable {
+    public final Area area;
+    public final TerrainType type;
     
-    public LargeObject(String name, Shape shape, ASCIITexture texture) {
-        this.name = name;
-        this.shape = shape;
-        this.texture = texture;
+    public Terrain(Area area, TerrainType type) {
+        this.area = area;
+        this.type = type;
     }
     
     @Override
     public void draw(Graphics2D g) {
-        texture.fillShape(shape, g);
+        type.appearance.fillShape(area, g);
         g.setColor(Color.WHITE);
-        g.draw(shape);
+        //g.draw(area);
     }
+    
+    public void subtract(Footprint footprint) {
+        Shape shape = footprint.getFootprint();
+        Area subArea = new Area(shape);
+        area.subtract(subArea);
+    } 
 
     @Override
     public Shape getFootprint() {
-        return shape;
+        return new Area(area);
     }
 
     @Override
     public Point getPosition() {
-        return new Point(shape.getBounds().getLocation());
+        return new Point(area.getBounds().getLocation());
     }
 
     @Override
     public Point getCenterPoint() {
-        Rectangle bounds = shape.getBounds();
+        Rectangle bounds = area.getBounds();
         Point point = getPosition();
         point.x += bounds.width/2;
         point.y += bounds.height/2;

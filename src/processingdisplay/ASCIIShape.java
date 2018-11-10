@@ -1,5 +1,6 @@
 package processingdisplay;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import geomerative.RPoint;
@@ -8,12 +9,16 @@ import processing.core.PApplet;
 
 public class ASCIIShape {
 	public final RShape shape;
+	//public final ArrayList<RShape> characters = new ArrayList<>();
 	
 	public ASCIIShape(RShape shape, ASCIITexture texture) {
+		this(shape, texture, 5);
+	}
+	
+	public ASCIIShape(RShape shape, ASCIITexture texture, int border) {
 		this.shape = shape;
     	shape.setFill(texture.background);
     	Random randomGen = new Random();
-    	int border = 5;
     	
         int index = 0;
         int yIncrease = 0;
@@ -33,30 +38,30 @@ public class ASCIIShape {
             	if (texture.isRandom) 
             		c = texture.chars[randomGen.nextInt(texture.chars.length)];
             	else c = texture.chars[index++ % texture.chars.length];
-            	
-            	RShape character = texture.font.toShape(c);
+            	int color;
+            	if (texture.isRandom) 
+            		color = texture.getColor(randomGen.nextInt(texture.colors.length));
+            	else color = texture.colors[index++ % texture.colors.length];
+            	RShape character = texture.font.toShape(c, color);
             	character.translate(x + xIncrease, y + yIncrease + texture.font.getLineSpacing());
             	
             	RPoint centroid  = character.getCentroid();
             	RShape borderedCharacter = new RShape(character); //Expand the shape to account for the borders.
-            	borderedCharacter.scale((character.getWidth() + border*2) / character.getWidth(), (character.getHeight() + border*2) / character.getHeight(), centroid.x, centroid.y);
-                
-	            while (!contains(shape, borderedCharacter) && xIncrease < width) {
+            	borderedCharacter.scale((character.getWidth() + border*2) / character.getWidth(), 
+            							(character.getHeight() + border*2) / character.getHeight(), 
+            							centroid.x, centroid.y);
+            	
+	            while (!fits(borderedCharacter) && xIncrease < width) {
 	            	character.translate(1, 0);
 	            	borderedCharacter.translate(1, 0);
 	            	xIncrease++;
 	            }
-	            index = 0;
-	            if (xIncrease < width) {
-	            	character.setStroke(false);
-	            	
-	            	if (texture.isRandom && texture.colors.length > 1) 
-	            		character.setFill(texture.getColor(randomGen.nextInt(texture.colors.length)));
-	            	else character.setFill(texture.colors[index++ % texture.colors.length]);
-	            	
+	            
+	            if (xIncrease < width) {	            	
 	                shape.addChild(character);
+	                //characters.add(character);
 	                
-	                xIncrease += character.getWidth() + texture.font.size/5;
+	                xIncrease += texture.font.getStandardWidth() + texture.font.size/5;
 	                drewCharacter = true;
 	            }
             }
@@ -66,13 +71,18 @@ public class ASCIIShape {
         }
 	}
 	
-	public boolean contains(RShape shape1, RShape shape2) {
+	public boolean fits(RShape shape2) {
 		RPoint[] pts = shape2.getPoints();
 		for (int i = 0; i < pts.length; i++) {
-			if (!shape1.contains(pts[i])) { 
+			if (!shape.contains(pts[i])) { 
 	        	return false;
 	    	}
 	    }
+		/*for (RShape character : characters) {
+			if (character.intersects(shape2)) { 
+	        	return false;
+	    	}
+		}*/
 	    return true;
 	}
 	

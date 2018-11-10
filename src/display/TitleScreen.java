@@ -38,9 +38,14 @@ public class TitleScreen extends Screen {
         JButton button = new ASCIIButton("NEW GAME");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setAction(new AbstractAction("NEW GAME") {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
-                game.startGame = true;
+                //game.startGame = true;
             }
         });
         invisiblePanel.add(button);

@@ -5,9 +5,10 @@
  */
 package display;
 
-import crovasshun.Body;
-import crovasshun.LargeObject;
-import crovasshun.Terrain;
+import old.Body;
+import old.LargeObject;
+import old.Terrain;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;

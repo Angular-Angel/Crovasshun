@@ -3,20 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crovasshun;
-
-import java.awt.Point;
-import java.awt.Shape;
+package old;
 
 /**
  *
  * @author angle
  */
-public interface Footprint {
+public interface Actor {
     
-    public Shape getFootprint();
+    public void act(CombatLoop combatLoop, long dt);
     
-    public Point getPosition();
+    public boolean ready();
     
-    public Point getCenterPoint();
 }
