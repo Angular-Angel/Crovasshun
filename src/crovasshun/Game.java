@@ -49,8 +49,25 @@ public class Game extends PApplet{
     }
     
     @Override
+    public void mouseClicked(MouseEvent event) {
+    	super.mouseClicked(event);
+    	screen.mouseClicked(event);
+    }
+    
+    @Override
     public void mouseWheel(MouseEvent event) {
+    	super.mouseWheel(event);
     	screen.mouseWheel(event);
+    }
+
+    @Override
+    public void frameResized(int w, int h) {
+    	super.frameResized(w, h);
+    	screen.frameResized(w, h);
+    }
+    
+    @Override
+    public void frameMoved(int x, int y) {
     }
     
     public void newGame() {
@@ -101,6 +118,7 @@ public class Game extends PApplet{
 		GCScheme.changePaletteColor(11, 6, color(144));
 		GCScheme.changePaletteColor(11, 14, color(200));
 		
+		//font = new ASCIIFont("./DejaVu Serif/DejaVuSerif.ttf", 15);
 		font = new ASCIIFont("./go-mono/Go-Mono.ttf", 15);
 		
 		setScreen(new TitleScreen(this));

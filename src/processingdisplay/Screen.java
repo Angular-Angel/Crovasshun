@@ -30,4 +30,12 @@ public abstract class Screen {
 	public void mouseWheel(MouseEvent event) {
     	
     }
+	
+	public void mouseClicked(MouseEvent event) {
+    	
+    }
+	
+	public void frameResized(int w, int h) {
+    	
+    }
 }

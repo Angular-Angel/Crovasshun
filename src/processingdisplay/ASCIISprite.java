@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import geomerative.RPoint;
 import geomerative.RShape;
+import processing.core.PApplet;
 
 public class ASCIISprite {
 
@@ -32,8 +33,6 @@ public class ASCIISprite {
 		float width = 0;
 		ArrayList<RShape> charShapes = new ArrayList<>();
 		
-		position.y += font.getLineSpacing()/1.5;
-		
         for (ArrayList<ASCIIChar> list : chars) {
             position.y += font.getLineSpacing()/2;
             position.x = baseX;
@@ -55,5 +54,9 @@ public class ASCIISprite {
         	charShape.translate((shape.getWidth() - width) / 2, 0);
         	shape.addChild(charShape);
         }
+	}
+	
+	public void draw(PApplet context) {
+		shape.draw(context);
 	}
 }

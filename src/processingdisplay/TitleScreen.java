@@ -1,7 +1,9 @@
 package processingdisplay;
 
+import crovasshun.Body;
 import crovasshun.Game;
 import crovasshun.LocalArea;
+import crovasshun.LocalMapGenerator;
 import crovasshun.Terrain;
 import crovasshun.TerrainType;
 import g4p_controls.GButton;
@@ -30,21 +32,19 @@ public class TitleScreen extends Screen {
 	}
 	
 	public void newGame(GButton button, GEvent event) {
+
+		LocalMapGenerator.initialize(game);
 		
-		int[] grassColors = new int[3];
-		grassColors[0] = game.color(0, 255, 0);
-		grassColors[1] = game.color(0, 130, 0);
-		grassColors[2] = game.color(30, 180, 0);
-		RShape rShape = RG.getEllipse(200,200,300,200);
-		rShape = rShape.diff(RG.getRect(100, 150, 120, 70));
-		rShape = rShape.diff(RG.getRect(240, 150, 20, 40));
-		Terrain terrain = new Terrain(rShape, new TerrainType("Grass", new ASCIITexture("Grass Texture", game.font, 
-				grassColors, game.color(0, 70, 0), ',', '\'', '"', '`', '.')));
-		LocalArea localArea = new LocalArea(1000.0f, 1000.0f);
-		localArea.addTerrain(terrain);
+    	LocalArea localArea = LocalMapGenerator.getPassage(200, 200);
+		
+		RShape spriteShape = RG.getEllipse(0, 0, 70, 120);
+		
+		ASCIISprite mapSprite = new ASCIISprite(spriteShape, game.color(199), game.font, "_ |\n" +
+																						 "-0-");
+		
+		localArea.addBody(new Body("Jimmy", mapSprite, mapSprite, 100, 100));
 		
     	game.setScreen(new AreaScreen(game, localArea));
-    	//this.hide();
     }
 
 }

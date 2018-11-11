@@ -2,20 +2,20 @@ package crovasshun;
 
 import geomerative.RShape;
 import processingdisplay.ASCIIShape;
+import processingdisplay.ASCIITexture;
 import processingdisplay.Drawable;
 
-public class Terrain implements Footprint, Drawable {
+public class MapObject implements Footprint, Drawable {
+
 	public ASCIIShape shape;
-	public TerrainType type;
     public RShape collisionShape;
-	
-	public Terrain(RShape shape, TerrainType type) {
-		this.shape = new ASCIIShape(shape, type.appearance);
+    
+    public MapObject (RShape shape, ASCIITexture texture) {
+    	this.shape = new ASCIIShape(shape, texture);
 		this.collisionShape = this.shape.shape;
 		shape.setStroke(false);
-		this.type = type;
-	}
-    
+    }
+
 	@Override
     public float getX() {
     	return collisionShape.getX();
@@ -36,12 +36,11 @@ public class Terrain implements Footprint, Drawable {
     	return collisionShape.getHeight();
     }
 
-
 	@Override
 	public void draw(Game game) {
 		shape.draw(game);
 	}
-	
+
 	@Override
 	public RShape getShape() {
 		return shape.shape;
