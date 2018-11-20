@@ -35,16 +35,16 @@ public class TitleScreen extends Screen {
 
 		LocalMapGenerator.initialize(game);
 		
-    	LocalArea localArea = LocalMapGenerator.getPassage(200, 200);
+    	LocalArea localArea = LocalMapGenerator.getStoneTriangles(1000, 1000);
 		
-		RShape spriteShape = RG.getEllipse(0, 0, 70, 120);
+		RShape spriteShape = RG.getEllipse(0, 0, 60, 60);
 		
 		ASCIISprite mapSprite = new ASCIISprite(spriteShape, game.color(199), game.font, "_ |\n" +
 																						 "-0-");
 		
 		localArea.addBody(new Body("Jimmy", mapSprite, mapSprite, 100, 100));
 		
-    	game.setScreen(new AreaScreen(game, localArea));
+    	game.setScreen(new CommandScreen(game, localArea));
     }
 
 }

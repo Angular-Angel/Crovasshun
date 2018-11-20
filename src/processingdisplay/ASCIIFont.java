@@ -38,5 +38,9 @@ public class ASCIIFont extends RFont{
 	public float getStandardWidth() {
 		return standardWidth;
 	}
+	
+	public float getStandardSpacing() {
+		return getStandardWidth() + size/5;
+	}
 
 }

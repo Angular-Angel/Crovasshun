@@ -1,13 +1,15 @@
 package crovasshun;
 
+import geomerative.RPoint;
 import geomerative.RShape;
 import processingdisplay.ASCIISprite;
 import processingdisplay.Drawable;
 
-public class Body implements Footprint, Drawable {
+public class Body implements Footprint, Drawable, Updatable {
     public final String name;
     public ASCIISprite mapSprite, displaySprite;
     public RShape collisionShape;
+    private BodyAction currentAction = null;
     
 
     public Body(String name, ASCIISprite mapSprite, ASCIISprite displaySprite) {
@@ -39,13 +41,30 @@ public class Body implements Footprint, Drawable {
     }
 
 	@Override
+	public RPoint getCenter() {
+		return collisionShape.getCenter();
+	}
+	
+	public void moveBy(RPoint point) {
+		collisionShape.translate(point);
+	}
+	
+	public void moveBy(float x, float y) {
+		collisionShape.translate(x, y);
+	}
+
+	@Override
 	public void draw(Game game) {
-		// TODO Auto-generated method stub
 		mapSprite.draw(game);
 	}
 	
 	@Override
 	public RShape getShape() {
 		return collisionShape;
+	}
+
+	@Override
+	public void update(long deltaTime) {
+		if (currentAction != null) currentAction.update(deltaTime);
 	}
 }

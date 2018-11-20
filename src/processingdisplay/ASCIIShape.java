@@ -1,13 +1,19 @@
 package processingdisplay;
 
-import java.util.Random;
-
+import crovasshun.Dirtyable;
 import geomerative.RPoint;
 import geomerative.RShape;
 import processing.core.PApplet;
 
-public class ASCIIShape {
-	public final RShape shape;
+public class ASCIIShape implements Dirtyable {
+	public RShape shape;
+	private boolean dirty;
+	
+	/*public ASCIIShape(float width, float height, GeneralASCIITexture texture) {
+		spaceX = width % texture.font.getStandardWidth();
+		spaceY = height % texture.font.getLineSpacing();
+		shape = RG.getRect(0, 0, width, height);
+	}*/
 	
 	public ASCIIShape(RShape shape, ASCIITexture texture) {
 		this(shape, texture, 5);
@@ -16,12 +22,10 @@ public class ASCIIShape {
 	
 	public ASCIIShape(RShape shape, ASCIITexture texture, int border) {
 		this.shape = shape;
-    	shape.setFill(texture.background);
-    	
-    	fillShape(shape, texture, border);
+    	texture.fill(shape);
 	}
 	
-	private void fillShape(RShape shape, ASCIITexture texture, int border) {
+	/*private void fillShape(RShape shape, ASCIITexture texture, int border) {
     	Random randomGen = new Random();
     	
 		int index = 0;
@@ -64,7 +68,7 @@ public class ASCIIShape {
 	                shape.addChild(character); //Add it.
 	                
 	                //And adjust the positioning of the next characters appropriately.
-	                xIncrease += texture.font.getStandardWidth() + texture.font.size/5;
+	                xIncrease += texture.font.getStandardSpacing();
 	                drewCharacter = true;
 	            }
             }
@@ -75,7 +79,7 @@ public class ASCIIShape {
 	            yIncrease += texture.font.getLineSpacing();
             } else yIncrease++;
         }
-	}
+	}*/
 	
 	private RShape borderCharacter(RShape character, float border) {
 		RPoint centroid  = character.getCentroid();
@@ -84,19 +88,21 @@ public class ASCIIShape {
     							(character.getHeight() + border*2) / character.getHeight(), 
     							centroid.x, centroid.y);
     	return borderedCharacter;
-	}
-	
-	private boolean fits(RShape shape2) {
-		RPoint[] pts = shape2.getPoints();
-		for (int i = 0; i < pts.length; i++) {
-			if (!shape.contains(pts[i])) { 
-	        	return false;
-	    	}
-	    }
-	    return true;
+    	//return RG.getRect(character.getX() - border/2, character.getY() - border/2, character.getWidth() + border, character.getHeight() + border);
 	}
 	
 	public void draw(PApplet context) {
 		shape.draw(context);
+	}
+
+	@Override
+	public boolean isDirty() {
+		return dirty;
+	}
+
+
+	@Override
+	public void dirty() {
+		dirty = true;
 	}
 }

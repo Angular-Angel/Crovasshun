@@ -1,8 +1,10 @@
-package crovasshun;
+package crovasshun.stat;
 
 import java.util.ArrayList;
 
-public abstract class Stat {
+import crovasshun.Dirtyable;
+
+public abstract class Stat implements Dirtyable {
 	private float score;
 	private boolean dirty;
 	private ArrayList<Stat> dependencies = new ArrayList<>();
@@ -14,17 +16,13 @@ public abstract class Stat {
 	
 	public abstract void update();
 
-	protected boolean isDirty() {
+	public boolean isDirty() {
 		return dirty;
 	}
-	
-	protected void clean() {
-		dirty = false;
-	}
 
-	public void makeDirty() {
+	public void dirty() {
 		this.dirty = true;
-		for (Stat stat : dependencies) stat.makeDirty();
+		for (Stat stat : dependencies) stat.dirty();
 	}
 	
 	public void addDependency(Stat stat) {

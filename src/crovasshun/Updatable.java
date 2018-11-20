@@ -2,5 +2,5 @@ package crovasshun;
 
 public interface Updatable {
 	
-	public void update(float deltaTime);
+	public void update(long deltaTime);
 }

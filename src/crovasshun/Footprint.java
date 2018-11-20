@@ -1,5 +1,6 @@
 package crovasshun;
 
+import geomerative.RPoint;
 import geomerative.RShape;
 
 public interface Footprint {
@@ -10,6 +11,8 @@ public interface Footprint {
     public float getWidth();
     
     public float getHeight();
+    
+    public RPoint getCenter();
     
     public RShape getShape();
 }

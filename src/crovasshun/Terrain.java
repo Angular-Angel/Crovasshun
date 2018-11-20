@@ -1,5 +1,6 @@
 package crovasshun;
 
+import geomerative.RPoint;
 import geomerative.RShape;
 import processingdisplay.ASCIIShape;
 import processingdisplay.Drawable;
@@ -12,7 +13,6 @@ public class Terrain implements Footprint, Drawable {
 	public Terrain(RShape shape, TerrainType type) {
 		this.shape = new ASCIIShape(shape, type.appearance);
 		this.collisionShape = this.shape.shape;
-		shape.setStroke(false);
 		this.type = type;
 	}
     
@@ -45,5 +45,15 @@ public class Terrain implements Footprint, Drawable {
 	@Override
 	public RShape getShape() {
 		return shape.shape;
+	}
+	
+	@Override
+	public RPoint getCenter() {
+		return collisionShape.getCenter();
+	}
+	
+	public void subtract(RShape shape) {
+		this.shape.shape = this.shape.shape.diff(shape);
+		collisionShape = this.shape.shape;
 	}
 }

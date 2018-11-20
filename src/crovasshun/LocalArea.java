@@ -26,29 +26,27 @@ public class LocalArea {
 	public void addTerrain(Terrain newTerrain) {
 		
 		if (contains(newTerrain)) {
-			subtractFromTerrain(newTerrain);
 			terrain.add(newTerrain);
+		} else {
+			throw new IllegalArgumentException("Terrain outside LocalArea!");
 		}
 	}
 	
 	public void addBody(Body body) {
 		if (contains(body))
 			bodies.add(body);
+		else {
+			throw new IllegalArgumentException("Body outside LocalArea!");
+		}
 	}
 	
 	public void addMapObject(MapObject mapObject) {
 		if (contains(mapObject)) {
-			subtractFromTerrain(mapObject);
 			mapObjects.add(mapObject);
-		}
-	}
-	private void subtractFromTerrain(Footprint footprint) {
-		subtractFromTerrain(footprint.getShape());
-	}
-	
-	private void subtractFromTerrain(RShape shape) {
-		for (Terrain terrain : terrain) {
-			terrain.shape.shape.diff(shape);
+		} else {
+			throw new IllegalArgumentException("Map Object outside LocalArea: x: " + mapObject.getX() + 
+					", y: " + mapObject.getY() +
+					", width: " + mapObject.getWidth() + ", height: " + mapObject.getHeight());
 		}
 	}
 	
