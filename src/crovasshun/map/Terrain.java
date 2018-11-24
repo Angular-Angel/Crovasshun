@@ -1,21 +1,22 @@
-package crovasshun;
+package crovasshun.map;
 
+import crovasshun.Game;
+import crovasshun.ui.ASCIIShape;
+import crovasshun.ui.Drawable;
 import geomerative.RPoint;
 import geomerative.RShape;
-import processingdisplay.ASCIIShape;
-import processingdisplay.ASCIITexture;
-import processingdisplay.Drawable;
 
-public class MapObject implements Footprint, Drawable {
-
+public class Terrain implements Footprint, Drawable {
 	public ASCIIShape shape;
+	public TerrainType type;
     public RShape collisionShape;
+	
+	public Terrain(RShape shape, TerrainType type) {
+		this.shape = new ASCIIShape(shape, type.appearance);
+		this.collisionShape = this.shape.shape;
+		this.type = type;
+	}
     
-    public MapObject (RShape shape, ASCIITexture texture) {
-    	this.shape = new ASCIIShape(shape, texture);
-		this.collisionShape = shape;
-    }
-
 	@Override
     public float getX() {
     	return collisionShape.getX();
@@ -36,18 +37,24 @@ public class MapObject implements Footprint, Drawable {
     	return collisionShape.getHeight();
     }
 
+
 	@Override
 	public void draw(Game game) {
 		shape.draw(game);
 	}
-
+	
 	@Override
 	public RShape getShape() {
 		return shape.shape;
 	}
-
+	
 	@Override
 	public RPoint getCenter() {
 		return collisionShape.getCenter();
+	}
+	
+	public void subtract(RShape shape) {
+		this.shape.shape = this.shape.shape.diff(shape);
+		collisionShape = this.shape.shape;
 	}
 }

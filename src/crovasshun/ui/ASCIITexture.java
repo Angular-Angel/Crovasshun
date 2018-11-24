@@ -1,4 +1,4 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import crovasshun.Game;
 import geomerative.RPath;
@@ -45,12 +45,13 @@ public abstract class ASCIITexture {
 	public Layout layoutRect(RShape rect, float minBorder) {
 		int rows = (int) ((rect.getHeight() - minBorder*2) / font.getLineSpacing());
 		int columns = (int) ((rect.getWidth() - minBorder*2) / font.getStandardSpacing());
-		return new Layout(rows, columns, 0, (rect.getWidth() % columns) / 2, (rect.getHeight() % rows) / 2, false);
+		return new Layout(rows, columns, 0, (rect.getWidth() - columns * font.getStandardSpacing()), 
+				(rect.getHeight() - rows * font.getLineSpacing()));
 	}
 	
 	public void fillRect(RShape shape, Layout layout) {
 		for (int i = 0; i < layout.rows; i++) {
-			float y = shape.getY() + layout.topBorder + i * font.getLineSpacing();
+			float y = shape.getY() + layout.topBorder + (i + 1) * font.getLineSpacing();
 			float x = shape.getX() + layout.leftBorder;
 			fillRow(shape, x, y, layout.columns);
 		}
@@ -64,33 +65,11 @@ public abstract class ASCIITexture {
 	
 	public Layout layoutRightTriangle(RShape rightTriangle, float minBorder) {
 		
-		float slope = 0;
-		boolean backwards = false;
-		
-		//Go through the lines...
-		for (RPath path : rightTriangle.paths) {
-			RPoint [] points = path.getHandles(); //Check the points on each line...
-			
-			for (int i = 1; i < points.length; i++) {
-				RPoint start = points[i], end = points[i-1];
-				
-				float dx = end.x - start.x;
-				float dy = end.y - start.y;
-				
-				if (dx != 0 && dy != 0) { //Until we find a slope...
-					slope = dx/dy;
-					backwards = dx < 0; //Then return a layout.
-				}
-			}
-		}
-		
 		//Calculate rows and columns.
 		int rows = (int) (((rightTriangle.getHeight() - minBorder*2) / font.getLineSpacing()));
 		int columns = (int) ((rightTriangle.getWidth() - minBorder*2) / font.getStandardSpacing());
-		float borderX = (rightTriangle.getWidth() - columns * font.getStandardSpacing()) / 2;
-		float borderY = (rightTriangle.getHeight() - rows * font.getLineSpacing()) / 2;
-		
-		float absSlope = Math.abs(slope);
+		float borderX = (rightTriangle.getWidth() - columns * font.getStandardSpacing());
+		float borderY = (rightTriangle.getHeight() - rows * font.getLineSpacing());
 		
 		if (borderX < minBorder) {
 			System.out.println("Border X: " + borderX + ", Min Border: " + minBorder);
@@ -102,14 +81,28 @@ public abstract class ASCIITexture {
 			borderY = minBorder;
 		}
 		
-		if (slope != 0) {
-			return new Layout(rows, columns, slope,
-					borderX, borderY, backwards); //Then return a layout.
-		} else throw new IllegalArgumentException("Not a right triangle!"); //Or throw an exception if there are no slopes here.
+		//Go through the lines...
+		for (RPath path : rightTriangle.paths) {
+			RPoint [] points = path.getHandles(); //Check the points on each line...
+			
+			for (int i = 1; i < points.length; i++) {
+				RPoint start = points[i-1], end = points[i];
+				
+				float dx = end.x - start.x;
+				float dy = end.y - start.y;
+				
+				if (dx != 0 && dy != 0) { //Until we find a slope...
+					return new Layout(rows, columns, dx/dy,
+							borderX, borderY, dx < 0); //Then return a layout.
+				}
+			}
+		}
+		
+		throw new IllegalArgumentException("Not a right triangle!"); //Or throw an exception if there are no slopes here.
 	}
 	
 	public void fillRightTriangle(RShape shape, Layout layout) {
-		if (!layout.backwards) {
+		if (layout.backwards) {
 			if (layout.slope > 0) fill3rdQuadrantRightTriangle(shape, layout);
 			else fill2ndQuadrantRightTriangle(shape, layout);
 		} else {
@@ -123,7 +116,7 @@ public abstract class ASCIITexture {
 		for (int i = 0; i < layout.rows; i++) {
 			float y = shape.getY() + shape.getHeight() - (layout.bottomBorder + i * font.getLineSpacing());
 			float x = shape.getX() + layout.leftBorder;
-			int rowLength = (int) (layout.columns + Math.floor(layout.slope * i));
+			int rowLength = (int) (layout.columns - Math.floor(layout.slope * i));
 			fillRow(shape, x, y, rowLength);
 		}
 	}
@@ -146,7 +139,7 @@ public abstract class ASCIITexture {
 			float y = shape.getY() + layout.topBorder + i * font.getLineSpacing();
 			float x = shape.getX() + layout.leftBorder + slopeDecrease * font.getStandardSpacing();
 			
-			int rowLength = layout.columns + slopeDecrease;
+			int rowLength = layout.columns - slopeDecrease;
 			fillRow(shape, x, y, rowLength);
 		}
 	}
@@ -157,9 +150,9 @@ public abstract class ASCIITexture {
 			int slopeDecrease = (int) Math.floor(layout.slope * i);
 					
 			float y = shape.getY() + shape.getHeight() - (layout.bottomBorder + i * font.getLineSpacing());
-			float x = shape.getX() + layout.leftBorder + slopeDecrease * font.getStandardSpacing();
+			float x = shape.getX() + layout.leftBorder - slopeDecrease * font.getStandardSpacing();
 			
-			int rowLength = layout.columns - slopeDecrease;
+			int rowLength = layout.columns + slopeDecrease;
 			fillRow(shape, x, y, rowLength);
 		}
 	}
@@ -187,14 +180,23 @@ public abstract class ASCIITexture {
 		public final float leftBorder, rightBorder, topBorder, bottomBorder, slope;
 		public final boolean backwards;
 		
+		public Layout(int rows, int columns, float slope, float borderX, float borderY) {
+			this(rows, columns, slope, borderX, borderY, false);
+		}
+		
 		public Layout(int rows, int columns, float slope, float borderX, float borderY, boolean backwards) {
+			this(rows, columns, slope, borderX / 2, borderX / 2, borderY / 2, borderY / 2, backwards);
+		}
+		
+		public Layout(int rows, int columns, float slope, float leftBorder, float rightBorder, 
+				float topBorder, float bottomBorder, boolean backwards) {
 			this.rows = rows;
 			this.columns = columns;
 			this.slope = slope;
-			this.leftBorder = borderX;
-			this.rightBorder = borderX;
-			this.topBorder = borderY;
-			this.bottomBorder = borderY;
+			this.leftBorder = topBorder;
+			this.rightBorder = rightBorder;
+			this.topBorder = topBorder;
+			this.bottomBorder = bottomBorder;
 			this.backwards = backwards;
 		}
 	}

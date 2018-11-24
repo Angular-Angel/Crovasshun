@@ -1,6 +1,6 @@
-package crovasshun;
+package crovasshun.map;
 
-import processingdisplay.ASCIITexture;
+import crovasshun.ui.ASCIITexture;
 
 public class TerrainType {
     

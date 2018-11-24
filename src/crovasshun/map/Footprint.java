@@ -1,4 +1,4 @@
-package crovasshun;
+package crovasshun.map;
 
 import geomerative.RPoint;
 import geomerative.RShape;

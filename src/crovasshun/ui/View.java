@@ -1,4 +1,4 @@
-package crovasshun;
+package crovasshun.ui;
 
 import geomerative.RPoint;
 import processing.core.PApplet;

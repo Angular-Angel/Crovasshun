@@ -1,7 +1,8 @@
-package crovasshun;
+package crovasshun.map;
 
 import java.util.ArrayList;
 
+import crovasshun.Body;
 import geomerative.RG;
 import geomerative.RShape;
 

@@ -1,11 +1,9 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import crovasshun.Body;
 import crovasshun.Game;
-import crovasshun.LocalArea;
-import crovasshun.LocalMapGenerator;
-import crovasshun.Terrain;
-import crovasshun.TerrainType;
+import crovasshun.map.LocalArea;
+import crovasshun.map.LocalMapGenerator;
 import g4p_controls.GButton;
 import g4p_controls.GEvent;
 import geomerative.RG;
@@ -41,8 +39,7 @@ public class TitleScreen extends Screen {
 		
 		ASCIISprite mapSprite = new ASCIISprite(spriteShape, game.color(199), game.font, "_ |\n" +
 																						 "-0-");
-		
-		localArea.addBody(new Body("Jimmy", mapSprite, mapSprite, 100, 100));
+		localArea.addBody(new Body("Jimmy", mapSprite, mapSprite, 500, 500));
 		
     	game.setScreen(new CommandScreen(game, localArea));
     }

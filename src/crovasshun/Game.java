@@ -8,13 +8,13 @@ package crovasshun;
 import java.util.ArrayList;
 import java.util.Random;
 
+import crovasshun.ui.ASCIIFont;
+import crovasshun.ui.Screen;
+import crovasshun.ui.TitleScreen;
 import g4p_controls.GCScheme;
 import geomerative.RG;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
-import processingdisplay.ASCIIFont;
-import processingdisplay.Screen;
-import processingdisplay.TitleScreen;
 
 /**
  *

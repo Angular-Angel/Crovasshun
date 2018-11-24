@@ -1,12 +1,11 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import crovasshun.Body;
 import crovasshun.Game;
-import crovasshun.LocalArea;
-import crovasshun.MapObject;
-import crovasshun.Terrain;
 import crovasshun.Updatable;
-import crovasshun.View;
+import crovasshun.map.LocalArea;
+import crovasshun.map.MapObject;
+import crovasshun.map.Terrain;
 import g4p_controls.GButton;
 import g4p_controls.GCScheme;
 import g4p_controls.GEvent;

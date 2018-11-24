@@ -1,13 +1,14 @@
-package crovasshun;
+package crovasshun.map;
 
 import java.util.HashMap;
 
+import crovasshun.Game;
+import crovasshun.ui.ASCIITexture;
+import crovasshun.ui.RandomASCIITexture;
+import crovasshun.ui.RegularASCIITexture;
 import geomerative.RG;
 import geomerative.RPoint;
 import geomerative.RShape;
-import processingdisplay.ASCIITexture;
-import processingdisplay.RandomASCIITexture;
-import processingdisplay.RegularASCIITexture;
 
 public class LocalMapGenerator {
     
@@ -85,7 +86,7 @@ public class LocalMapGenerator {
     		@Override
     		public void fill(RShape shape) {
     			basicColor(shape);
-    			//fillRightTriangle(shape, 5);
+    			fillRightTriangle(shape, 5);
     		}
     	};
     	
@@ -111,27 +112,27 @@ public class LocalMapGenerator {
 		
 		ret.addMapObject(mapObject);
 		
-		rPoints = new RPoint[] {new RPoint(width*7/10, height*9/10), 
-				  new RPoint(width*9/10, height*7/10),
+		rPoints = new RPoint[] {new RPoint(width*9/10, height*7/10), 
 				  new RPoint(width*9/10, height*9/10),
-				  new RPoint(width*7/10, height*9/10)};
+				  new RPoint(width*7/10, height*9/10),
+				  new RPoint(width*9/10, height*7/10)};
                                                 
 		triangle = RG.createShape(new RPoint[][] {rPoints});       
 		                                                  
 		mapObject = new MapObject(triangle, asciiTexture);
 		
-		//ret.addMapObject(mapObject);
+		ret.addMapObject(mapObject);
 		
-		rPoints = new RPoint[] {new RPoint(width/10, height*9/10), 
+		rPoints = new RPoint[] {new RPoint(width/10, height*7/10), 
 				  new RPoint(width*3/10, height*9/10),
-				  new RPoint(width/10, height*7/10),
-				  new RPoint(width/10, height*9/10)};
+				  new RPoint(width/10, height*9/10),
+				  new RPoint(width/10, height*7/10)};
                                                 
 		triangle = RG.createShape(new RPoint[][] {rPoints});       
 		                                                  
 		mapObject = new MapObject(triangle, asciiTexture);
 		
-		//ret.addMapObject(mapObject);
+		ret.addMapObject(mapObject);
     	
     	return ret;
     }

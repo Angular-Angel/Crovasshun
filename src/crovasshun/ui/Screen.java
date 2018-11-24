@@ -1,4 +1,4 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import crovasshun.Game;
 import g4p_controls.GGroup;

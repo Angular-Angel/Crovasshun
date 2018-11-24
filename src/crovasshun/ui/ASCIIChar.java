@@ -1,4 +1,4 @@
-package processingdisplay;
+package crovasshun.ui;
 
 public class ASCIIChar {
 	public final int color;

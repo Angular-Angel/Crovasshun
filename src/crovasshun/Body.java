@@ -1,11 +1,12 @@
 package crovasshun;
 
+import crovasshun.map.Footprint;
+import crovasshun.ui.ASCIISprite;
+import crovasshun.ui.Drawable;
 import geomerative.RPoint;
 import geomerative.RShape;
-import processingdisplay.ASCIISprite;
-import processingdisplay.Drawable;
 
-public class Body implements Footprint, Drawable, Updatable {
+public class Body implements Footprint, Drawable, Actor {
     public final String name;
     public ASCIISprite mapSprite, displaySprite;
     public RShape collisionShape;
@@ -66,5 +67,11 @@ public class Body implements Footprint, Drawable, Updatable {
 	@Override
 	public void update(long deltaTime) {
 		if (currentAction != null) currentAction.update(deltaTime);
+	}
+
+	@Override
+	public boolean ready(long deltaTime) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -1,4 +1,4 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import java.util.Random;
 

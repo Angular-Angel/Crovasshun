@@ -1,4 +1,4 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import crovasshun.Game;
 

@@ -1,9 +1,9 @@
-package processingdisplay;
+package crovasshun.ui;
 
 import crovasshun.Dirtyable;
-import geomerative.RPoint;
 import geomerative.RShape;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class ASCIIShape implements Dirtyable {
 	public RShape shape;
@@ -79,7 +79,7 @@ public class ASCIIShape implements Dirtyable {
 	            yIncrease += texture.font.getLineSpacing();
             } else yIncrease++;
         }
-	}*/
+	}
 	
 	private RShape borderCharacter(RShape character, float border) {
 		RPoint centroid  = character.getCentroid();
@@ -89,9 +89,13 @@ public class ASCIIShape implements Dirtyable {
     							centroid.x, centroid.y);
     	return borderedCharacter;
     	//return RG.getRect(character.getX() - border/2, character.getY() - border/2, character.getWidth() + border, character.getHeight() + border);
-	}
+	}*/
 	
 	public void draw(PApplet context) {
+		shape.draw(context);
+	}
+	
+	public void draw(PGraphics context) {
 		shape.draw(context);
 	}
 

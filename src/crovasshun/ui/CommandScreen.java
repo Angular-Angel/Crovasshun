@@ -1,15 +1,18 @@
-package processingdisplay;
+package crovasshun.ui;
 
+import crovasshun.ActionLoop;
 import crovasshun.Game;
-import crovasshun.LocalArea;
+import crovasshun.map.LocalArea;
 import processing.event.MouseEvent;
 
 public class CommandScreen extends AreaScreen {
 	
 	private int ordersBoxHeight = 120;
+	private ActionLoop actionLoop = new ActionLoop();
 
 	public CommandScreen(Game game, LocalArea localArea) {
 		super(game, localArea);
+		
 	}
 	
 	public void drawFrame() {
@@ -20,6 +23,10 @@ public class CommandScreen extends AreaScreen {
 		
 		//Draw the orders box.
 		game.rect(0, game.height - (commandboxHeight + ordersBoxHeight), game.width - 1, ordersBoxHeight);
+	}
+	public void update(long deltaTime) {
+		super.update(deltaTime);
+		actionLoop.update(deltaTime);
 	}
 	
 	public void mouseClicked(MouseEvent event) {
