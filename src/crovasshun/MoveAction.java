@@ -20,10 +20,10 @@ public class MoveAction extends BodyAction {
         
         double normal = Math.sqrt(x*x+y*y);
         
-        x *= dt;
+        x *= dt / 10000000;
         x/= normal;
         
-        y *= 2*dt;
+        y *= dt / 10000000;
         y /= normal;
         
         RPoint destination = new RPoint(start.x + x, start.y + y);
@@ -49,6 +49,11 @@ public class MoveAction extends BodyAction {
         }
         
         body.moveBy(x, y);
+	}
+
+	@Override
+	public boolean isFinished() {
+		return target.dist(body.getCenter()) == 0;
 	}
 
 }

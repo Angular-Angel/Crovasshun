@@ -8,4 +8,6 @@ public abstract class BodyAction implements Updatable {
 	}
 	
 	public abstract void update (long deltaTime);
+	
+	public abstract boolean isFinished();
 }

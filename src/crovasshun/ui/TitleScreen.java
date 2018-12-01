@@ -2,11 +2,14 @@ package crovasshun.ui;
 
 import crovasshun.Body;
 import crovasshun.Game;
+import crovasshun.MoveAction;
+import crovasshun.PlayerUnit;
 import crovasshun.map.LocalArea;
 import crovasshun.map.LocalMapGenerator;
 import g4p_controls.GButton;
 import g4p_controls.GEvent;
 import geomerative.RG;
+import geomerative.RPoint;
 import geomerative.RShape;
 
 public class TitleScreen extends Screen {
@@ -39,7 +42,15 @@ public class TitleScreen extends Screen {
 		
 		ASCIISprite mapSprite = new ASCIISprite(spriteShape, game.color(199), game.font, "_ |\n" +
 																						 "-0-");
-		localArea.addBody(new Body("Jimmy", mapSprite, mapSprite, 500, 500));
+		Body body = new Body("Jimmy", mapSprite, mapSprite, 500, 500);
+		
+		localArea.addBody(body);
+		
+		PlayerUnit playerUnit = new PlayerUnit(body);
+		
+		MoveAction moveAction = new MoveAction(body, new RPoint(300, 400));
+		
+		playerUnit.addAction(moveAction);
 		
     	game.setScreen(new CommandScreen(game, localArea));
     }

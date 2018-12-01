@@ -11,7 +11,7 @@ public class Body implements Footprint, Drawable, Actor {
     public ASCIISprite mapSprite, displaySprite;
     public RShape collisionShape;
     private BodyAction currentAction = null;
-    
+    private Controller controller;
 
     public Body(String name, ASCIISprite mapSprite, ASCIISprite displaySprite) {
     	this(name, mapSprite, displaySprite, 0, 0);
@@ -46,6 +46,10 @@ public class Body implements Footprint, Drawable, Actor {
 		return collisionShape.getCenter();
 	}
 	
+	public void setController (Controller controller) {
+		this.controller = controller;
+	}
+	
 	public void moveBy(RPoint point) {
 		collisionShape.translate(point);
 	}
@@ -66,12 +70,16 @@ public class Body implements Footprint, Drawable, Actor {
 
 	@Override
 	public void update(long deltaTime) {
-		if (currentAction != null) currentAction.update(deltaTime);
+		
+		currentAction.update(deltaTime);
+		controller.update(deltaTime);
+		if (currentAction.isFinished()) currentAction = controller.getNextAction();
 	}
 
 	@Override
 	public boolean ready(long deltaTime) {
-		// TODO Auto-generated method stub
-		return false;
+		if (currentAction == null) currentAction = controller.getNextAction();
+		
+		return currentAction != null;
 	}
 }

@@ -12,7 +12,7 @@ public class CommandScreen extends AreaScreen {
 
 	public CommandScreen(Game game, LocalArea localArea) {
 		super(game, localArea);
-		
+		actionLoop.actors.addAll(localArea.bodies);
 	}
 	
 	public void drawFrame() {
